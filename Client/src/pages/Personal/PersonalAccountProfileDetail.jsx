@@ -1,5 +1,5 @@
 import React from 'react'
-import { Avatar,Box, Typography,Grid,Divider} from '@mui/material'
+import { Avatar,Box, Typography,Grid} from '@mui/material'
 import { useAthuContext } from '../../Context/Shared/AthuContext'
 import { useLanguage } from '../../Localazation/LanguageContext'
 import LocationOnIcon from '@mui/icons-material/LocationOn'
@@ -16,7 +16,7 @@ const PersonalAccountProfileDetail = () => {
           sx={{ width: { xs: 110, sm: 180, md: 200, lg: 200 }, height: { xs: 110, sm: 180, md: 200, lg: 200 },
           position: 'absolute', top: {sm:'calc(100% - 130px)',xs:'calc(100% - 70px)'}, left: {md:'calc(19% - 110px)',lg:'calc(13% - 110px)'} }} />
         </Box>
-        <Box  item sx={{mt:{md:7,xs:4}}} pl={2}>
+        <Box sx={{mt:{md:7,xs:4}}} pl={2}>
             <Grid container spacing={1}>
               <Grid item xs={12} sm={6}>
                <Typography variant='h5'>{user.user.FirstName} {user.user.LastName}</Typography>

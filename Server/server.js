@@ -23,13 +23,20 @@ const PersonalAccountSignUp = require('./Routes/Personal/SignUP')
 app.use('/PersonalAccountSignup', PersonalAccountSignUp)
 const PersonalAccountUpdateProfile = require('./Routes/Personal/UpdateProfile')
 app.use('/PersonlaProfileUpdateAccount', PersonalAccountUpdateProfile)
-    //routes for CompanyAccounts
+const PersonalAccountProfiel = require('./Routes/Personal/Profile')
+app.use('/PersonalAccountProfile', PersonalAccountProfiel)
+
+//routes for CompanyAccounts
 const CompanyAccounts = require('./Routes/Company/SignUp')
 app.use('/ComapnyAccountSignUp', CompanyAccounts)
-    //routes for Admin
+
+
+//routes for Admin
 const AdminAccounts = require('./Routes/Admin/AddAdmin')
 app.use('/AdminAccount', AdminAccounts)
-    //SharedRoutes
+
+
+//SharedRoutes
 const Verification = require('./Routes/Shared/EmailVerification')
 app.use('/emailVerification', Verification)
 const Login = require('./Routes/Shared/Login')

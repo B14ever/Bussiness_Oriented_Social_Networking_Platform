@@ -1,14 +1,15 @@
 import React,{useState} from 'react'
 import { Alert,Box, Typography,Button,TextField,Grid
-  ,Dialog,DialogActions,DialogTitle,DialogContent,IconButton,FormHelperText} from '@mui/material'
+,Dialog,DialogActions,DialogTitle,DialogContent,IconButton,FormHelperText} from '@mui/material'
   import AddIcon from '@mui/icons-material/Add';
   import { useAthuContext } from '../../Context/Shared/AthuContext'
 import { useLanguage } from '../../Localazation/LanguageContext'
 import axios from '../../api/axios'
 const Education = () => {
-    const {user} = useAthuContext()
-    const {t,dispatch} = useLanguage()
-    const [open, setOpen] = React.useState(false);
+    const {user,dispatch} = useAthuContext()
+    const Email = user.user.Email
+    const {t} = useLanguage()
+    const [open, setOpen] = useState(false);
     const [data,setData] = useState({institution:'',fildeOfStudy:'',startedDate:'',endDate:'',Grade:''})
     const [Errors,setErrors] = useState({institution:'',fildeOfStudy:'',startedDate:'',endDate:'',Grade:''})
     const [errorMsg,setErrorMsg] = useState('')
@@ -32,7 +33,7 @@ const Education = () => {
         const errors = validateForm()
         if (Object.keys(errors).length === 0) {
           try {
-            const responce = await axios.post('/fgdfgsdfgdfg',data)
+            const responce = await axios.post('/PersonalAccountProfile/addEducation',{data,Email})
             localStorage.setItem('USER_DATA',JSON.stringify(responce.data.user))
             dispatch({type:"AUTHENTICATE",payload:{user:responce.data.user,token:localStorage.getItem('TOKEN')}})
             window.location.reload(true)
@@ -41,9 +42,7 @@ const Education = () => {
                  setErrorMsg('Failde');
                } else if (err.response?.status === 409) {
                  setErrorMsg(err.response.data.error);
-               } else if (err.response?.status === 403){
-                 setErrorMsg(err.response.data.error)
-               }
+               } 
            }
          } else {
             setErrors(errors);
@@ -102,7 +101,7 @@ const Education = () => {
              <FormHelperText sx={{color:'red'}}>{Errors.endDate?t(`${Errors.endDate}`):''}</FormHelperText>
             </Grid>
           </Grid>
-          <TextField sx={{marginTop:"5px"}} label={t("Grade")} fullWidth  type="number"  name="Grade" 
+          <TextField sx={{marginTop:"5px"}} label={t("Grade")} fullWidth   name="Grade" 
                      onChange={handleChange}/>
           <FormHelperText sx={{color:'red'}}>{Errors.Grade?t(`${Errors.Grade}`):''}</FormHelperText>
           {errorMsg?<Alert severity='error'>{t(`${errorMsg}`)}</Alert>:''}
