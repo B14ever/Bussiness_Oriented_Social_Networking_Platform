@@ -16,6 +16,8 @@ import PersonalAccountMessage from './pages/Personal/PersonalAccountMessage'
 import PersonalAccountNetwork from './pages/Personal/PersonalAccountNetwork'
 import PersonalAccountProfileDetail from './pages/Personal/PersonalAccountProfileDetail'
 import PersonalAccountNotification from './pages/Personal/PersonalAccountNotification'
+import Jobs from './pages/Personal/Jobs'
+import PageNotFound from './pages/Shared/PageNotFound'
 function App() {
   return (
       <Routes>
@@ -24,19 +26,27 @@ function App() {
               <Route path="/login" element={<Login/>}/>
               <Route path="/signup" element={<Signin/>}/>
               <Route path="/forgetPassword" element={<ForgetPassword/>}/>
-              <Route element={<ProtectedRoutes/>}>
-                  <Route path="/emailVerification" element={<EmailVerification/>}/>
-                  <Route path="/RecoverPassword" element={<RecoverPassword/>}/>
-                  <Route path="/PersonalAccountProfile" element={<PersonalAccountLayout/>}>
+              <Route path="/pageNotFound" element={<PageNotFound/>}/>
+              <Route element={<ProtectedRoutes Autherazetion={["personal","admin","company"]}/>}>
+                <Route path="/emailVerification" element={<EmailVerification/>}/>
+                <Route path="/RecoverPassword" element={<RecoverPassword/>}/>
+              </Route>
+              <Route element={<ProtectedRoutes Autherazetion={["personal"]}/>}>
+                <Route path="/PersonalAccountProfile" element={<PersonalAccountLayout/>}>
                      <Route path="/PersonalAccountProfile" element={<PersonalAccountProfile/>}/>
                      <Route path="PersonalMessage" element={<PersonalAccountMessage/>}/>
                      <Route path="PersonalNetwork" element={<PersonalAccountNetwork/>}/>
                      <Route path="PersonalNotification" element={<PersonalAccountNotification/>}/>
                      <Route path="PersonalProfileDetail" element={<PersonalAccountProfileDetail/>}/>
                      <Route path="PersonalProfileSetting" element={<PersonalAccountSetting/>}/>
-                  </Route>
-                  <Route path="/ComapnyAccountProfile" element={<CompanyProfileAccount/>}/>
-                  <Route path="/AdminDashborde" element={<AdminDashborde/>}/>
+                     <Route path="jobs" element={<Jobs/>}/>
+                </Route>
+              </Route>
+              <Route element={<ProtectedRoutes Autherazetion={["company"]}/>}>
+                <Route path="/ComapnyAccountProfile" element={<CompanyProfileAccount/>}/>
+              </Route>
+              <Route element={<ProtectedRoutes Autherazetion={["admin"]}/>}>
+                <Route path="/AdminDashborde" element={<AdminDashborde/>}/>
               </Route>
          </Route>
       </Routes>

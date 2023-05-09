@@ -7,6 +7,7 @@ import CircleNotificationsOutlinedIcon from '@mui/icons-material/CircleNotificat
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
 import Logout from '../Shared/Logout'
 import {useLanguage} from '../../Localazation/LanguageContext'
 const PersonalAccountNavBar = () => { 
@@ -50,6 +51,11 @@ const PersonalAccountNavBar = () => {
                   <CircleNotificationsOutlinedIcon/>
                 </Badge>
               </IconButton>
+            </Tooltip>
+            <Tooltip title={t("job")}>
+             <IconButton onClick={()=>navigate('jobs')}>
+              <WorkOutlineOutlinedIcon/>
+             </IconButton>
             </Tooltip>
           </Box>
         </Grid>
