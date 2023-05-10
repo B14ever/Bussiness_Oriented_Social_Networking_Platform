@@ -1,6 +1,6 @@
 import React,{useState} from 'react'
 import { Alert,Box, Typography,Button,TextField,Grid
-,Dialog,DialogActions,DialogTitle,DialogContent,IconButton,FormHelperText} from '@mui/material'
+,Dialog,DialogActions,DialogTitle,DialogContent,IconButton,FormHelperText, Divider} from '@mui/material'
   import AddIcon from '@mui/icons-material/Add';
   import { useAthuContext } from '../../Context/Shared/AthuContext'
 import { useLanguage } from '../../Localazation/LanguageContext'
@@ -36,11 +36,11 @@ const Education = () => {
             const responce = await axios.post('/PersonalAccountProfile/addEducation',{data,Email})
             localStorage.setItem('USER_DATA',JSON.stringify(responce.data.user))
             dispatch({type:"AUTHENTICATE",payload:{user:responce.data.user,token:localStorage.getItem('TOKEN')}})
-            window.location.reload(true)
+            setOpen(false);
             } catch (err) {
                if (!err?.response) {
                  setErrorMsg('Failde');
-               } else if (err.response?.status === 409) {
+               } else if (err.response?.status === 403) {
                  setErrorMsg(err.response.data.error);
                } 
            }
@@ -75,13 +75,20 @@ const Education = () => {
         <AddIcon fontSize="inherit"/>
       </IconButton>
     </Box>
-    <Box sx={{display:'flex'}}>
-      <img src="../../../Profile_Image/webIcon.png" style={{ width: '50px', height: '50px',borderTopLeftRadius:'6px',borderTopRightRadius:'6px' }} />
-      <Box mt={.5} pl={1}>
-        <Typography sx={{fontSize:{xs:'.96rem',sm:'1.2rem'}}}>{t("StudiedAt")} Dire Dawa University</Typography>
-        <Typography sx={{fontSize:{xs:'.84rem',sm:'.9rem'}}}>{t("GraduteOf")}  Graduate Of Computer Engineering</Typography>
-      </Box>
-    </Box>
+    { 
+      user.user.education.map((Education)=>{
+      return <Box>
+                <Divider></Divider>
+               <Box sx={{display:'flex',mt:1.3}} key={Education._id}>
+                <img src="../../../Profile_Image/webIcon.png" style={{ width: '50px', height: '50px',borderTopLeftRadius:'6px',borderTopRightRadius:'6px' }} />
+                <Box mt={.5} pl={1}>
+                  <Typography sx={{fontSize:{xs:'.96rem',sm:'1.2rem'}}}>{t("StudiedAt")} {Education.institution}</Typography>
+                  <Typography sx={{fontSize:{xs:'.84rem',sm:'.9rem'}}}>{t("GraduteOf")} {Education.fildeOfStudy}</Typography>
+                  <Typography sx={{fontSize:{xs:'.84rem',sm:'.9rem'}}}>{t("yearOfStudy")} {Education.startedDate} - {Education.endDate}</Typography>
+                  <Typography sx={{fontSize:{xs:'.84rem',sm:'.9rem'}}}>{t("Grade")} {Education.Grade}</Typography>
+                </Box>
+              </Box>
+             </Box>})}
       <Dialog open={open} onClose={handleClose} fullWidth >
         <DialogTitle>{t("AddEducation")}</DialogTitle>
       <Box component="form" onSubmit={handleSubmit} mt={1}>

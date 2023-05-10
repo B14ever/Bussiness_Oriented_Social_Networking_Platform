@@ -25,7 +25,7 @@ const PersonalAccount = new mongoose.Schema({
         required: true
     },
     education: [{
-        institutiion: {
+        institution: {
             type: String
         },
         fildeOfStudy: {

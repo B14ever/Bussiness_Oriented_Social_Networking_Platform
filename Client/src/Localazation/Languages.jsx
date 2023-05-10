@@ -76,7 +76,8 @@ export const TranslationAm ={
     endDateRequired:'ትምህርቱን ያጠናቀቁበት ቀን ያስፈልጋል',
     GradeRequired:'የትምህርት ውጤቶ  ያስፈልጋል',
     Education:'ትምህርት',
-    job:'ስራ'
+    job:'ስራ',
+    yearOfStudy:'የተማሩበት አመት'
 }
 export const TranslationEn ={
     Login:"Login",
@@ -156,5 +157,6 @@ export const TranslationEn ={
     endDateRequired:'end date required',
     GradeRequired:'Grade required',
     Education:'Education',
-    job:'Job'
+    job:'Job',
+    yearOfStudy:'Year of study'
 }
