@@ -1,8 +1,9 @@
 import React from 'react'
-import { Avatar,Box, Typography,Grid} from '@mui/material'
+import { Box, Typography,Grid} from '@mui/material'
 import { useAthuContext } from '../../Context/Shared/AthuContext'
 import { useLanguage } from '../../Localazation/LanguageContext'
 import LocationOnIcon from '@mui/icons-material/LocationOn'
+import ProfilePhotoBox from '../../Components/Individual/ProfilePhotoBox'
 import Education from '../../Components/Individual/Education'
 const PersonalAccountProfileDetail = () => {
   const {user} = useAthuContext()
@@ -10,14 +11,9 @@ const PersonalAccountProfileDetail = () => {
   return (
     <Box sx={{ marginTop: '100px', display: 'flex',flexDirection:'column',backgroundColor:"#E7EBF0" ,alignItems: 'center' }}>
     <Box sx={{borderRadius:'6px',backgroundColor: '#fff', margin: '10px 0 5px', height: 'fit-content', width: { xs: '90%', sm: '80%', md: '70%', lg: '57%' } }}>
-        <Box sx={{ position: 'relative'}}>
-          <img src="../../../Profile_Image/coverPhoto.png" style={{ width: '100%', height: 'auto',borderTopLeftRadius:'6px',borderTopRightRadius:'6px' }} />
-          <Avatar src="../../../Profile_Image/Avater.png"
-          sx={{ width: { xs: 110, sm: 180, md: 200, lg: 200 }, height: { xs: 110, sm: 180, md: 200, lg: 200 },
-          position: 'absolute', top: {sm:'calc(100% - 130px)',xs:'calc(100% - 70px)'}, left: {md:'calc(19% - 110px)',lg:'calc(13% - 110px)'} }} />
-        </Box>
-        <Box sx={{mt:{md:7,xs:4}}} pl={2}>
-            <Grid container spacing={1}>
+       <ProfilePhotoBox/>
+        <Box sx={{mt:{md:8,xs:6}}} pl={2}>
+            <Grid container>
               <Grid item xs={12} sm={6}>
                <Typography variant='h5'>{user.user.FirstName} {user.user.LastName}</Typography>
               </Grid>

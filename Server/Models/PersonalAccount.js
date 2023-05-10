@@ -24,6 +24,9 @@ const PersonalAccount = new mongoose.Schema({
         type: Number,
         required: true
     },
+    profilePhoto: {
+        type: String,
+    },
     education: [{
         institution: {
             type: String

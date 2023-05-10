@@ -1,13 +1,12 @@
 //Models
 const PersonalAccount = require('../../Models/PersonalAccount')
-const AddEducation = async(req, res) => {
-    const { institution, fildeOfStudy, startedDate, endDate, Grade } = req.body.data
-    const Education = { institution, fildeOfStudy, startedDate, endDate, Grade }
+const AddPhoto = async(req, res) => {
+    const { profilePhoto } = req.body.data
     const Email = req.body.Email
     try {
-        const addNewEducation = await PersonalAccount.updateOne({ Email: Email }, { $push: { education: Education } }).exec();
-        if (!addNewEducation) {
-            const error = new Error('EducatioinNotAdd');
+        const addprofilePhoto = await PersonalAccount.updateOne({ Email: Email }, { $set: { profilePhoto: profilePhoto } }).exec();
+        if (!addprofilePhoto) {
+            const error = new Error('PhotoUploadFailde');
             error.status = 403; // set the status code to 409 (Conflict)
             throw error;
         } else {
@@ -19,4 +18,4 @@ const AddEducation = async(req, res) => {
         res.status(err.status || 500).json({ error: err.message })
     }
 }
-module.exports = { AddEducation }
+module.exports = { AddPhoto }

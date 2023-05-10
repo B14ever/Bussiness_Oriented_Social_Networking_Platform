@@ -9,5 +9,5 @@ const { verifyToken } = require('../../MIddleWare/Sharde/JWT_Verification')
     //routes
 router.post('/', UpdateProfile)
 router.post('/ChangePassword', verifyToken, ChangePassword)
-router.post('/ChangePassword', verifyToken, DeleteAccount)
+router.post('/deleteAccount', verifyToken, DeleteAccount)
 module.exports = router

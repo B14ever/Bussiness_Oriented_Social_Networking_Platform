@@ -114,8 +114,8 @@ const Education = () => {
           {errorMsg?<Alert severity='error'>{t(`${errorMsg}`)}</Alert>:''}
         </DialogContent>
         <DialogActions >
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button  variant='contained' type="submit" >save</Button>
+          <Button onClick={handleClose}>{t("Cancel")}</Button>
+          <Button  variant='contained' type="submit" >{t("save")}</Button>
         </DialogActions>
         </Box>
       </Dialog>

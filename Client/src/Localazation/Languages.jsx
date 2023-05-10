@@ -77,7 +77,13 @@ export const TranslationAm ={
     GradeRequired:'የትምህርት ውጤቶ  ያስፈልጋል',
     Education:'ትምህርት',
     job:'ስራ',
-    yearOfStudy:'የተማሩበት አመት'
+    yearOfStudy:'የተማሩበት አመት',
+    uploadPhoto:'ፎቶ ይምረጡ',
+    changePhoto:'ፎቶ ይቀይሩ',
+    photoUploadFaild:'ፎቶ መቀየር አልተሳካም',
+    Cancel:'ተመለስ',
+    ProfilePhotoDialogTitle:" ምንም ዓይነት ሙያዊ ፎቶግራፍ አያስፈልግም! እርሶን የሚወክል ነገር ብቻ ይሁን ",
+    ProfilePhotoDialogText:' አባላት እውነተኛ ማንነታቸውን የሚገልጽ ፎቶ እንዲጠቀሙ እንመክራላን፣ የእራስዎን ፎቶ እንዲጭኑ እናሳስባለን'
 }
 export const TranslationEn ={
     Login:"Login",
@@ -158,5 +164,11 @@ export const TranslationEn ={
     GradeRequired:'Grade required',
     Education:'Education',
     job:'Job',
-    yearOfStudy:'Year of study'
+    yearOfStudy:'Year of study',
+    uploadPhoto:'Upload Photo',
+    changePhoto:'Change photo',
+    photoUploadFaild:'Photo upload faild',
+    Cancel:'Cancel',
+    ProfilePhotoDialogTitle:" No professional headshot needed! Just something that represents you",
+    ProfilePhotoDialogText:' we suggest members to use their real identities,upload a photo of yourself'
 }
