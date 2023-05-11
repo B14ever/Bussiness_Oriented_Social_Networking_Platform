@@ -1,17 +1,19 @@
 import React,{useState} from 'react'
-import { Alert,Box, Typography,Button,TextField,Grid
-,Dialog,DialogActions,DialogTitle,DialogContent,IconButton,FormHelperText, Divider} from '@mui/material'
-  import AddIcon from '@mui/icons-material/Add';
-  import { useAthuContext } from '../../Context/Shared/AthuContext'
+import { Alert,Box, Typography,Button,TextField,Grid,
+Dialog,DialogActions,DialogTitle,DialogContent,IconButton,
+FormHelperText, Divider,FormControl,Select,InputLabel,MenuItem} from '@mui/material'
+import AddIcon from '@mui/icons-material/Add';
+import { useAthuContext } from '../../Context/Shared/AthuContext'
 import { useLanguage } from '../../Localazation/LanguageContext'
 import axios from '../../api/axios'
-const Education = () => {
+const companyNames = ['FullTime','PartTime','SelfEmployed','Freelance','Contract','Intership','Apprenticeship','Seasonal']
+const Exprience = () => {
     const {user,dispatch} = useAthuContext()
     const Email = user.user.Email
     const {t} = useLanguage()
     const [open, setOpen] = useState(false);
-    const [data,setData] = useState({institution:'',fildeOfStudy:'',startedDate:'',endDate:'',Grade:''})
-    const [Errors,setErrors] = useState({institution:'',fildeOfStudy:'',startedDate:'',endDate:'',Grade:''})
+    const [data,setData] = useState({title:'',employmentType:'',companyName:'',startedDate:'',endDate:''})
+    const [Errors,setErrors] = useState({title:'',employmentType:'',companyName:'',startedDate:'',endDate:''})
     const [errorMsg,setErrorMsg] = useState('')
     const handleClickOpen = () => {
       setData('')
@@ -33,7 +35,7 @@ const Education = () => {
         const errors = validateForm()
         if (Object.keys(errors).length === 0) {
           try {
-            const responce = await axios.post('/PersonalAccountProfile/addEducation',{data,Email})
+            const responce = await axios.post('/PersonalAccountProfile/addExprience',{data,Email})
             localStorage.setItem('USER_DATA',JSON.stringify(responce.data.user))
             dispatch({type:"AUTHENTICATE",payload:{user:responce.data.user,token:localStorage.getItem('TOKEN')}})
             setOpen(false);
@@ -50,53 +52,67 @@ const Education = () => {
       }
     const validateForm =()=>{
         const formsErrors ={}
-        if(!data.institution){
-          formsErrors.institution = 'InstitionRequired'
+        if(!data.title){
+          formsErrors.title = 'ExprienceTitileRequired'
         }
-        if(!data.fildeOfStudy){
-          formsErrors.fildeOfStudy = 'fildeOfStudyRequired'
+        if(!data.employmentType){
+          formsErrors.employmentType = 'SelectEmployementType'
         }
+        if(!data.companyName){
+            formsErrors.companyName= 'companyNameRequired'
+          }
         if(!data.startedDate){
-          formsErrors.startedDate = 'startedDateRequired'
+          formsErrors.startedDate = 'ExpriencestartedDateRequired'
         }
         if(!data.endDate){
-            formsErrors.endDate = 'endDateRequired'
-          }
-          if(!data.Grade){
-            formsErrors.Grade = 'GradeRequired'
+            formsErrors.endDate = 'ExprienceendDateRequired'
           }
       return formsErrors
       }
   return (
     <Box pl={2} sx={{borderRadius:'6px',backgroundColor: '#fff', margin: '5px 0 5px', height: 'fit-content', width: { xs: '90%', sm: '80%', md: '70%', lg: '57%' } }}>
     <Box sx={{display:'flex',alignItems:'center'}}>
-     <Typography  variant='subtitle2' sx={{color:'#666',fontSize:'1.5rem'}} >{t("Education")}</Typography>
+     <Typography  variant='subtitle2' sx={{color:'#666',fontSize:'1.5rem'}} >{t("Experience")}</Typography>
      <IconButton size="large" sx={{marginLeft:'auto',marginRight:'1rem'}} onClick={handleClickOpen} aria-label="upload picture">
         <AddIcon fontSize="inherit"/>
       </IconButton>
     </Box>
     { 
-      user.user.education.map((Education)=>{
-      return <Box  key={Education._id}>
+      user.user.exprience.map((Exprience)=>{
+      return <Box  key={Exprience._id}>
                 <Divider></Divider>
                <Box sx={{display:'flex',mt:1.3}}>
                 <img src="../../../Profile_Image/webIcon.png" style={{ width: '50px', height: '50px',borderTopLeftRadius:'6px',borderTopRightRadius:'6px' }} />
                 <Box mt={.5} pl={1}>
-                  <Typography sx={{fontSize:{xs:'.96rem',sm:'1.2rem'}}}>{t("StudiedAt")} {Education.institution}</Typography>
-                  <Typography sx={{fontSize:{xs:'.84rem',sm:'.9rem'}}}>{t("GraduteOf")} {Education.fildeOfStudy}</Typography>
-                  <Typography sx={{fontSize:{xs:'.84rem',sm:'.9rem'}}}>{t("yearOfStudy")} {Education.startedDate} - {Education.endDate}</Typography>
-                  <Typography sx={{fontSize:{xs:'.84rem',sm:'.9rem'}}}>{t("Grade")} {Education.Grade}</Typography>
+                  <Typography sx={{fontSize:{xs:'.96rem',sm:'1.2rem'}}}>{t("workedAs")} {Exprience.title}</Typography>
+                  <Typography sx={{fontSize:{xs:'.84rem',sm:'.9rem'}}}>{t("Workedat")} {Exprience.companyName}</Typography>
+                  <Typography sx={{fontSize:{xs:'.84rem',sm:'.9rem'}}}>{t("yearOfExprience")} {Exprience.startedDate} - {Exprience.endDate}</Typography>
+                  <Typography sx={{fontSize:{xs:'.84rem',sm:'.9rem'}}}>{t("workType")} {Exprience.employmentType}</Typography>
                 </Box>
               </Box>
              </Box>})}
       <Dialog open={open} onClose={handleClose} fullWidth >
-        <DialogTitle>{t("AddEducation")}</DialogTitle>
+        <DialogTitle>{t("AddExperience")}</DialogTitle>
       <Box component="form" onSubmit={handleSubmit} mt={1}>
       <DialogContent >
-          <TextField  label={t("institution")} fullWidth  name="institution" onChange={handleChange}/>
-          <FormHelperText sx={{color:'red'}}>{Errors.institution?t(`${Errors.institution}`):''}</FormHelperText>
-          <TextField sx={{marginTop:"5px"}} label={t("fieldOfStudy")} fullWidth  name="fildeOfStudy" onChange={handleChange}/>
-          <FormHelperText sx={{color:'red'}}>{Errors.fildeOfStudy?t(`${Errors.fildeOfStudy}`):''}</FormHelperText>
+          <TextField  label={t("title")} fullWidth  name="title" onChange={handleChange}/>
+          <FormHelperText sx={{color:'red'}}>{Errors.title?t(`${Errors.title}`):''}</FormHelperText>
+          <TextField sx={{marginTop:"5px"}} label={t("companyName")} fullWidth  name="companyName" onChange={handleChange}/>
+          <FormHelperText sx={{color:'red'}}>{Errors.companyName?t(`${Errors.companyName}`):''}</FormHelperText>
+          <FormControl sx={{marginTop:"5px"}} fullWidth size="large">
+           <InputLabel id="demo-select-small-label">{t("employmentType")}</InputLabel>
+           <Select labelId="demo-select-small-label" 
+                 value={data.employmentType || ''} 
+                 name ='employmentType'
+                 id="demo-select-small" 
+                 onChange={handleChange}
+                 label={t("employmentType")} >
+                 {companyNames.map((name) => (
+                <MenuItem key={name} value={name}>{t(`${name}`)}</MenuItem>
+               ))}
+           </Select>
+          </FormControl>
+          <FormHelperText sx={{color:'red'}}>{Errors.employmentType?t(`${Errors.employmentType}`):''}</FormHelperText>
           <Grid fullWidth container spacing={2}>
             <Grid item xs={12} sm={6}>
              <TextField sx={{marginTop:"5px"}}  label={t("startedDate")} fullWidth  name="startedDate" type="number" inputProps={{min:1900,max:2500,step: 1,}} onChange={handleChange}/>
@@ -108,9 +124,6 @@ const Education = () => {
              <FormHelperText sx={{color:'red'}}>{Errors.endDate?t(`${Errors.endDate}`):''}</FormHelperText>
             </Grid>
           </Grid>
-          <TextField sx={{marginTop:"5px"}} label={t("Grade")} fullWidth   name="Grade" 
-                     onChange={handleChange}/>
-          <FormHelperText sx={{color:'red'}}>{Errors.Grade?t(`${Errors.Grade}`):''}</FormHelperText>
           {errorMsg?<Alert severity='error'>{t(`${errorMsg}`)}</Alert>:''}
         </DialogContent>
         <DialogActions >
@@ -123,4 +136,4 @@ const Education = () => {
   )
 }
 
-export default Education
+export default Exprience

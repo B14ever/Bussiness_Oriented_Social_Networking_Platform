@@ -25,7 +25,7 @@ const ProfilePhotoBox = () => {
         const responce = await axios.post('/PersonalAccountProfile/ChangePhoto',{data,Email})
         localStorage.setItem('USER_DATA',JSON.stringify(responce.data.user))
         dispatch({type:"AUTHENTICATE",payload:{user:responce.data.user,token:localStorage.getItem('TOKEN')}})
-        setTimeout(handleClose,1000)
+        setTimeout(handleClose,500)
       }
          catch(err){
          console.log(err)

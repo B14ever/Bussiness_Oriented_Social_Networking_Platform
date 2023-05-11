@@ -46,12 +46,30 @@ const PersonalAccount = new mongoose.Schema({
 
     }],
     exprience: [{
-        worksAt: {
+        title: {
             type: String
         },
-        position: {
+        employmentType: {
             type: String
         },
+        companyName: {
+            type: String
+        },
+        startedDate: {
+            type: String
+        },
+        endDate: {
+            type: String
+        }
+    }],
+    skill: [{
+        skillName: {
+            type: String
+        },
+        badge: {
+            type: Boolean,
+            default: false
+        }
     }],
     friends: {
         type: Number

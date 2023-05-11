@@ -5,6 +5,8 @@ import { useLanguage } from '../../Localazation/LanguageContext'
 import LocationOnIcon from '@mui/icons-material/LocationOn'
 import ProfilePhotoBox from '../../Components/Individual/ProfilePhotoBox'
 import Education from '../../Components/Individual/Education'
+import Exprience from '../../Components/Individual/Exprience'
+import Skill from '../../Components/Individual/Skill'
 const PersonalAccountProfileDetail = () => {
   const {user} = useAthuContext()
   const {t} = useLanguage()
@@ -25,6 +27,8 @@ const PersonalAccountProfileDetail = () => {
         </Box>
     </Box>
     <Education/>
+    <Exprience/>
+    <Skill/>
   </Box>
   
   )
