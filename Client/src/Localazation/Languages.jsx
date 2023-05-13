@@ -114,6 +114,7 @@ export const TranslationAm ={
     Intership:'ኢንተርነት',
     Apprenticeship:'የሙያ ሥልጠና',
     Seasonal:'ወቅታዊ',
+    EditExperience:'የስራ ልምድ ያስተካክሉ',
 }
 export const TranslationEn ={
     Login:"Login",
@@ -231,4 +232,5 @@ export const TranslationEn ={
     Intership:'Intership',
     Apprenticeship:'Apperenticeship',
     Seasonal:'Seasonal',
+    EditExperience:'Edit Experience'
 }

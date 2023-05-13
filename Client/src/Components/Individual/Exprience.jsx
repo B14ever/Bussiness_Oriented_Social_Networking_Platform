@@ -1,14 +1,17 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import { Alert,Box, Typography,Button,TextField,Grid,
 Dialog,DialogActions,DialogTitle,DialogContent,IconButton,
 FormHelperText, Divider,FormControl,Select,InputLabel,MenuItem} from '@mui/material'
 import AddIcon from '@mui/icons-material/Add';
+import ModeOutlinedIcon from '@mui/icons-material/ModeOutlined';
 import { useAthuContext } from '../../Context/Shared/AthuContext'
 import { useLanguage } from '../../Localazation/LanguageContext'
 import axios from '../../api/axios'
+import {useNavigate} from 'react-router-dom'
 const companyNames = ['FullTime','PartTime','SelfEmployed','Freelance','Contract','Intership','Apprenticeship','Seasonal']
 const Exprience = () => {
     const {user,dispatch} = useAthuContext()
+    const navigate = useNavigate()
     const Email = user.user.Email
     const {t} = useLanguage()
     const [open, setOpen] = useState(false);
@@ -38,7 +41,7 @@ const Exprience = () => {
             const responce = await axios.post('/PersonalAccountProfile/addExprience',{data,Email})
             localStorage.setItem('USER_DATA',JSON.stringify(responce.data.user))
             dispatch({type:"AUTHENTICATE",payload:{user:responce.data.user,token:localStorage.getItem('TOKEN')}})
-            setOpen(false);
+            setOpen(false)
             } catch (err) {
                if (!err?.response) {
                  setErrorMsg('Failde');
@@ -73,15 +76,18 @@ const Exprience = () => {
     <Box pl={2} sx={{borderRadius:'6px',backgroundColor: '#fff', margin: '5px 0 5px', height: 'fit-content', width: { xs: '90%', sm: '80%', md: '70%', lg: '57%' } }}>
     <Box sx={{display:'flex',alignItems:'center'}}>
      <Typography  variant='subtitle2' sx={{color:'#666',fontSize:'1.5rem'}} >{t("Experience")}</Typography>
-     <IconButton size="large" sx={{marginLeft:'auto',marginRight:'1rem'}} onClick={handleClickOpen} aria-label="upload picture">
+     <IconButton size="large" sx={{marginLeft:'auto'}} onClick={handleClickOpen} aria-label="upload picture">
         <AddIcon fontSize="inherit"/>
+      </IconButton>
+      <IconButton size="large" sx={{marginRight:'1rem'}} onClick={()=>navigate('EditExprience')} aria-label="upload picture">
+        <ModeOutlinedIcon fontSize="inherit"/>
       </IconButton>
     </Box>
     { 
       user.user.exprience.map((Exprience)=>{
-      return <Box  key={Exprience._id}>
+      return <Box key={Exprience._id}>
                 <Divider></Divider>
-               <Box sx={{display:'flex',mt:1.3}}>
+               <Box sx={{display:'flex',mt:1.3}} >
                 <img src="../../../Profile_Image/webIcon.png" style={{ width: '50px', height: '50px',borderTopLeftRadius:'6px',borderTopRightRadius:'6px' }} />
                 <Box mt={.5} pl={1}>
                   <Typography sx={{fontSize:{xs:'.96rem',sm:'1.2rem'}}}>{t("workedAs")} {Exprience.title}</Typography>
@@ -89,10 +95,11 @@ const Exprience = () => {
                   <Typography sx={{fontSize:{xs:'.84rem',sm:'.9rem'}}}>{t("yearOfExprience")} {Exprience.startedDate} - {Exprience.endDate}</Typography>
                   <Typography sx={{fontSize:{xs:'.84rem',sm:'.9rem'}}}>{t("workType")} {Exprience.employmentType}</Typography>
                 </Box>
-              </Box>
+               </Box>
              </Box>})}
-      <Dialog open={open} onClose={handleClose} fullWidth >
+      <Dialog open={open} onClose={handleClose} fullWidth  >
         <DialogTitle>{t("AddExperience")}</DialogTitle>
+        <Divider></Divider>
       <Box component="form" onSubmit={handleSubmit} mt={1}>
       <DialogContent >
           <TextField  label={t("title")} fullWidth  name="title" onChange={handleChange}/>

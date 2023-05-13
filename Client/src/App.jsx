@@ -16,6 +16,7 @@ import PersonalAccountMessage from './pages/Personal/PersonalAccountMessage'
 import PersonalAccountNetwork from './pages/Personal/PersonalAccountNetwork'
 import PersonalAccountProfileDetail from './pages/Personal/PersonalAccountProfileDetail'
 import PersonalAccountNotification from './pages/Personal/PersonalAccountNotification'
+import EditExprience from "./Components/Individual/EditExprience"
 import Jobs from './pages/Personal/Jobs'
 import PageNotFound from './pages/Shared/PageNotFound'
 function App() {
@@ -39,6 +40,7 @@ function App() {
                      <Route path="PersonalNotification" element={<PersonalAccountNotification/>}/>
                      <Route path="PersonalProfileDetail" element={<PersonalAccountProfileDetail/>}/>
                      <Route path="PersonalProfileSetting" element={<PersonalAccountSetting/>}/>
+                     <Route path="PersonalProfileDetail/EditExprience" element={<EditExprience/>}/>
                      <Route path="jobs" element={<Jobs/>}/>
                 </Route>
               </Route>
