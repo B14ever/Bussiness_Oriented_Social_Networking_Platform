@@ -115,6 +115,10 @@ export const TranslationAm ={
     Apprenticeship:'የሙያ ሥልጠና',
     Seasonal:'ወቅታዊ',
     EditExperience:'የስራ ልምድ ያስተካክሉ',
+    Delete:'ሰርዝ',
+    DeleteSkill:'ችሎታ መሰረዝ',
+    skillDeleteWarning:'የህንን ችሎታ ለመሰረዝ እርግጠኛ ኖት',
+    Yes:'አዎ'
 }
 export const TranslationEn ={
     Login:"Login",
@@ -232,5 +236,9 @@ export const TranslationEn ={
     Intership:'Intership',
     Apprenticeship:'Apperenticeship',
     Seasonal:'Seasonal',
-    EditExperience:'Edit Experience'
+    EditExperience:'Edit Experience',
+    Delete:'Delete',
+    DeleteSkill:'Delete skill',
+    skillDeleteWarning:'Are you sure you want to delete this skill',
+    Yes:'Yes'
 }

@@ -9,7 +9,6 @@ import { useAthuContext } from '../../Context/Shared/AthuContext'
 import { useLanguage } from '../../Localazation/LanguageContext'
 import axios from '../../api/axios'
 import {useNavigate} from 'react-router-dom'
-import Exprience from './Exprience';
 const companyNames = ['FullTime','PartTime','SelfEmployed','Freelance','Contract','Intership','Apprenticeship','Seasonal']
 const EditExprience = () => {
     const {user,dispatch} = useAthuContext()
@@ -17,16 +16,19 @@ const EditExprience = () => {
     const Email = user.user.Email
     const {t} = useLanguage()
     const [openEdit , setOpenEdit] = useState(false)
+    const [dialogText,setDialogText] = useState({})
     const [userExprience,setUserExprience] = useState(user.user.exprience)
     const [errorMsg,setErrorMsg] = useState('')
     const [errors, seterrors] = useState({title:false,employmentType:false,companyName:false,startedDate:false,endDate:false});
-    const handleEditOpen = () => {
+    const handleEditOpen = (Exprience) => {
+        setDialogText(Exprience)
         setErrorMsg('')
         seterrors({title:false,employmentType:false,companyName:false,startedDate:false,endDate:false})
         setOpenEdit(true);
       };
       const handleEditClose = () => {
         setOpenEdit(false);
+        setDialogText({})
       };
       const EditExprience = async (e) =>{
         e.preventDefault()
@@ -58,7 +60,6 @@ const EditExprience = () => {
         }
       }
       const handleDelete = async (id) => {
-        console.log(id)
         const DeleteExprience = userExprience.filter((item)=> item._id !== id)
         try {
             const responce = await axios.post('/PersonalAccountProfile/EditExprience',{userExprience:DeleteExprience,Email})
@@ -97,57 +98,57 @@ const EditExprience = () => {
                   <Typography sx={{fontSize:{xs:'.84rem',sm:'.9rem'}}}>{t("yearOfExprience")} {Exprience.startedDate} - {Exprience.endDate}</Typography>
                   <Typography sx={{fontSize:{xs:'.84rem',sm:'.9rem'}}}>{t("workType")} {Exprience.employmentType}</Typography>
                 </Box>
-                <IconButton   size="large" sx={{alignSelf:'flex-start',marginLeft:'auto',marginRight:'1rem'}} onClick={handleEditOpen} aria-label="upload picture">
+                <IconButton  size="large" sx={{alignSelf:'flex-start',marginLeft:'auto',marginRight:'1rem'}}  onClick={()=>handleEditOpen(Exprience)} aria-label="upload picture">
                 <ModeOutlinedIcon fontSize="inherit"/>
                 </IconButton>
                </Box>
-            <Dialog  open={openEdit} onClose={handleEditClose} fullWidth >
-                <DialogTitle>{t("EditExperience")}</DialogTitle>
-                <Divider></Divider>
-                <Box component="form" onSubmit={EditExprience} mt={1}>
-                <DialogContent >
-                    <TextField  label={t("title")} fullWidth id={Exprience._id}  name="title" defaultValue={Exprience.title} onChange={updateExprience} onBlur={handleError}/>
-                    <FormHelperText sx={{color:'red'}}>{errors.title?`${t("ExprienceTitileRequired")}`:''}</FormHelperText>
-                    <TextField sx={{marginTop:"10px"}} id={Exprience._id} label={t("companyName")} fullWidth  name="companyName" defaultValue={Exprience.companyName} onChange={updateExprience} onBlur={handleError}/>
-                    <FormHelperText sx={{color:'red'}}>{errors.companyName?`${t("companyNameRequired")}`:''}</FormHelperText>
-                    <FormControl sx={{marginTop:"10px"}} fullWidth size="large">
-                    <InputLabel id="demo-select-small-label">{t("employmentType")}</InputLabel>
-                    <Select labelId="demo-select-small-label" 
-                          defaultValue={Exprience.employmentType}
-                          name ="employmentType"
-                          id={Exprience._id}
-                          onChange={updateExprience}
-                          onBlur={handleError}
-                          label={t("employmentType")} >
-                          {companyNames.map((name) => (
-                          <MenuItem key={name} value={name}>{t(`${name}`)}</MenuItem>
-                        ))}
-                    </Select>
-                    </FormControl>
-                    <FormHelperText sx={{color:'red'}}>{errors.employmentType?`${t("SelectEmployementType")}`:''}</FormHelperText>
-                    <Grid fullWidth container spacing={2}>
-                      <Grid item xs={12} sm={6}>
-                      <TextField sx={{marginTop:"10px"}} id={Exprience._id} label={t("startedDate")} fullWidth defaultValue={Exprience.startedDate}  name="startedDate" type="number" inputProps={{min:1900,max:2500,step: 1,}} onChange={updateExprience} onBlur={handleError}/>
-                      <FormHelperText sx={{color:'red'}}>{errors.startedDate?`${t("ExpriencestartedDateRequired")}`:''}</FormHelperText>
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                      <TextField sx={{marginTop:"10px"}} id={Exprience._id} label={t("endDate")} fullWidth defaultValue={Exprience.endDate}         name="endDate" type="number" onBlur={handleError}
-                                inputProps={{min:1900,max:2500,step: 1,}} onChange={updateExprience}/>
-                     <FormHelperText sx={{color:'red'}}>{errors.endDate?`${t("ExprienceendDateRequired")}`:''}</FormHelperText>
-                      </Grid>
-                    </Grid>
-                    {errorMsg?<Alert severity='error'>{t(`${errorMsg}`)}</Alert>:''}
-                </DialogContent>
-                <DialogActions>
-                 <IconButton size="medium" onClick={()=>handleDelete(Exprience._id)}>
-                  <DeleteIcon fontSize="inherit"/>
-                </IconButton>
-                  <Button onClick={handleEditClose}>{t("Cancel")}</Button>
-                  <Button disabled={isDisabled}  variant='contained' type="submit" >{t("Update")}</Button>
-                </DialogActions>
-                </Box>
-             </Dialog>
             </Box>})}
+          <Dialog open={openEdit}  onClose={handleEditClose} fullWidth >
+            <DialogTitle>{t("EditExperience")}</DialogTitle>
+            <Divider></Divider>
+            <Box component="form" onSubmit={EditExprience} mt={1}>
+            <DialogContent >
+             <TextField  label={t("title")} fullWidth id={dialogText._id} name="title" defaultValue={dialogText.title} onChange={updateExprience} onBlur={handleError}/>
+                <FormHelperText sx={{color:'red'}}>{errors.title?`${t("ExprienceTitileRequired")}`:''}</FormHelperText>
+                <TextField sx={{marginTop:"10px"}} id={dialogText._id} label={t("companyName")} fullWidth  name="companyName" defaultValue={dialogText.companyName} onChange={updateExprience} onBlur={handleError}/>
+                <FormHelperText sx={{color:'red'}}>{errors.companyName?`${t("companyNameRequired")}`:''}</FormHelperText>
+                <FormControl sx={{marginTop:"10px"}} fullWidth size="large">
+                <InputLabel id="demo-select-small-label">{t("employmentType")}</InputLabel>
+                <Select labelId="demo-select-small-label" 
+                      defaultValue={dialogText.employmentType}
+                      name ="employmentType"
+                      id={dialogText._id}
+                      onChange={updateExprience}
+                      onBlur={handleError}
+                      label={t("employmentType")} >
+                      {companyNames.map((name) => (
+                      <MenuItem key={name} value={name}>{t(`${name}`)}</MenuItem>
+                    ))}
+                </Select>
+                </FormControl>
+                <FormHelperText sx={{color:'red'}}>{errors.employmentType?`${t("SelectEmployementType")}`:''}</FormHelperText>
+                <Grid fullWidth container spacing={2}>
+                  <Grid item xs={12} sm={6}>
+                  <TextField sx={{marginTop:"10px"}} id={dialogText._id} label={t("startedDate")} fullWidth defaultValue={dialogText.startedDate}  name="startedDate" type="number" inputProps={{min:1900,max:2500,step: 1,}} onChange={updateExprience} onBlur={handleError}/>
+                  <FormHelperText sx={{color:'red'}}>{errors.startedDate?`${t("ExpriencestartedDateRequired")}`:''}</FormHelperText>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                  <TextField sx={{marginTop:"10px"}} id={dialogText._id} label={t("endDate")} fullWidth defaultValue={dialogText.endDate}         name="endDate" type="number" onBlur={handleError}
+                            inputProps={{min:1900,max:2500,step: 1,}} onChange={updateExprience}/>
+                <FormHelperText sx={{color:'red'}}>{errors.endDate?`${t("ExprienceendDateRequired")}`:''}</FormHelperText>
+                  </Grid>
+                </Grid>
+                {errorMsg?<Alert severity='error'>{t(`${errorMsg}`)}</Alert>:''}
+            </DialogContent>
+            <DialogActions>
+            <IconButton sx={{marginRight:'auto'}} size="medium" onClick={()=>handleDelete(dialogText._id)}>
+              <DeleteIcon fontSize="inherit"/>
+            </IconButton>
+              <Button onClick={handleEditClose}>{t("Cancel")}</Button>
+              <Button disabled={isDisabled} size='small'  variant='contained' type="submit" >{t("Update")}</Button>
+            </DialogActions>
+            </Box>
+       </Dialog>
        </Box>
     </Box>
   )

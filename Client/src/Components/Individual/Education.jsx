@@ -1,13 +1,16 @@
 import React,{useState} from 'react'
 import { Alert,Box, Typography,Button,TextField,Grid
 ,Dialog,DialogActions,DialogTitle,DialogContent,IconButton,FormHelperText, Divider} from '@mui/material'
-  import AddIcon from '@mui/icons-material/Add';
-  import { useAthuContext } from '../../Context/Shared/AthuContext'
+import AddIcon from '@mui/icons-material/Add';
+import ModeOutlinedIcon from '@mui/icons-material/ModeOutlined';
+import { useAthuContext } from '../../Context/Shared/AthuContext'
 import { useLanguage } from '../../Localazation/LanguageContext'
+import { useNavigate } from 'react-router-dom';
 import axios from '../../api/axios'
 const Education = () => {
     const {user,dispatch} = useAthuContext()
     const Email = user.user.Email
+    const navigate = useNavigate()
     const {t} = useLanguage()
     const [open, setOpen] = useState(false);
     const [data,setData] = useState({institution:'',fildeOfStudy:'',startedDate:'',endDate:'',Grade:''})
@@ -71,8 +74,11 @@ const Education = () => {
     <Box pl={2} sx={{borderRadius:'6px',backgroundColor: '#fff', margin: '5px 0 5px', height: 'fit-content', width: { xs: '90%', sm: '80%', md: '70%', lg: '57%' } }}>
     <Box sx={{display:'flex',alignItems:'center'}}>
      <Typography  variant='subtitle2' sx={{color:'#666',fontSize:'1.5rem'}} >{t("Education")}</Typography>
-     <IconButton size="large" sx={{marginLeft:'auto',marginRight:'1rem'}} onClick={handleClickOpen} aria-label="upload picture">
+     <IconButton size="large" sx={{marginLeft:'auto'}} onClick={handleClickOpen} aria-label="upload picture">
         <AddIcon fontSize="inherit"/>
+      </IconButton>
+      <IconButton size="large" sx={{marginRight:'1rem'}} onClick={()=>navigate('EditEducation')} aria-label="upload picture">
+        <ModeOutlinedIcon fontSize="inherit"/>
       </IconButton>
     </Box>
     { 

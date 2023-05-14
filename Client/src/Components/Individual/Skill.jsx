@@ -3,6 +3,7 @@ import { Alert,Box, Typography,Button,TextField,Grid,
 Dialog,DialogActions,DialogTitle,DialogContent,IconButton,
 FormHelperText, Divider} from '@mui/material'
 import VerifiedOutlinedIcon from '@mui/icons-material/VerifiedOutlined';
+import ModeOutlinedIcon from '@mui/icons-material/ModeOutlined';
 import AddIcon from '@mui/icons-material/Add';
 import { useAthuContext } from '../../Context/Shared/AthuContext'
 import { useLanguage } from '../../Localazation/LanguageContext'
@@ -11,6 +12,7 @@ import axios from '../../api/axios'
 const Skill = () => {
     const {user,dispatch} = useAthuContext()
     const Email = user.user.Email
+    const navigate = useNavigate()
     const {t} = useLanguage()
     const [open, setOpen] = useState(false);
     const [data,setData] = useState({skillName:''})
@@ -63,10 +65,13 @@ const Skill = () => {
     <Box sx={{display:'flex',alignItems:'center'}}>
      <Typography  variant='subtitle2' sx={{color:'#666',fontSize:'1.5rem'}} >{t("skill")}</Typography>
      <Button onClick={()=>navigate('#')} size='medium' variant="outlined" sx={{marginLeft:'auto',textTransform: "none",borderRadius:'1rem'}}>{t("DemonestrateSkill")}</Button>
-     <IconButton size="large" sx={{marginRight:'1rem'}} onClick={handleClickOpen} aria-label="upload picture">
+     <IconButton size="large"  onClick={handleClickOpen} aria-label="upload picture">
         <AddIcon fontSize="inherit"/>
       </IconButton>
-    </Box>
+      <IconButton size="large" sx={{marginRight:'1rem'}} onClick={()=>navigate('EditSkill')} aria-label="upload picture">
+        <ModeOutlinedIcon fontSize="inherit"/>
+      </IconButton>
+     </Box>
     { 
       user.user.skill.map((Skill)=>{
       return <Box  key={Skill._id}>
