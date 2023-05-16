@@ -11,6 +11,9 @@ const AdminAccount = new mongoose.Schema({
     Email: {
         type: String,
         requier: true
+    },
+    profilePhoto: {
+        type: String,
     }
 }, { timestamps: true })
 module.exports = mongoose.model('AdminAccount', AdminAccount)

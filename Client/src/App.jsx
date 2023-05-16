@@ -21,6 +21,17 @@ import EditEducation from "./Components/Individual/EditEducation"
 import EditSkill from "./Components/Individual/EditSkill"
 import Jobs from './pages/Personal/Jobs'
 import PageNotFound from './pages/Shared/PageNotFound'
+import AdminLayout from "./Components/Admin/AdminLayout"
+import AddAdmin from './pages/Admin/AddAdmin'
+import CompanyPageUsers from './pages/Admin/CompanyPageUsers'
+import EventesDashborde from './pages/Admin/EventesDashborde'
+import JobVacanicesDashborde from './pages/Admin/JobVacanicesDashBorde'
+import PersonalAccountUsers from './pages/Admin/PersonalAccountUsers'
+import PostsDashborde from './pages/Admin/PostsDashboarde'
+import ReportDashborde from './pages/Admin/ReportDashborde'
+import AdminProfileDetail from "./pages/Admin/AdminProfileDetail"
+import AdminProfileSetting from "./pages/Admin/AdminProfileSetting"
+import SkillExam from "./pages/Admin/SkillExam"
 function App() {
   return (
       <Routes>
@@ -52,7 +63,19 @@ function App() {
                 <Route path="/ComapnyAccountProfile" element={<CompanyProfileAccount/>}/>
               </Route>
               <Route element={<ProtectedRoutes Autherazetion={["admin"]}/>}>
-                <Route path="/AdminDashborde" element={<AdminDashborde/>}/>
+                <Route path="/AdminDashborde" element={<AdminLayout/>}>
+                  <Route path="/AdminDashborde" element={<AdminDashborde/>}/>
+                  <Route path="addAdmin" element={<AddAdmin/>}/>
+                  <Route path="companyPages" element={<CompanyPageUsers/>}/>
+                  <Route path="PersonalAccounts" element={<PersonalAccountUsers/>}/>
+                  <Route path="jobVacancies" element={<JobVacanicesDashborde/>}/>
+                  <Route path="posts" element={<PostsDashborde/>}/>
+                  <Route path="events" element={<EventesDashborde/>}/>
+                  <Route path="reports" element={<ReportDashborde/>}/>
+                  <Route path="AdminProfileDetail" element={<AdminProfileDetail/>}/>
+                  <Route path="AdminProfileSetting" element={<AdminProfileSetting/>}/>
+                  <Route path="skillExams" element={<SkillExam/>}/>
+                </Route>
               </Route>
          </Route>
       </Routes>

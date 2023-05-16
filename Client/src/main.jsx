@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import {BrowserRouter,Routes,Route} from 'react-router-dom'
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { ThemeProvider, createTheme} from '@mui/material/styles';
 import App from './App'
 import './Localazation/LanguageConfig'
 import AthuContext from './Context/Shared/AthuContext';
@@ -26,13 +26,6 @@ const theme = createTheme({
       fontFamily:'Exo, sans-serif',
      },
     },
-  overrides: {
-    MuiDrawer: {
-      anchorright: {
-        marginTop: 64
-      }
-    }
-  }
 });
 ReactDOM.createRoot(document.getElementById('root')).render(
   <BrowserRouter>

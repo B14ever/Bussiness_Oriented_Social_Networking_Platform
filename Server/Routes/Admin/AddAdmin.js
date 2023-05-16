@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
     //controlles
-const { AddAdmin } = require('../../Controlles/Admin/SignUP')
+const { AddAdmin } = require('../../Controlles/Admin/AddAdmin')
 const { EmailVerification } = require('../../Controlles/Shared/EmailVerification')
 const { RequestCode } = require('../../Controlles/Shared/RequestCode')
     //routes

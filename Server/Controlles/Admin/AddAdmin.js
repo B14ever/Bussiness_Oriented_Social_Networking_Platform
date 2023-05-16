@@ -20,12 +20,7 @@ const AddAdmin = async(req, res, next) => {
             if (!newUser) {
                 throw new Error('User Not Created')
             } else {
-                const sendEmail = SendEmail(req, res, next, OTP.code)
-                if (sendEmail) {
-                    return res.status(200).json({ message: 'Account Created' })
-                } else {
-                    throw new Error('Sending Email Failed')
-                }
+                return res.status(200).json({ message: 'Account Created' })
             }
         }
     } catch (err) {

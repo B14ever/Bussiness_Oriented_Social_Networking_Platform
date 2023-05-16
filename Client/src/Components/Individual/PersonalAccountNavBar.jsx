@@ -10,7 +10,9 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
 import Logout from '../Shared/Logout'
 import {useLanguage} from '../../Localazation/LanguageContext'
+import { useAthuContext } from '../../Context/Shared/AthuContext';
 const PersonalAccountNavBar = () => { 
+  const {user} = useAthuContext()
   const {t} = useLanguage()
   const navigate = useNavigate()
   const [anchorElUser, setAnchorElUser] = useState(null)
@@ -64,7 +66,7 @@ const PersonalAccountNavBar = () => {
            <Divider orientation="vertical" flexItem />
               <Tooltip title="Open settings">
                 <IconButton  sx={{marginRight:'1rem'}} onClick={handleOpenUserMenu} >
-                  <Avatar  sx={{ width: 26, height: 26}}   alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                  <Avatar  sx={{ width: 30, height: 30}}   alt="Remy Sharp" src={`../../../Profile_Image/${user.user.profilePhoto?user.user.profilePhoto:'Avater.png'}`} />
                 </IconButton>
               </Tooltip>
                 <Menu sx={{ mt: '50px' }} anchorEl={anchorElUser} keepMounted open={Boolean(anchorElUser)} 
@@ -72,7 +74,7 @@ const PersonalAccountNavBar = () => {
                   anchorOrigin={{vertical: 'top',horizontal: 'center',}}
                   transformOrigin={{vertical: 'top',horizontal: 'center',}}>
                   <MenuItem sx={{display:'flex',gap:'.5rem'}}  onClick={()=>navigate('PersonalProfileDetail')}>
-                    <Avatar sx={{ width: 30, height: 30,}}  alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                    <Avatar sx={{ width: 30, height: 30,}}  alt="Remy Sharp" src={`../../../Profile_Image/${user.user.profilePhoto?user.user.profilePhoto:'Avater.png'}`} />
                     <Typography textAlign="center">{t("Profile")}</Typography>
                   </MenuItem>
                   <Divider mt='0' light />

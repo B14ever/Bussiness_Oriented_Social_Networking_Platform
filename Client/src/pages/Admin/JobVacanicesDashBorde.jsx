@@ -1,11 +1,11 @@
 import React from 'react'
 import { Box } from '@mui/material/node'
-const AdminDashborde = () => {
+const JobVacanicesDashBorde = () => {
   return (
     <Box sx={{ marginTop: '100px', display: 'flex',flexDirection:'column',backgroundColor:"#E7EBF0" ,alignItems: 'center' }}>
-      <h1>Admin DashBorde</h1>
+    <h1>Job vacanicices DashBorde</h1>
     </Box>
   )
 }
 
-export default AdminDashborde
+export default JobVacanicesDashBorde
