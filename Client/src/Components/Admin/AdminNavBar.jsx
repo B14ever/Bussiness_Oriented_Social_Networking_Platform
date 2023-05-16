@@ -1,6 +1,11 @@
 import React,{useState} from 'react';
-import { AppBar,Box,Drawer,ListItem,List,Toolbar,Typography
+import {Box,ListItem,List,Toolbar,Typography
 ,ListItemButton,ListItemIcon,ListItemText,Divider,IconButton,Avatar,Tooltip,Menu,MenuItem} from '@mui/material/node';
+import MuiDrawer from '@mui/material/Drawer';
+import MuiAppBar from '@mui/material/AppBar';
+import { styled, useTheme } from '@mui/material/styles';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import CssBaseline from '@mui/material/CssBaseline'
 import MenuIcon from '@mui/icons-material/Menu';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -11,29 +16,95 @@ import {useLanguage} from '../../Localazation/LanguageContext'
 import { useAthuContext } from '../../Context/Shared/AthuContext';
 import Logout from '../Shared/Logout';
 const drawerWidth = 240;
+const openedMixin = (theme) => ({
+  width: drawerWidth,
+  transition: theme.transitions.create('width', {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.enteringScreen,
+  }),
+  overflowX: 'hidden',
+});
+
+const closedMixin = (theme) => ({
+  transition: theme.transitions.create('width', {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  overflowX: 'hidden',
+  width: `calc(${theme.spacing(7)} + 1px)`,
+  [theme.breakpoints.up('sm')]: {
+    width: `calc(${theme.spacing(8)} + 1px)`,
+  },
+});
+
+const DrawerHeader = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'flex-end',
+  padding: theme.spacing(0, 1),
+}));
+
+const AppBar = styled(MuiAppBar, {
+  shouldForwardProp: (prop) => prop !== 'open',
+})(({ theme, open }) => ({
+  zIndex: theme.zIndex.drawer + 1,
+  transition: theme.transitions.create(['width', 'margin'], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  ...(open && {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  }),
+}));
+
+const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
+  ({ theme, open }) => ({
+    width: drawerWidth,
+    flexShrink: 0,
+    whiteSpace: 'nowrap',
+    boxSizing: 'border-box',
+    ...(open && {
+      ...openedMixin(theme),
+      '& .MuiDrawer-paper': openedMixin(theme),
+    }),
+    ...(!open && {
+      ...closedMixin(theme),
+      '& .MuiDrawer-paper': closedMixin(theme),
+    }),
+  }),
+);
 function ResponsiveDrawer(props) {
+  const theme = useTheme();
   const {user} = useAthuContext()
   const navigate = useNavigate()
   const {t} = useLanguage()
-  const { window } = props;
-  const [mobileOpen, setMobileOpen] = useState(false);
   const [anchorElUser, setAnchorElUser] = useState(null)
-  const [hideDrawer,setHideDrawer] = useState(false)
+  const [open, setOpen] = useState(false);
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
   };
 
   const drawer = (
     <div>
       <List>
         {DashBordeListItems.map((items) => (
-          <ListItem key={items.id} disablePadding>
+          <Tooltip key={items.id} title={!open?t(`${items.Name}`):''} placement="right-end">
+            <ListItem  disablePadding>
             <ListItemButton onClick={()=>navigate(`${items.Path}`)} >
               <ListItemIcon>
                 {items.Icon}
@@ -41,22 +112,21 @@ function ResponsiveDrawer(props) {
               <ListItemText primary={t(`${items.Name}`)} />
             </ListItemButton>
           </ListItem>
+          </Tooltip>
         ))}
       </List>
     </div>
   );
 
-  const container = window !== undefined ? () => window().document.body : undefined;
-
   return (
     <Box>
       <CssBaseline />
-      <AppBar position="fixed" sx={{background:'#fff',marginTop:'49px',boxShadow:'none'}}>
+      <AppBar open={open} position="fixed" sx={{background:'#fff',marginTop:'49px',boxShadow:'none'}}>
         <Toolbar variant='dense'>
-          <IconButton color="primary" aria-label="open drawer" edge="start" onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}>
+        <IconButton color="primary" aria-label="open drawer" onClick={handleDrawerOpen} edge="start"
+            sx={{marginRight: 5,...(open && { display: 'none' }),}}>
             <MenuIcon />
-          </IconButton>
+        </IconButton>
           <Box sx={{marginLeft:'auto',display:'flex'}} >
              <Divider orientation="vertical" color='primary' flexItem />
               <Tooltip title="Open settings">
@@ -68,6 +138,10 @@ function ResponsiveDrawer(props) {
                   onClose={handleCloseUserMenu}
                   anchorOrigin={{vertical: 'top',horizontal: 'center',}}
                   transformOrigin={{vertical: 'top',horizontal: 'center',}}>
+                  <MenuItem sx={{display:'flex',gap:'.5rem'}}  onClick={()=>navigate('AdminProfileDetail')}>
+                    <Avatar sx={{ width: 30, height: 30,}}  alt="Remy Sharp" src={`../../../Profile_Image/${user.user.profilePhoto?user.user.profilePhoto:'Avater.png'}`} />
+                    <Typography textAlign="center">{t("Profile")}</Typography>
+                  </MenuItem>
                   <Divider mt='0' light />
                   <MenuItem  onClick={()=>navigate('AdminProfileSetting')}>
                     <Avatar sx={{width: 30, height: 30,marginRight:'.5rem'}}>
@@ -85,14 +159,14 @@ function ResponsiveDrawer(props) {
           </Box>
         </Toolbar>
       </AppBar>
-    <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }} aria-label="mailbox folders">
-        <Drawer container={container} variant="temporary" open={mobileOpen} onClose={handleDrawerToggle}
-          ModalProps={{keepMounted: true,}}
-          sx={{display:{ xs: 'block', sm: 'none' },'& .MuiDrawer-paper':{ boxSizing: 'border-box', width: drawerWidth,top:'95px'},}}>
-          {drawer}
-        </Drawer>
-        <Drawer variant="permanent" open anchor='left'
-          sx={{display: { xs: 'none', sm:'block' },'& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth,top:'95px'},}}>
+    <Box component="nav"  aria-label="mailbox folders">
+        <Drawer  sx={{'& .MuiDrawer-paper': {top:'49px'},
+          }} variant="permanent" open={open} anchor='left'>
+           <DrawerHeader>
+           <IconButton color='primary' onClick={handleDrawerClose}>
+            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+          </IconButton>
+          </DrawerHeader>
           {drawer}
         </Drawer>
       </Box>
