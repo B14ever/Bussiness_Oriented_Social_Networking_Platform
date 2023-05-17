@@ -34,7 +34,8 @@ app.use('/ComapnyAccountSignUp', CompanyAccounts)
 //routes for Admin
 const AdminAccounts = require('./Routes/Admin/AddAdmin')
 app.use('/AdminAccount', AdminAccounts)
-
+const SkillAssessment = require('./Routes/Admin/SkillAssessment')
+app.use('/skillAssessment', SkillAssessment)
 
 //SharedRoutes
 const Verification = require('./Routes/Shared/EmailVerification')

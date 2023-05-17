@@ -52,7 +52,7 @@ export const DashBordeListItems = [
     },
     {
         id:8,
-        Name:'SkillExams',
+        Name:'SkillAssessment',
         Icon:<QuizOutlinedIcon color='primary'/>,
         Path:'skillExams'
     },

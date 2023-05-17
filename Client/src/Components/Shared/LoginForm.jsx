@@ -95,9 +95,7 @@ const validateForm = () => {
         <Button type="submit" variant="contained" size='large' sx={{ mt: 1, mb: 2,width:'50%',alignSelf:'center' }}>{t("Login")}</Button>
       </Box>
       <Grid container>
-        <Grid item xs>
-          <Link href="#" variant="body2">{t("Language")}</Link>
-        </Grid>
+        
         <Grid item>
           <Link href="/signup" variant="body2">{t("CreateAccount")}</Link>
         </Grid>
