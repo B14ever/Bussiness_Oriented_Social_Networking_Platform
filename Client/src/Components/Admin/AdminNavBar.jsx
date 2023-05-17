@@ -14,6 +14,7 @@ import {DashBordeListItems} from './AdminDashbordeListItems';
 import { useNavigate} from 'react-router-dom';
 import {useLanguage} from '../../Localazation/LanguageContext'
 import { useAthuContext } from '../../Context/Shared/AthuContext';
+import DropDawnMenu from './DropDawnMenu';
 import Logout from '../Shared/Logout';
 const drawerWidth = 240;
 const openedMixin = (theme) => ({
@@ -85,6 +86,7 @@ function ResponsiveDrawer(props) {
   const {t} = useLanguage()
   const [anchorElUser, setAnchorElUser] = useState(null)
   const [open, setOpen] = useState(false);
+  const [dropdawn,setDropdawn] = useState(false)
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -98,21 +100,41 @@ function ResponsiveDrawer(props) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
+ const hanlDropdawn=()=>{
+    setDropdawn(!dropdawn)
+ }
   const drawer = (
     <div>
       <List>
         {DashBordeListItems.map((items) => (
-          <Tooltip key={items.id} title={!open?t(`${items.Name}`):''} placement="right-end">
-            <ListItem  disablePadding>
-            <ListItemButton onClick={()=>navigate(`${items.Path}`)} >
-              <ListItemIcon>
-                {items.Icon}
-              </ListItemIcon>
-              <ListItemText primary={t(`${items.Name}`)} />
-            </ListItemButton>
+          <React.Fragment key={items.id}>
+            {
+            items.Submenu?<> 
+          <ListItem disablePadding>
+            <Tooltip  title={!open?t(`${items.Name}`):''} placement="right-end">
+              <ListItemButton onClick={hanlDropdawn} >
+                 <ListItemIcon>
+                 {items.Icon}
+                 </ListItemIcon>
+                 <ListItemText primary={t(`${items.Name}`)} />
+             </ListItemButton>
+           </Tooltip> 
+         </ListItem>
+         <DropDawnMenu item={items.Submenu} Dropdawn={dropdawn}/>
+         </>:
+            <ListItem   disablePadding>
+             <Tooltip  title={!open?t(`${items.Name}`):''} placement="right-end">
+              
+               <ListItemButton onClick={()=>navigate(`${items.Path}`)} >
+                  <ListItemIcon>
+                  {items.Icon}
+                  </ListItemIcon>
+                  <ListItemText primary={t(`${items.Name}`)} />
+              </ListItemButton>
+            </Tooltip> 
           </ListItem>
-          </Tooltip>
+           }
+          </React.Fragment>
         ))}
       </List>
     </div>

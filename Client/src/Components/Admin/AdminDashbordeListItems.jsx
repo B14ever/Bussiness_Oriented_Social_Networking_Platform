@@ -54,7 +54,21 @@ export const DashBordeListItems = [
         id:8,
         Name:'SkillAssessment',
         Icon:<QuizOutlinedIcon color='primary'/>,
-        Path:'skillExams'
+        Path:'skillExams',
+        Submenu:[
+            {
+                id:1,
+                Name:'NewProgram',
+                Icon:<QuizOutlinedIcon color='primary'/>,
+                Path:'skillExams',
+            },
+            {
+                id:2,
+                Name:'ExstingProgram',
+                Icon:<QuizOutlinedIcon color='primary'/>,
+                Path:'skillExams',
+            }
+        ]
     },
     {
         id:9,

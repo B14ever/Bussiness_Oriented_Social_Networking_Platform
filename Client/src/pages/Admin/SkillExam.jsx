@@ -1,10 +1,14 @@
-import React, { useEffect } from 'react'
+import React, { useEffect,useState} from 'react'
 import { Box,Typography,LinearProgress} from '@mui/material/node'
 import { useSkillAssesmentContext } from '../../Context/Admin/SkillAssesmentContext'
 import { useLanguage } from '../../Localazation/LanguageContext'
 import axios from '../../api/axios'
 const SkillExam = () => {
   const {t} = useLanguage()
+  const [value, setValue] = useState(0);
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
   const {assesments,dispatch} = useSkillAssesmentContext()
   useEffect(() => {
        const GetData = async ()=>{
@@ -30,6 +34,7 @@ const SkillExam = () => {
       <Box p={2} sx={{backgroundColor:'#fff',margin:'10px 0 10px',
          height: 'fit-content',width:{xs:'90%',lg:'80%'}}}>
        <Typography variant='subtitle2'>{t("SkillAssessment")}</Typography>
+          
       </Box>
     }
     </Box>
