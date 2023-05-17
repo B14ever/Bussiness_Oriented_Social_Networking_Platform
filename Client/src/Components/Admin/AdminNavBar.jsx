@@ -103,6 +103,9 @@ function ResponsiveDrawer(props) {
  const hanlDropdawn=()=>{
     setDropdawn(!dropdawn)
  }
+ const handlDropdawnClose = ()=> {
+    setDropdawn(false)
+ }
   const drawer = (
     <div>
       <List>
@@ -112,7 +115,7 @@ function ResponsiveDrawer(props) {
             items.Submenu?<> 
           <ListItem disablePadding>
             <Tooltip  title={!open?t(`${items.Name}`):''} placement="right-end">
-              <ListItemButton onClick={hanlDropdawn} >
+              <ListItemButton onClick={hanlDropdawn}>
                  <ListItemIcon>
                  {items.Icon}
                  </ListItemIcon>
@@ -120,7 +123,7 @@ function ResponsiveDrawer(props) {
              </ListItemButton>
            </Tooltip> 
          </ListItem>
-         <DropDawnMenu item={items.Submenu} Dropdawn={dropdawn}/>
+         <DropDawnMenu item={items.Submenu} Dropdawn={dropdawn} handlDropdawnClose={handlDropdawnClose}/>
          </>:
             <ListItem   disablePadding>
              <Tooltip  title={!open?t(`${items.Name}`):''} placement="right-end">

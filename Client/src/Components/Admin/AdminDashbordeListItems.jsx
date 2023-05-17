@@ -7,6 +7,12 @@ import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined
 import ReportOutlinedIcon from '@mui/icons-material/ReportOutlined';
 import AddModeratorOutlinedIcon from '@mui/icons-material/AddModeratorOutlined';
 import QuizOutlinedIcon from '@mui/icons-material/QuizOutlined';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import MapsUgcOutlinedIcon from '@mui/icons-material/MapsUgcOutlined';
+import EditNoteOutlinedIcon from '@mui/icons-material/EditNoteOutlined';
 export const DashBordeListItems = [
     {
         id:1,
@@ -54,19 +60,23 @@ export const DashBordeListItems = [
         id:8,
         Name:'SkillAssessment',
         Icon:<QuizOutlinedIcon color='primary'/>,
+        upArrow:<KeyboardArrowUpIcon color='primary'/>,
+        downArrow:<KeyboardArrowDownIcon color='primary'/>,
+        lefrArrow:<KeyboardArrowLeftIcon color='primary'/>,
+        rightArrow:<KeyboardArrowRightIcon color='primary'/>,
         Path:'skillExams',
         Submenu:[
             {
                 id:1,
                 Name:'NewProgram',
-                Icon:<QuizOutlinedIcon color='primary'/>,
-                Path:'skillExams',
+                Icon:<MapsUgcOutlinedIcon color='primary'/>,
+                Path:'newAssessment',
             },
             {
                 id:2,
                 Name:'ExstingProgram',
-                Icon:<QuizOutlinedIcon color='primary'/>,
-                Path:'skillExams',
+                Icon:<EditNoteOutlinedIcon color='primary'/>,
+                Path:'editAssesment',
             }
         ]
     },

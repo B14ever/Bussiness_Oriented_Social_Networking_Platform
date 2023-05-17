@@ -32,6 +32,7 @@ import ReportDashborde from './pages/Admin/ReportDashborde'
 import AdminProfileDetail from "./pages/Admin/AdminProfileDetail"
 import AdminProfileSetting from "./pages/Admin/AdminProfileSetting"
 import SkillExam from "./pages/Admin/SkillExam"
+import EditQuestion from "./pages/Admin/EditQuestion"
 function App() {
   return (
       <Routes>
@@ -74,7 +75,8 @@ function App() {
                   <Route path="reports" element={<ReportDashborde/>}/>
                   <Route path="AdminProfileDetail" element={<AdminProfileDetail/>}/>
                   <Route path="AdminProfileSetting" element={<AdminProfileSetting/>}/>
-                  <Route path="skillExams" element={<SkillExam/>}/>
+                  <Route path="newAssessment" element={<SkillExam/>}/>
+                  <Route path="editAssesment" element={<EditQuestion/>}/>
                 </Route>
               </Route>
          </Route>
