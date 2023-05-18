@@ -2,14 +2,14 @@ import React,{ createContext,useReducer,useContext} from 'react'
 const skillAssesmentContext = createContext()
 const initialState = {
       loading:false,
-      assesments:null
+      assesments:[]
   };
 const authReducer = (state, action) => {
     switch (action.type) {
       case 'ASSESSMENT_LODNING':
         return {
           loading:true,
-          assesments:null
+          assesments:[]
         };
       case 'GET_ASSESSMENT':
         return {

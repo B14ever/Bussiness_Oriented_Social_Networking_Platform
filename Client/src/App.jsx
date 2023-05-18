@@ -33,6 +33,7 @@ import AdminProfileDetail from "./pages/Admin/AdminProfileDetail"
 import AdminProfileSetting from "./pages/Admin/AdminProfileSetting"
 import SkillExam from "./pages/Admin/SkillExam"
 import EditQuestion from "./pages/Admin/EditQuestion"
+import NewAssessmentPage from "./pages/Admin/NewAssessmentPage"
 function App() {
   return (
       <Routes>
@@ -77,6 +78,7 @@ function App() {
                   <Route path="AdminProfileSetting" element={<AdminProfileSetting/>}/>
                   <Route path="newAssessment" element={<SkillExam/>}/>
                   <Route path="editAssesment" element={<EditQuestion/>}/>
+                  <Route path="newAssessment/creatQuetion" element={<NewAssessmentPage/>}/>
                 </Route>
               </Route>
          </Route>
