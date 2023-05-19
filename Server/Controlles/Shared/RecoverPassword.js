@@ -11,7 +11,7 @@
          const newPassword = await HashPasword(Password)
          change_user_password = await Users.updateOne({ _id: `${userId}` }, { $set: { password: `${newPassword}` } })
          if (!change_user_password) {
-             throw new Error('Changing password failed')
+             throw new Error('ChangePasswordFaild')
          } else {
              return res.status(200).json({ msg: "password changed succfully" })
          }

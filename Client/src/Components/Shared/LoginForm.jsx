@@ -67,12 +67,12 @@ const handleChange = (e) => {
 const validateForm = () => {
     const formErrors = {};
     if (!data.Email) {
-        formErrors.Email = 'Email is required';
+        formErrors.Email = 'EmailRequired';
       } else if (!/^\S+@\S+\.\S+$/.test(data.Email)) {
-        formErrors.Email = 'Email is invalid';
+        formErrors.Email = 'EmailRequired';
       }
       if (!data.Password) {
-        formErrors.Password = 'Password is required';
+        formErrors.Password = 'PasswordRequired';
       }   
     return formErrors;
 }
@@ -83,11 +83,11 @@ const validateForm = () => {
     <Box component="form" onSubmit={handleSubmit}  noValidate sx={{ mt: 1,pl:2,pr:2}}>
       <FormControl fullWidth error={!!Errors.Email}>
       <TextField onChange={handleChange} margin="normal" required fullWidth id="email" label={t("Email")} name="Email"/>
-      <FormHelperText>{Errors.Email}</FormHelperText>
+      <FormHelperText>{Errors.Email?t(`${Errors.Email}`):''}</FormHelperText>
       </FormControl>
       <FormControl fullWidth error={!!Errors.Password}>
       <TextField onChange={handleChange}  margin="normal" required fullWidth name="Password" label={t("Password")} type="password" id="password"/>
-      <FormHelperText>{Errors.Password}</FormHelperText>
+      <FormHelperText>{Errors.Password?t(`${Errors.Password}`):''}</FormHelperText>
       </FormControl>
       {errorMsg && <Typography sx={{color:"#DA0037"}}>{errorMsg}</Typography>}
       <Box sx={{display:'flex',flexDirection:'column',gap:'1rem'}}>

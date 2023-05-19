@@ -32,10 +32,13 @@ const Security = () => {
         setData('')
         } catch (err) {
            if (!err?.response) {
-             setErrorMsg('Failde');
+            setSuccess(false)
+             setErrorMsg('PasswordChangeFaildTryAgain');
            } else if (err.response?.status === 409) {
+             setSuccess(false)
              setErrorMsg(err.response.data.error);
            } else if (err.response?.status === 403){
+             setSuccess(false)
              setErrorMsg(err.response.data.error)
            }
        }
@@ -63,11 +66,11 @@ const Security = () => {
       <React.Fragment>
        <Divider  sx={{marginTop:'20px'}}>{t("ChangePassword")}</Divider>
       <Box component="form" onSubmit={handleSubmit} sx={{display:'flex',flexDirection:'column',gap:'.5rem',alignItems:'center'}}mt={2}ml={2}mr={2}>
-      <TextField sx={{width:{xs:'100%',md:'50%'}} } onChange={handleChange} label={t("OldPassword")} type='password' name="Password" />
+      <TextField sx={{width:{xs:'100%',md:'50%'}} } value={data.Password || ''} onChange={handleChange} label={t("OldPassword")} type='password' name="Password" />
       <FormHelperText sx={{color:'red',width:{xs:'100%',md:'50%'}}}>{Errors.Password?t(`${Errors.Password}`):''}</FormHelperText>
-      <TextField sx={{width:{xs:'100%',md:'50%'}}} onChange={handleChange} label={t("NewPassword")} type='password' name="newPassword" />
+      <TextField sx={{width:{xs:'100%',md:'50%'}}} value={data.newPassword || ''} onChange={handleChange} label={t("NewPassword")} type='password' name="newPassword" />
       <FormHelperText sx={{color:'red',width:{xs:'100%',md:'50%'}}}>{Errors.newPassword?t(`${Errors.newPassword}`):''}</FormHelperText>
-      <TextField sx={{width:{xs:'100%',md:'50%'}}} onChange={handleChange} label={t("ConfirmPassword")} type='password' name="confirmPassword"/>
+      <TextField sx={{width:{xs:'100%',md:'50%'}}} value={data.confirmPassword || ''} onChange={handleChange} label={t("ConfirmPassword")} type='password' name="confirmPassword"/>
       <FormHelperText sx={{color:'red',width:{xs:'100%',md:'50%'}}}>{Errors.confirmPassword?t(`${Errors.confirmPassword}`):''}</FormHelperText>
       {success?<Alert severity='info' sx={{width:{xs:'100%',md:'50%'}}}>{t("PasswordChanged")}</Alert>:''}
       {errorMsg?<Alert severity='error' sx={{width:{xs:'100%',md:'50%'}}}>{t(`${errorMsg}`)}</Alert>:''}

@@ -9,7 +9,7 @@
      try {
          const find_user = await Users.findOne({ Email: `${Email}` })
          if (!find_user) {
-             const error = new Error('Invalid Email');
+             const error = new Error('InvalidEmail');
              error.status = 409; // set the status code to 409 (Conflict)
              throw error;
          } else {

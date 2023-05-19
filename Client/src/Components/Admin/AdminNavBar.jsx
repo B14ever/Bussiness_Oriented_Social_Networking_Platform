@@ -125,7 +125,7 @@ function ResponsiveDrawer(props) {
          </ListItem>
          <DropDawnMenu item={items.Submenu} Dropdawn={dropdawn} handlDropdawnClose={handlDropdawnClose}/>
          </>:
-            <ListItem   disablePadding>
+            <ListItem sx={{marginTop:'.5rem'}}  disablePadding>
              <Tooltip  title={!open?t(`${items.Name}`):''} placement="right-end">
               
                <ListItemButton onClick={()=>navigate(`${items.Path}`)} >
@@ -134,8 +134,9 @@ function ResponsiveDrawer(props) {
                   </ListItemIcon>
                   <ListItemText primary={t(`${items.Name}`)} />
               </ListItemButton>
-            </Tooltip> 
+            </Tooltip>
           </ListItem>
+         
            }
           </React.Fragment>
         ))}

@@ -10,17 +10,17 @@ const EmailVerification = async(req, res, next) => {
     try {
         const getUser = await Users.findOne({ _id: `${userId}` }, { otp: 1 })
         if (!getUser) {
-            throw new Error('You have not signed up yet');
+            throw new Error('notSignUp');
         } else {
             const currentTime = new Date().getTime();
             if (currentTime > getUser.otp.ValidUntil + 10) {
-                throw new Error('Code has expired. Please request a new code');
+                throw new Error('codeExpired');
             } else {
                 if (getUser.otp.attempts < 3) {
                     if (parseInt(Code) === getUser.otp.code) {
                         const verifiyUser = await Users.updateOne({ _id: `${userId}` }, { $set: { isVerified: true } })
                         if (!verifiyUser) {
-                            throw new Error('user verification failde , try again')
+                            throw new Error('userVerificatinFaild')
                         } else {
                             const USER = await Users.findOne({ _id: `${userId}` })
                             if (USER.role === 'personal') {
@@ -39,13 +39,13 @@ const EmailVerification = async(req, res, next) => {
                     } else {
                         const result = await Users.updateOne({ _id: `${userId}` }, { $inc: { 'otp.attempts': 1 } });
                         if (result.modifiedCount === 0) {
-                            throw new Error('User not found.');
+                            throw new Error('useNotFound');
                         } else {
-                            throw new Error('Invalid OTP. Please try again.');
+                            throw new Error('InvalidOtp');
                         }
                     }
                 } else {
-                    throw new Error('You have exceeded the maximum number of attempts. Please request a new code.');
+                    throw new Error('maxAttempts');
                 }
             }
         }

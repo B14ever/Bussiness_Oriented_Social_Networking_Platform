@@ -2,9 +2,10 @@
 const Question = require('../../Models/Quetions')
     //middleWare
 const CreateSkillAssessment = async(req, res, next) => {
-    const { typeOfStudy, questions } = req.body
+
+    const { typeofStudy, questions, description } = req.body
     try {
-        const addSkillAssessment = await Question.create({ typeOfStudy: `${typeOfStudy}`, questions: questions })
+        const addSkillAssessment = await Question.create({ typeOfStudy: typeofStudy, questions: questions, description: description })
         if (!addSkillAssessment) {
             const error = new Error('unableToaddQuestions');
             error.status = 403; // set the status code to 409 (Conflict)

@@ -10,7 +10,7 @@ const AdminProfileSetting = () => {
     setValue(newValue);
   };
   return (
-    <Box  sx={{marginTop:'100px',width:'100%',display:'flex',justifyContent:'center',backgroundColor:"#E7EBF0"}}>
+    <Box  sx={{marginTop:'100px',width:'100%',display:'flex',justifyContent:'center',backgroundColor:"#E7EBF0",height: 'fit-content'}}>
     <Box sx={{backgroundColor:'#fff',margin:'10px 0 10px',height: 'fit-content',width:{xs:'90%',lg:'80%'}}}>
     <Tabs value={value}  variant="fullWidth" onChange={handleChange} centered>
       <Tab label={t("General")} />

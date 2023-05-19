@@ -48,13 +48,14 @@ const RecoverPassword = () => {
   const validateForm = () => {
     const formErrors = {};
     if (!data.Password) {
-      formErrors.Password = 'Password is required';
+      formErrors.Password = 'PleaseEnterNewPassword';
     }
 
-    if (!data.confirmPassword) {
-      formErrors.confirmPassword = 'Confirm Password is required';
-    } else if (data.confirmPassword !== data.Password) {
-      formErrors.confirmPassword = 'Confirm Password must match Password';
+    if(!data.confirmPassword){
+      formErrors.confirmPassword = 'PleaseConfrimNewPassword'
+    }
+    if( data.confirmPassword !== data.Password){
+      formErrors.confirmPassword = 'ConfrimPassworNotMatch'
     }
 
     return formErrors;
@@ -67,11 +68,11 @@ const RecoverPassword = () => {
     <Box component="form" onSubmit={handleSubmit}  noValidate sx={{ mt: 1 }}>
        <FormControl fullWidth error={!!Errors.Password}>
           <TextField onChange={handleChange}  margin="normal" required fullWidth id="password" label={t("NewPassword")} name="Password"/>
-          <FormHelperText>{Errors.Password}</FormHelperText>
+          <FormHelperText >{Errors.Password?t(`${Errors.Password}`):''}</FormHelperText>
        </FormControl>
        <FormControl fullWidth error={!!Errors.confirmPassword}>
           <TextField onChange={handleChange} margin="normal" required fullWidth id="confirmPassword" label={t("ConfirmPassword")} name="confirmPassword"/>
-          <FormHelperText>{Errors.confirmPassword}</FormHelperText>
+          <FormHelperText >{Errors.confirmPassword?t(`${Errors.confirmPassword}`):''}</FormHelperText>
        </FormControl>
         {errorMsg && <Typography sx={{color:"#DA0037"}}>{errorMsg}</Typography>}
         <Button type="submit" fullWidth  variant="contained" sx={{ mt: 3, mb: 2 }}>{t("Next")}</Button>

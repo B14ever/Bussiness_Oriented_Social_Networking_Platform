@@ -53,39 +53,39 @@ const PersonalSignupForm = () => {
 
     // Validation logic
     if (!data.FirstName) {
-      formErrors.FirstName = 'First Name is required';
+      formErrors.FirstName = 'FNameRequired';
     }
 
     if (!data.LastName) {
-      formErrors.LastName = 'Last Name is required';
+      formErrors.LastName = 'LNameRequired';
     }
 
     if (!data.Country) {
-      formErrors.Country = 'Country is required';
+      formErrors.Country = 'CountryNameRequired';
     }
 
     if (!data.City) {
-      formErrors.City = 'City is required';
+      formErrors.City = 'CityNameRequired';
     }
 
     if (!data.Email) {
       formErrors.Email = 'Email is required';
     } else if (!/^\S+@\S+\.\S+$/.test(data.Email)) {
-      formErrors.Email = 'Email is invalid';
+      formErrors.Email = 'InvalidEmail';
     }
 
     if (!data.PhoneNumber) {
-      formErrors.PhoneNumber = 'Phone Number is required';
+      formErrors.PhoneNumber = 'PhoneNumberRequired';
     }
 
     if (!data.Password) {
-      formErrors.Password = 'Password is required';
+      formErrors.Password = 'PasswordRequired';
     }
 
     if (!data.confirmPassword) {
-      formErrors.confirmPassword = 'Confirm Password is required';
+      formErrors.confirmPassword = 'PleaseConfrimNewPassword';
     } else if (data.confirmPassword !== data.Password) {
-      formErrors.confirmPassword = 'Confirm Password must match Password';
+      formErrors.confirmPassword = 'ConfrimPassworNotMatch';
     }
 
     return formErrors;
@@ -96,13 +96,13 @@ const PersonalSignupForm = () => {
         <Grid xs={12} sm={6} item>
           <FormControl fullWidth error={!!Errors.FirstName}>
             <TextField onChange={handleChange}  margin="normal" required fullWidth id="FirtsName" label={t("FirstName")} name="FirstName"  variant="outlined" autoFocus/>
-            <FormHelperText>{Errors.FirstName}</FormHelperText>
+            <FormHelperText sx={{color:'red'}}>{Errors.FirstName?`${t("FNameRequired")}`:''}</FormHelperText> 
           </FormControl>
         </Grid>
         <Grid xs={12} sm={6} item>
           <FormControl fullWidth error={!!Errors.LastName}>
             <TextField onChange={handleChange} margin="normal" required fullWidth id="lastName" label={t("LastName")} name="LastName"  variant="outlined" autoFocus/>
-            <FormHelperText>{Errors.LastName}</FormHelperText>
+            <FormHelperText sx={{color:'red'}}>{Errors.LastName?`${t("LNameRequired")}`:''}</FormHelperText>
           </FormControl>
         </Grid>
       </Grid>
@@ -110,13 +110,13 @@ const PersonalSignupForm = () => {
         <Grid xs={12} sm={6} item>
           <FormControl fullWidth error={!!Errors.Country}>
             <TextField onChange={handleChange} margin="normal" required fullWidth id="country" label={t("Country")} name="Country" autoFocus/>
-            <FormHelperText>{Errors.Country}</FormHelperText>
+            <FormHelperText sx={{color:'red'}}>{Errors.Country?`${t("CountryNameRequired")}`:''}</FormHelperText> 
           </FormControl>
         </Grid>
         <Grid xs={12} sm={6} item>
           <FormControl fullWidth error={!!Errors.City}>
             <TextField onChange={handleChange} margin="normal" required fullWidth id="city" label={t("City")} name="City" autoFocus/>
-            <FormHelperText>{Errors.City}</FormHelperText>
+            <FormHelperText sx={{color:'red'}}>{Errors.City?`${t("CityNameRequired")}`:''}</FormHelperText>
           </FormControl>
         </Grid>
       </Grid>
@@ -124,13 +124,13 @@ const PersonalSignupForm = () => {
         <Grid xs={12} sm={6} item>
           <FormControl fullWidth error={!!Errors.Email}>
             <TextField onChange={handleChange} margin="normal" required fullWidth id="email" label={t("Email")} name="Email" autoFocus/>
-            <FormHelperText>{Errors.Email}</FormHelperText>
+            <FormHelperText sx={{color:'red'}}>{Errors.Email?`${t("EmailRequired")}`:''}</FormHelperText> 
           </FormControl>
         </Grid>
         <Grid xs={12} sm={6} item>
           <FormControl fullWidth error={!!Errors.PhoneNumber}>
             <TextField onChange={handleChange} margin="normal" required fullWidth id="phone" label={t("Phone")} name="PhoneNumber" autoFocus/>
-            <FormHelperText>{Errors.PhoneNumber}</FormHelperText>
+            <FormHelperText sx={{color:'red'}}>{Errors.PhoneNumber?`${t("PhoneNumberRequired")}`:''}</FormHelperText> 
           </FormControl>
         </Grid>
       </Grid>
@@ -138,13 +138,13 @@ const PersonalSignupForm = () => {
         <Grid xs={12} sm={6} item>
           <FormControl fullWidth error={!!Errors.Password}>
             <TextField onChange={handleChange} margin="normal" required fullWidth name="Password" label={t("Password")} type="Password" id="password"/>
-            <FormHelperText>{Errors.Password}</FormHelperText>
+            <FormHelperText sx={{color:'red',width:{xs:'100%',md:'50%'}}}>{Errors.Password?t(`${Errors.Password}`):''}</FormHelperText>
           </FormControl>
         </Grid>
         <Grid xs={12} sm={6} item>
           <FormControl fullWidth error={!!Errors.confirmPassword}>
             <TextField  onChange={handleChange} margin="normal" required fullWidth name="confirmPassword" label={t("ConfirmPassword")} type="password" id="password"/>
-            <FormHelperText>{Errors.confirmPassword}</FormHelperText>
+            <FormHelperText sx={{color:'red',width:{xs:'100%',md:'50%'}}}>{Errors.confirmPassword?t(`${Errors.confirmPassword}`):''}</FormHelperText>
           </FormControl>
         </Grid>
       </Grid>

@@ -1,5 +1,5 @@
 import React,{useEffect, useState} from 'react'
-import {Grid,Box,TextField,Typography,Button,FormControl,FormHelperText} from '@mui/material'
+import {Grid,Box,TextField,Typography,Button,FormControl,FormHelperText,MenuItem} from '@mui/material'
 import axios from '../../api/axios';
 import { useNavigate,useLocation} from 'react-router-dom'
 import { useAthuContext } from '../../Context/Shared/AthuContext';
@@ -54,19 +54,19 @@ const CompanySignupform = () => {
 
     // Validation logic
     if (!data.companyName) {
-      formErrors.companyName = 'Name is required';
+      formErrors.companyName = 'OrganizationNameRequierd';
     }
 
     if (!data.organizationSize) {
-      formErrors.LastName = 'Organization size is required';
+      formErrors.organizationSize = 'OrganizationSizeRequierd';
     }
 
     if (!data.organizationType) {
-      formErrors.organizationType = 'Organization Type is required';
+      formErrors.organizationType = 'OrganizationTypeRequierd';
     }
 
     if (!data.industry) {
-      formErrors.industry = 'Idustry is required';
+      formErrors.industry = 'industryRequierd';
     }
 
     if (!data.Email) {
@@ -80,7 +80,7 @@ const CompanySignupform = () => {
     }
 
     if (!data.Password) {
-      formErrors.Password = 'Password is required';
+      formErrors.Password = 'PasswordRequired';
     }
     if (!data.Country) {
       formErrors.Country = 'Country is required';
@@ -89,9 +89,9 @@ const CompanySignupform = () => {
       formErrors.City = 'City is required';
     }
     if (!data.confirmPassword) {
-      formErrors.confirmPassword = 'Confirm Password is required';
+      formErrors.confirmPassword = 'PleaseConfrimNewPassword';
     } else if (data.confirmPassword !== data.Password) {
-      formErrors.confirmPassword = 'Confirm Password must match Password';
+      formErrors.confirmPassword = 'ConfrimPassworNotMatch';
     }
 
     return formErrors;
@@ -102,13 +102,13 @@ const CompanySignupform = () => {
         <Grid xs={12} sm={6} item>
         <FormControl fullWidth error={!!Errors.companyName}>
           <TextField onChange={handleChange} margin="normal" required fullWidth id="name" label={t("OrganizationName")} name="companyName" autoFocus/>
-          <FormHelperText>{Errors.companyName}</FormHelperText>
+          <FormHelperText sx={{color:'red',width:{xs:'100%',md:'50%'}}}>{Errors.companyName?t(`${Errors.companyName}`):''}</FormHelperText>
         </FormControl>
         </Grid>
         <Grid xs={12} sm={6} item>
         <FormControl fullWidth error={!!Errors.industry}>
           <TextField  onChange={handleChange} margin="normal" required fullWidth id="industry" label={t("industry")} name="industry" autoFocus/>
-          <FormHelperText>{Errors.industry}</FormHelperText>
+          <FormHelperText sx={{color:'red',width:{xs:'100%',md:'50%'}}}>{Errors.industry?t(`${Errors.industry}`):''}</FormHelperText>
         </FormControl>
         </Grid>
       </Grid>
@@ -116,13 +116,13 @@ const CompanySignupform = () => {
         <Grid xs={12} sm={6} item>
         <FormControl fullWidth error={!!Errors.organizationSize}>
          <TextField onChange={handleChange}  margin="normal" required fullWidth id="organizationSize" label={t("OrganizationSize")} name="organizationSize" autoFocus/>
-         <FormHelperText>{Errors.organizationSize}</FormHelperText>
+         <FormHelperText sx={{color:'red',width:{xs:'100%',md:'50%'}}}>{Errors.organizationSize?t(`${Errors.organizationSize}`):''}</FormHelperText>
         </FormControl>
         </Grid>
         <Grid xs={12} sm={6} item>
         <FormControl fullWidth error={!!Errors.organizationType}>
          <TextField onChange={handleChange} margin="normal" required fullWidth id="Organizationtype" label={t("OrganizationType" )}name="organizationType" autoFocus/>
-         <FormHelperText>{Errors.organizationType}</FormHelperText>
+         <FormHelperText sx={{color:'red',width:{xs:'100%',md:'50%'}}}>{Errors.organizationType?t(`${Errors.organizationType}`):''}</FormHelperText>
           </FormControl>
         </Grid>
       </Grid>
@@ -130,13 +130,13 @@ const CompanySignupform = () => {
         <Grid xs={12} sm={6} item>
         <FormControl fullWidth error={!!Errors.Country}>
          <TextField onChange={handleChange} margin="normal" required fullWidth id="country" label={t("Country")} name="Country" autoFocus/>
-         <FormHelperText>{Errors.Country}</FormHelperText>
+         <FormHelperText sx={{color:'red'}}>{Errors.Country?`${t("CountryNameRequired")}`:''}</FormHelperText> 
          </FormControl> 
         </Grid>
         <Grid xs={12} sm={6} item>
         <FormControl fullWidth error={!!Errors.City}>
          <TextField onChange={handleChange} margin="normal" required fullWidth id="city" label={t("City")} name="City" autoFocus/>
-         <FormHelperText>{Errors.City}</FormHelperText>
+         <FormHelperText sx={{color:'red'}}>{Errors.City?`${t("CityNameRequired")}`:''}</FormHelperText>
         </FormControl>
         </Grid>
       </Grid>
@@ -144,13 +144,13 @@ const CompanySignupform = () => {
         <Grid xs={12} sm={6} item>
         <FormControl fullWidth error={!!Errors.Email}>
           <TextField onChange={handleChange} margin="normal" required fullWidth id="email" label={t("Email")} name="Email" autoFocus/>
-          <FormHelperText>{Errors.Email}</FormHelperText>
+          <FormHelperText sx={{color:'red'}}>{Errors.Email?`${t("EmailRequired")}`:''}</FormHelperText> 
         </FormControl>
         </Grid>
         <Grid xs={12} sm={6} item>
         <FormControl fullWidth error={!!Errors.PhoneNumber}>
           <TextField onChange={handleChange} margin="normal" required fullWidth id="phone" label={t("Phone")} name="PhoneNumber" autoFocus/>
-          <FormHelperText>{Errors.PhoneNumber}</FormHelperText>
+          <FormHelperText sx={{color:'red'}}>{Errors.PhoneNumber?`${t("PhoneNumberRequired")}`:''}</FormHelperText>
         </FormControl>
         </Grid>
       </Grid>
@@ -168,13 +168,13 @@ const CompanySignupform = () => {
         <Grid xs={12} sm={6} item>
         <FormControl fullWidth error={!!Errors.Password}>
           <TextField onChange={handleChange} margin="normal" required fullWidth name="Password" label={t("Password")} type="password" id="password"/>
-          <FormHelperText>{Errors.Password}</FormHelperText>
+          <FormHelperText sx={{color:'red',width:{xs:'100%',md:'50%'}}}>{Errors.Password?t(`${Errors.Password}`):''}</FormHelperText>
         </FormControl>
         </Grid>
         <Grid xs={12} sm={6} item>
         <FormControl fullWidth error={!!Errors.confirmPassword}>
         <TextField onChange={handleChange} margin="normal" required fullWidth name="confirmPassword" label={t("ConfirmPassword")} type="password" id="password"/>
-        <FormHelperText>{Errors.confirmPassword}</FormHelperText>
+        <FormHelperText sx={{color:'red',width:{xs:'100%',md:'50%'}}}>{Errors.confirmPassword?t(`${Errors.confirmPassword}`):''}</FormHelperText>
         </FormControl>
         </Grid>
       </Grid>

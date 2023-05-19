@@ -67,7 +67,7 @@ const EmailVerification = () => {
         }
     }
     else{
-        setError('Invalid Input')
+        setError('InvalidCode')
     }
    }
    const ResendCode = async () =>{
@@ -96,7 +96,7 @@ const EmailVerification = () => {
             <Typography>{t("EnterCode")}</Typography>
         <Box component="form" onSubmit={HandleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField margin="normal" required fullWidth id="code" label={t("Code")} name="code" onChange={(e)=>setCode(e.target.value)}/>
-            {error && <Typography sx={{color:"#DA0037"}}>{error}</Typography>}
+            {error && <Typography sx={{color:"#DA0037"}}>{t(`${error}`)}</Typography>}
             <Button type="submit" fullWidth  variant="contained" sx={{ mt: 3, mb: 2 }}>{t("Verify")}</Button>
             <Typography variant='body2'>{t("DidntReceiveCode")}?<Button onClick={ResendCode}>{t("ResendCode")}</Button></Typography>
         </Box>

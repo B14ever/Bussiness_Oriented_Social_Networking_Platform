@@ -1,8 +1,20 @@
 import React, {useState,useReducer, useEffect} from 'react'
-import { Box,Typography,Divider,TextField, Grid, Button,MenuItem} from '@mui/material/node'
+import { Box,Typography,Divider,TextField, Grid, Button,MenuItem,Paper,IconButton,Alert,Snackbar,Backdrop,CircularProgress} from '@mui/material/node'
+import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
+import CheckIcon from '@mui/icons-material/Check';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { useLanguage } from '../../Localazation/LanguageContext'
-const PROGRAM_TYPE = localStorage.getItem("PROGRAM_TYPE")
-const Description = localStorage.getItem("Description")
+import axios from '../../api/axios'
+const typeofStudy = localStorage.getItem("PROGRAM_TYPE")
+const description = localStorage.getItem("Description")
+const Item = styled(Paper)(({ theme }) => ({
+  ...theme.typography.body2,
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+  height: 60,
+  lineHeight: '60px',
+  fontSize:'1rem'
+}));
 const intialstate ={
     questionText:"",
     optionOne:"",
@@ -51,8 +63,10 @@ const reducer = (currentState, action) => {
   };
 const NewAssessmentPage = ({}) => {
     const {t} = useLanguage()
-    const [questions,setQuetions] = useState([{question:'',options:[],correctAnswer:''}])
+    const [questions,setQuetions] = useState([])
     const [data,updateData] = useReducer(reducer, intialstate)
+    const [open, setOpen] = useState(false);
+    const [warnnig,setWaring] = useState(false)
 const onAdd = () =>{
     const optionArray = [data.optionOne,data.optionTwo,data.optionThree,data.optionFour]
     setQuetions([...questions,{question:data.questionText,options:optionArray,correctAnswer:data.correctAnswer}])
@@ -64,38 +78,58 @@ const handleChange = (e) => {
 const clear = () =>{
     updateData({type:'clear'})
 }
-useEffect(()=>{
-    console.log(questions)
-},[questions])
+const handlDelete = (question) =>{
+  const update = questions.filter((item) => item.question !== question)
+  setQuetions(update);
+}
+const handleClose = () => {
+  setOpen(false);
+};
+const hanleSubmit = async () =>{
+  try{
+    setOpen(true)
+    const responce = await axios.post('/skillAssessment',{typeofStudy,questions,description})
+    .then(setTimeout(()=>{setOpen(false)},500)) 
+    if(responce.status === 200){
+      updateData({type:'clear'})
+      setQuetions([]) 
+    } 
+  }
+  catch (err) {
+        setWaring(true)
+  }
+}
+ const Select = data.optionOne && data.optionTwo && data.optionThree && data.optionFour
+ const button = Select && data.questionText && data.correctAnswer
   return (
-    <Box  sx={{marginTop:'97px',width:'100%',display:'flex',justifyContent:'center',backgroundColor:"#E7EBF0"}}>
+    <Box  sx={{marginTop:'97px',width:'100%',display:'flex',flexDirection:'column',alignItems:'center',backgroundColor:"#E7EBF0",height: 'fit-content'}}>
       <Box p={2} sx={{backgroundColor:'#fff',display:'flex',flexDirection:'column',gap:'.9rem'
                     ,margin:'10px 0 10px',height: 'fit-content',width:{xs:'90%',lg:'80%'}}}>
          <Box sx={{ width: '100%' }}>
         <Typography variant='subtitle2'>{t("AddQeutionAssessment")}</Typography>
         </Box>
-        <Divider textAlign='left'>{t('For')} {PROGRAM_TYPE}</Divider>
+        <Divider textAlign='left'>{t('For')} {typeofStudy}</Divider>
         <Box sx={{width:'100%',display:'flex',flexDirection:'column',gap:'1rem'}}>
-         <TextField  name='setQuestionText' defaultValue={data.questionText} onChange={handleChange} label={t("Question")} fullWidth variant="standard"/>
+         <TextField  name='setQuestionText' value={data.questionText || ''} onChange={handleChange} label={t("Question")} fullWidth variant="standard"/>
          <Grid container spacing={1}>
           <Grid item xs={12} md={6}>
-            <TextField name='setOptionOne' defaultValue={data.optionOne} onChange={handleChange} fullWidth label={t('OptionOne')} variant="outlined"/>
+            <TextField name='setOptionOne' value={data.optionOne || ''} onChange={handleChange} fullWidth label={t('OptionOne')} variant="outlined"/>
           </Grid>
           <Grid item xs={12} md={6}>
-           <TextField name='setOptionTwo' defaultValue={data.optionTwo} onChange={handleChange} fullWidth label={t('OptionTwo')} variant="outlined"/>
+           <TextField name='setOptionTwo' value={data.optionTwo || ''} onChange={handleChange} fullWidth label={t('OptionTwo')} variant="outlined"/>
          </Grid>
         </Grid>
         <Grid container spacing={1}>
          <Grid item xs={12} md={6}>
-          <TextField name='setOptionThree' defaultValue={data.optionThree} onChange={handleChange} fullWidth label={t('OptionThree')} variant="outlined"/>
+          <TextField name='setOptionThree' value={data.optionThree || ''} onChange={handleChange} fullWidth label={t('OptionThree')} variant="outlined"/>
          </Grid>
          <Grid item xs={12} md={6}>
-          <TextField name='setOptionFour' defaultValue={data.optionFour} onChange={handleChange} fullWidth label={t('OptionFour')} variant="outlined"/>
+          <TextField name='setOptionFour' value={data.optionFour || ''} onChange={handleChange} fullWidth label={t('OptionFour')} variant="outlined"/>
          </Grid>
         </Grid>
         <Grid container spacing={1}>
           <Grid item xs={12} md={6}>
-           <TextField fullWidth select label="Select" defaultValue={data.correctAnswer}>
+           <TextField disabled={!Select} fullWidth select label={("Answer")} name='setCorrectAnswer' onChange={handleChange} value={data.correctAnswer || ''}>
              <MenuItem value={data.optionOne}>{data.optionOne}</MenuItem>
              <MenuItem value={data.optionTwo}>{data.optionTwo}</MenuItem>
              <MenuItem value={data.optionThree}>{data.optionThree}</MenuItem>
@@ -105,13 +139,57 @@ useEffect(()=>{
          <Grid item xs={12} md={6}>
             <Box pt={1} sx={{display:'flex',justifyContent:'flex-end',gap:'1rem'}}>
             <Button  color="error" onClick={clear} variant="outlined">{t("Clear")}</Button>
-            <Button variant="outlined" onClick={onAdd}>{t("Add")}</Button>
+            <Button disabled={!button} variant="outlined" onClick={onAdd}>{t("Add")}</Button>
             </Box>
          </Grid>
         </Grid>
         </Box>
       </Box>
-    </Box>
+       {
+      questions.length > 0?
+      <Box  p={2} sx={{backgroundColor:'#fff',display:'flex',flexDirection:'column',
+           gap:'.9rem',margin:'10px 0 10px',height: 'fit-content',width:{xs:'90%',lg:'80%'}}}>
+          {questions.map((item,index)=>{
+            return <Box key={index} sx={{widht:'100%',display:'flex',flexDirection:'column',gap:'1rem'}}>
+              <Box  sx={{widht:'100%',height: 'fit-content',display:'flex',alignItems:'center'}}>
+                <Typography>{index + 1}.  {item.question}</Typography>
+                <IconButton color="primary" sx={{marginLeft:'auto'}} aria-label="delete" onClick={()=>handlDelete(item.question)}>
+                  <DeleteIcon />
+                </IconButton>
+              </Box>
+              <Grid   spacing={2} container>
+                <Grid item sm={6} xs={12}>
+                <Item sx={{color:`${item.options[0] === item.correctAnswer?'green':''}`}} >A. {item.options[0]}</Item>
+                </Grid>
+                <Grid item sm={6} xs={12}>
+                  <Item sx={{color:`${item.options[1] === item.correctAnswer?'green':''}`}}>B. {item.options[1]}</Item>
+                </Grid>
+              </Grid>
+              <Grid   spacing={2} container>
+                <Grid item sm={6} xs={12}>
+                  <Item sx={{color:`${item.options[2] === item.correctAnswer?'green':''}`}}>C. {item.options[2]}</Item>
+                </Grid>
+                <Grid item sm={6} xs={12} >
+                  <Item sx={{color:`${item.options[3] === item.correctAnswer?'green':''}`}}>D. {item.options[3]}</Item>
+                </Grid>
+              </Grid>
+              <Divider></Divider>
+            </Box>})}
+            <Button variant="contained" onClick={hanleSubmit} sx={{marginLeft:'auto'}}><CheckIcon/></Button>
+      </Box>:null}
+        <Backdrop
+            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open={open}
+            onClick={handleClose}
+          >
+            <CircularProgress color="inherit" />
+        </Backdrop>
+        <Snackbar anchorOrigin={{ vertical:'top', horizontal:'center'}} open={warnnig} autoHideDuration={500} onClose={()=>setWaring(false)}>
+              <Alert onClose={()=>setWaring(false)} severity="info" sx={{ width: '100%' }}>
+                {t("unableToaddQuestions")}
+              </Alert>
+        </Snackbar>
+        </Box>
   )
 }
 

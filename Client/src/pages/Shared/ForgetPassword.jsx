@@ -43,7 +43,7 @@ const ForgetPassword = () => {
   const validateForm = () => {
     let formErrors = '';
     if (!Email) {
-         formErrors = 'Email is required';
+         formErrors = 'EmailRequired';
       } else if (!/^\S+@\S+\.\S+$/.test(Email)) {
         formErrors = 'Email is invalid';
       } 
@@ -58,7 +58,7 @@ const ForgetPassword = () => {
     <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
        <FormControl fullWidth error={!!Errors}>
         <TextField onChange={(e)=>setEmail(e.target.value)} margin="normal" required fullWidth id="Email" label={t("Email")} name="Email"/>
-        <FormHelperText>{Errors}</FormHelperText>
+        <FormHelperText >{Errors?t(`${Errors}`):''}</FormHelperText>
        </FormControl>
         <Button type="submit" fullWidth  variant="contained" sx={{ mt: 3, mb: 2 }}>{t("Next")}</Button>
         <Box sx={{display:'flex',justifyContent:'center'}}>

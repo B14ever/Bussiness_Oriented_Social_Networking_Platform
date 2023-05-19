@@ -29,7 +29,7 @@ const SkillExam = () => {
     const {name , value} = e.target
     const check = assesments.assesments.some(list => list.typeOfStudy === value)
     if(check){
-      setError({...error,[name]:'ThisProgrmaAlreadyExsists'})
+      setError({...error,[name]:'ProgrmaAlready'})
     }
   }
   const handleChange = (e)=>{
@@ -44,7 +44,7 @@ const SkillExam = () => {
         if (Object.keys(errors).length === 0) {
           localStorage.setItem('PROGRAM_TYPE',data.Program)
           localStorage.setItem('Description',data.Description)
-          navigate('creatQuetion',{Description:data.Description})
+          navigate('creatQuetion')
         }
         else {
           setError(errors);
@@ -60,6 +60,7 @@ const SkillExam = () => {
     }
   return formsErrors
   }
+  const disable = error.Program
   return (
     <Box  sx={{marginTop:'97px',width:'100%',display:'flex',justifyContent:'center',backgroundColor:"#E7EBF0"}}>
       <Box p={2} sx={{backgroundColor:'#fff',margin:'10px 0 10px',
@@ -85,8 +86,8 @@ const SkillExam = () => {
                 sx={{color:'red',width:{xs:'100%',md:'50%'}}}>
                 {error.Description?`${t(`${error.Description}`)}`:''}
               </FormHelperText>
-              <Typography variant='subtitle1' sx={{color:'#A4A4A4'}}>{t("DescribeTheContentofAssesment")}</Typography>
-               <Button onClick={handleSubmit}  sx={{alignSelf:'flex-end'}} variant="contained">Next</Button>
+              <Typography variant='subtitle1' sx={{color:'#A4A4A4'}}>{t("DescribeTheContent")}</Typography>
+               <Button onClick={handleSubmit} disabled={disable}  sx={{alignSelf:'flex-end'}} variant="contained">Next</Button>
           </Box>
         </Box>
       } 

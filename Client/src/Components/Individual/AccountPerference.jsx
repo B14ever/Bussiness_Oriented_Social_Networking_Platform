@@ -1,5 +1,5 @@
 import React,{useEffect, useState} from 'react'
-import { Box, Typography,TextField,FormControl,FormHelperText,Divider, Grid,Button} from '@mui/material'
+import { Box,TextField,Snackbar,Backdrop,CircularProgress,Alert,FormHelperText,Divider, Grid,Button} from '@mui/material'
 import { useAthuContext } from '../../Context/Shared/AthuContext'
 import { useLanguage } from '../../Localazation/LanguageContext'
 import axios from '../../api/axios'
@@ -8,10 +8,15 @@ const AccountPerference = () => {
   const {user,dispatch} = useAthuContext()
   const [data,setData] = useState({FirstName:`${user.user.FirstName}`,LastName:`${user.user.LastName}`,Email:`${user.user.Email}`,PhoneNumber:`${user.user.PhoneNumber}`})
   const [Errors, setErrors] = useState({FirstName:false,LastName:false,Country:false,PhoneNumber:false,City:false});
+  const [open, setOpen] = useState(false);
+  const [warnnig,setWaring] = useState(false)
   const handleChange = (e) => {
     const { name, value } = e.target;
     setData({ ...data, [name]: value });
     setErrors({...Errors,[name]:false})
+  };
+  const handleClose = () => {
+    setOpen(false);
   };
   const handleError = (e)=>{
     const {name,value} = e.target
@@ -22,13 +27,15 @@ const AccountPerference = () => {
   const handleSubmit = async (e)=>{
     e.preventDefault();
           try{
+            setOpen(true)
             const responce = await axios.post('/PersonlaProfileUpdateAccount',data)
             localStorage.setItem('USER_DATA',JSON.stringify(responce.data.user))
             dispatch({type:"AUTHENTICATE",payload:{user:responce.data.user,token:localStorage.getItem('TOKEN')}})
-            window.location.reload(true)
+            setTimeout(()=>{setOpen(false)},500)
           }
           catch(err){
-            console.log(err)
+            setOpen(false)
+            setWaring(true)
           }
   }
   const isDisabled = Errors.FirstName || Errors.LastName || Errors.City || Errors.Country
@@ -66,6 +73,18 @@ const AccountPerference = () => {
       <Box sx={{display:'flex',justifyContent:{sm:'flex-end',xs:'center'}}}>
       <Button type="submit" disabled={isDisabled} variant="contained" size='large' sx={{ mt: 2, mb: 2,width:{xs:'100%',sm:'25%'} }}>{t("save")}</Button>
      </Box>
+     <Backdrop
+            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open={open}
+            onClick={handleClose}
+          >
+            <CircularProgress color="inherit" />
+        </Backdrop>
+        <Snackbar open={warnnig} anchorOrigin={{ vertical:'top', horizontal:'center'}} autoHideDuration={3000} onClose={()=>setWaring(false)}>
+              <Alert onClose={()=>setWaring(false)} severity="info" sx={{ width: '100%' }}>
+                {t("unableToChangePRofile")}
+              </Alert>
+        </Snackbar>
     </Box>
   )
 }
