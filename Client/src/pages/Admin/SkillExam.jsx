@@ -25,11 +25,15 @@ const SkillExam = () => {
     GetData()
   .catch(console.error);
   }, []);
+  const clear = () =>{
+    setData({Program:'',Description:''})
+    setError({Program:'',Description:''})
+}
   const checkProgram = (e)=>{
     const {name , value} = e.target
     const check = assesments.assesments.some(list => list.typeOfStudy === value)
     if(check){
-      setError({...error,[name]:'ProgrmaAlready'})
+      setError({...error,[name]:'ProgrmaAlreadyExsist'})
     }
   }
   const handleChange = (e)=>{
@@ -76,18 +80,21 @@ const SkillExam = () => {
             <Divider/>
             <Box mt={2} sx={{width:{lg:'60%',xs:'100%',md:'80%'},alignSelf:'center',display:'flex',flexDirection:'column',gap:1}}>
               <TextField name='Program' fullWidth label={t("Program")} id="fullWidth"
-              onChange={handleChange} onBlur={checkProgram} />
+              onChange={handleChange} onBlur={checkProgram}  value={data.Program || ''} />
               <FormHelperText 
                  sx={{color:'red',width:{xs:'100%',md:'50%'}}}>
                 {error.Program?`${t(`${error.Program}`)}`:''}
               </FormHelperText>
-              <TextField onChange={handleChange} name='Description'  label={t("Content")} fullWidth variant="filled" rows={2} multiline/>
+              <TextField onChange={handleChange} name='Description'  label={t("Content")} fullWidth variant="filled" value={data.Description || ''} rows={2} multiline/>
               <FormHelperText 
                 sx={{color:'red',width:{xs:'100%',md:'50%'}}}>
                 {error.Description?`${t(`${error.Description}`)}`:''}
               </FormHelperText>
               <Typography variant='subtitle1' sx={{color:'#A4A4A4'}}>{t("DescribeTheContent")}</Typography>
-               <Button onClick={handleSubmit} disabled={disable}  sx={{alignSelf:'flex-end'}} variant="contained">Next</Button>
+              <Box pt={1} sx={{display:'flex',justifyContent:'flex-end',gap:'1rem'}}>
+               <Button  color="error" onClick={clear} variant="outlined">{t("Clear")}</Button>
+               <Button onClick={handleSubmit} disabled={disable}  sx={{alignSelf:'flex-end'}} variant="contained">{t("Next")}</Button>
+              </Box>
           </Box>
         </Box>
       } 

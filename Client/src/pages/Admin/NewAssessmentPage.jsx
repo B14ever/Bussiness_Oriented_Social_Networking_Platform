@@ -1,12 +1,12 @@
 import React, {useState,useReducer, useEffect} from 'react'
 import { Box,Typography,Divider,TextField, Grid, Button,MenuItem,Paper,IconButton,Alert,Snackbar,Backdrop,CircularProgress} from '@mui/material/node'
+import KeyboardBackspaceOutlinedIcon from '@mui/icons-material/KeyboardBackspaceOutlined';
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 import CheckIcon from '@mui/icons-material/Check';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useLanguage } from '../../Localazation/LanguageContext'
 import axios from '../../api/axios'
-const typeofStudy = localStorage.getItem("PROGRAM_TYPE")
-const description = localStorage.getItem("Description")
+import { useNavigate } from 'react-router-dom';
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   textAlign: 'center',
@@ -62,11 +62,15 @@ const reducer = (currentState, action) => {
     }
   };
 const NewAssessmentPage = ({}) => {
+    const typeofStudy = localStorage.getItem("PROGRAM_TYPE")
+    const description = localStorage.getItem("Description")
+    const navigate = useNavigate()
     const {t} = useLanguage()
     const [questions,setQuetions] = useState([])
     const [data,updateData] = useReducer(reducer, intialstate)
     const [open, setOpen] = useState(false);
     const [warnnig,setWaring] = useState(false)
+    const [success,setSuccess] = useState(false)
 const onAdd = () =>{
     const optionArray = [data.optionOne,data.optionTwo,data.optionThree,data.optionFour]
     setQuetions([...questions,{question:data.questionText,options:optionArray,correctAnswer:data.correctAnswer}])
@@ -92,7 +96,8 @@ const hanleSubmit = async () =>{
     .then(setTimeout(()=>{setOpen(false)},500)) 
     if(responce.status === 200){
       updateData({type:'clear'})
-      setQuetions([]) 
+      setQuetions([])
+      setSuccess(true)
     } 
   }
   catch (err) {
@@ -105,8 +110,11 @@ const hanleSubmit = async () =>{
     <Box  sx={{marginTop:'97px',width:'100%',display:'flex',flexDirection:'column',alignItems:'center',backgroundColor:"#E7EBF0",height: 'fit-content'}}>
       <Box p={2} sx={{backgroundColor:'#fff',display:'flex',flexDirection:'column',gap:'.9rem'
                     ,margin:'10px 0 10px',height: 'fit-content',width:{xs:'90%',lg:'80%'}}}>
-         <Box sx={{ width: '100%' }}>
-        <Typography variant='subtitle2'>{t("AddQeutionAssessment")}</Typography>
+         <Box sx={{display:'flex',alignItems:'center',gap:'2rem'}}>
+         <IconButton size="large"  onClick={()=>navigate(-1)} aria-label="upload picture">
+          <KeyboardBackspaceOutlinedIcon fontSize="inherit"/>
+         </IconButton>
+         <Typography variant='subtitle2'  mt={.5} sx={{color:'#666',fontSize:'1.5rem'}}>{t("AddQeutionAssessment")}</Typography>
         </Box>
         <Divider textAlign='left'>{t('For')} {typeofStudy}</Divider>
         <Box sx={{width:'100%',display:'flex',flexDirection:'column',gap:'1rem'}}>
@@ -173,7 +181,7 @@ const hanleSubmit = async () =>{
                   <Item sx={{color:`${item.options[3] === item.correctAnswer?'green':''}`}}>D. {item.options[3]}</Item>
                 </Grid>
               </Grid>
-              <Divider></Divider>
+              <Divider sx={{marginTop:'.5rem',marginBottom:'.5rem'}}></Divider>
             </Box>})}
             <Button variant="contained" onClick={hanleSubmit} sx={{marginLeft:'auto'}}><CheckIcon/></Button>
       </Box>:null}
@@ -187,6 +195,11 @@ const hanleSubmit = async () =>{
         <Snackbar anchorOrigin={{ vertical:'top', horizontal:'center'}} open={warnnig} autoHideDuration={500} onClose={()=>setWaring(false)}>
               <Alert onClose={()=>setWaring(false)} severity="info" sx={{ width: '100%' }}>
                 {t("unableToaddQuestions")}
+              </Alert>
+        </Snackbar>
+        <Snackbar anchorOrigin={{ vertical:'top', horizontal:'center'}} open={success} autoHideDuration={500} onClose={()=>setSuccess(false)}>
+              <Alert onClose={()=>setWaring(false)} severity="info" sx={{ width: '100%' }}>
+                {t("quesdtionAdded")}
               </Alert>
         </Snackbar>
         </Box>
