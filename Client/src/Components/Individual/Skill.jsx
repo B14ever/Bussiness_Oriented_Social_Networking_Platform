@@ -64,7 +64,7 @@ const Skill = () => {
     <Box pl={2} sx={{borderRadius:'6px',backgroundColor: '#fff', margin: '5px 0 5px', height: 'fit-content', width: { xs: '90%', sm: '80%', md: '70%', lg: '57%' } }}>
     <Box sx={{display:'flex',alignItems:'center'}}>
      <Typography  variant='subtitle2' sx={{color:'#666',fontSize:'1.5rem'}} >{t("skill")}</Typography>
-     <Button onClick={()=>navigate('#')} size='medium' variant="outlined" sx={{marginLeft:'auto',textTransform: "none",borderRadius:'1rem'}}>{t("DemonestrateSkill")}</Button>
+     <Button onClick={()=>navigate('takeAssessment')} size='medium' variant="outlined" sx={{marginLeft:'auto',textTransform: "none",borderRadius:'1rem'}}>{t("DemonestrateSkill")}</Button>
      <IconButton size="large"  onClick={handleClickOpen} aria-label="upload picture">
         <AddIcon fontSize="inherit"/>
       </IconButton>

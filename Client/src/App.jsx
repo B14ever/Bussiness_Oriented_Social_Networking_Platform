@@ -35,6 +35,7 @@ import SkillExam from "./pages/Admin/SkillExam"
 import EditAssessment from "./pages/Admin/EditAssessment"
 import NewAssessmentPage from "./pages/Admin/NewAssessmentPage"
 import EditQuestions from "./pages/Admin/EditQuestions"
+import TakeSkillAssessment from "./pages/Personal/TakeSkillAssessment"
 function App() {
   return (
       <Routes>
@@ -59,6 +60,7 @@ function App() {
                      <Route path="PersonalProfileDetail/EditExprience" element={<EditExprience/>}/>
                      <Route path="PersonalProfileDetail/EditEducation" element={<EditEducation/>}/>
                      <Route path="PersonalProfileDetail/EditSkill" element={<EditSkill/>}/>
+                     <Route path="PersonalProfileDetail/takeAssessment" element={<TakeSkillAssessment/>}/>
                      <Route path="jobs" element={<Jobs/>}/>
                 </Route>
               </Route>

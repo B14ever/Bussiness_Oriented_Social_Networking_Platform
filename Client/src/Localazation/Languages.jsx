@@ -335,4 +335,11 @@ export const TranslationEn ={
     industryRequierd:'Industry name required',
     OrganizationSizeRequierd:'Organization size required',
     OrganizationTypeRequierd:'Organization type required',
+    EditQeustion:'Edit Question',
+    AddQuestion:'Add question',
+    Skillassessments:'Skill assessments',
+    checkSkills:"Check your skill level. Answer 15 multiple choice questions, score 50%, and earn a skill badge.",
+    topics:'Topics',
+    SearchTopic:'Search topics...'
+
 }
