@@ -1,9 +1,9 @@
 import React, {useState,useReducer, useEffect} from 'react'
-import { Box,Typography,Divider,TextField, Grid, Button,MenuItem,Paper,IconButton,Alert,Snackbar,Backdrop,LinearProgress,CircularProgress, Tooltip, Dialog, DialogTitle, DialogContent,Select} from '@mui/material/node'
+import { Box,Typography,Divider,TextField, Grid, Button,MenuItem,Paper,IconButton,Alert,Snackbar,Backdrop,LinearProgress,CircularProgress, Tooltip, Dialog, DialogTitle, DialogContent,DialogContentText,DialogActions} from '@mui/material/node'
 import KeyboardBackspaceOutlinedIcon from '@mui/icons-material/KeyboardBackspaceOutlined';
-import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
-import DeleteIcon from '@mui/icons-material/Delete';
+import {styled } from '@mui/material/styles';
 import CloseIcon from '@mui/icons-material/Close';
+import RemoveCircleOutlineOutlinedIcon from '@mui/icons-material/RemoveCircleOutlineOutlined';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useSkillAssesmentContext } from '../../Context/Admin/SkillAssesmentContext'
 import { useLanguage } from '../../Localazation/LanguageContext'
@@ -75,6 +75,8 @@ const EditQuestions = () => {
     const [newQuestions,setNewQuetions] = useState({})
     const [description,setDescription] = useState('')
     const [dialog,setDialog] = useState(false)
+    const [deleteDialog,setDeleteDialog] = useState(false)
+    const [deleteId,setDeleteId] = useState()
     const [data,updateData] = useReducer(reducer, intialstate)
     const navigate = useNavigate()
     const {t} = useLanguage()
@@ -97,7 +99,7 @@ const EditQuestions = () => {
      GetData()
    .catch(console.error);
    }, []);
-   const handleDescriptionSubmit = async () =>{
+ const handleDescriptionSubmit = async () =>{
        setOpen(true)
        try{
         const responce = await axios.post('/skillAssessment/changeDescription',{typeofStudy,description})
@@ -112,7 +114,7 @@ const EditQuestions = () => {
         setWaring(true)
         setTimeout(()=>{setOpen(false)},500)
        }
-   }
+  }
    const handleClose = () => {
     setOpen(false);
   };
@@ -120,9 +122,16 @@ const EditQuestions = () => {
     updateData({type:'clear'})
     setDialog(true);
   };
+  const OpenDeleteDialog = (id) =>{
+    setDeleteId(id)
+    setDeleteDialog(true)
+  }
   const closeDialog = () => {
     setDialog(false);
   };
+  const closeDeleteDialog = () =>{
+    setDeleteDialog(false)
+  }
   const handleChange = (e) => {
     const {name,value} = e.target
     updateData({ type:name, value:value })
@@ -158,7 +167,29 @@ const hanleSubmit = async (e) =>{
         setTimeout(()=>{setOpen(false)},500)
     }
   }
-
+const handleDelete = async () => {
+    const deleteQuestion = questions.filter((item)=> item._id !== deleteId)
+    try {
+        setOpen(true)
+        const responce = await axios.post('/skillAssessment/delete',{typeofStudy,deleteQuestion})
+        .then(setDeleteDialog(false))
+        .then(setTimeout(()=>{setOpen(false)},1000)) 
+        const data = responce.data.Assessment
+        setTimeout(()=>{dispatch({ type: 'GET_ASSESSMENT',payload:data})} ,1000)
+        const filteredData = data.filter((item) => item.typeOfStudy === typeofStudy)
+        setQuetions(filteredData[0].questions)
+        if(responce.status === 200){
+           setTimeout(()=>{ setSuccessMsg('QuestionDelted')},1000)
+           setTimeout(()=>{ setSuccess(true)},1000)  
+        }
+    } catch (error) {
+        if (!err?.response) {
+            setErrorMsg('Failde');
+          } else if (err.response?.status === 403) {
+            setErrorMsg('Delete failde');
+          } 
+    }
+    }
   const descriptionButton = description.length === 0
   const Select = data.optionOne && data.optionTwo && data.optionThree && data.optionFour
   const newQeastionButton = Select && data.questionText && data.correctAnswer
@@ -172,8 +203,8 @@ const hanleSubmit = async (e) =>{
             <Typography mt={1} variant='subtitle2'>{t("EditQeustion")}</Typography>
             </Box>
         </Box>:
-        <Box p={2} sx={{backgroundColor:'#fff',display:'flex',flexDirection:'column',gap:'.9rem'
-        ,margin:'10px 0 10px',height: 'fit-content',width:{xs:'90%',lg:'80%'}}}>
+        <Box sx={{backgroundColor:'#fff',display:'flex',flexDirection:'column',gap:'.9rem'
+        ,margin:'10px 0 3px',height: 'fit-content',width:{xs:'90%',lg:'80%'}}}>
             <Box sx={{display:'flex',alignItems:'center',gap:'2rem'}}>
             <IconButton size="large"  onClick={()=>navigate(-1)} aria-label="upload picture">
             <KeyboardBackspaceOutlinedIcon fontSize="inherit"/>
@@ -181,7 +212,7 @@ const hanleSubmit = async (e) =>{
             <Typography variant='subtitle2'  mt={.5} sx={{color:'#666',fontSize:'1.5rem'}}>{t("EditQeustion")}</Typography>
             </Box>
             <Divider textAlign='left'>{typeofStudy}</Divider>
-            <Box p={2}  sx={{widht:'100%',height: 'fit-content',display:'flex',flexDirection:'column',gap:'1rem'}}>
+            <Box pl={2} pr={2}  sx={{widht:'100%',height: 'fit-content',display:'flex',flexDirection:'column',gap:'1rem'}}>
             <TextField label={t("Description")} multiline rows={3} 
             value={description || ''}
             onChange={(e)=>setDescription(e.target.value)}/>
@@ -189,13 +220,9 @@ const hanleSubmit = async (e) =>{
                 <Button variant='outlined' disabled={descriptionButton} onClick={()=>{setDescription('')}}>{t("Clear")}</Button>
                 <Button variant='outlined' disabled={descriptionButton} onClick={handleDescriptionSubmit}>{t("save")}</Button>
              </Box>
-             <Box sx={{width:'100%',display:'flex',justifyContent:'flex-end'}}>
-             <Tooltip title={t("New")}>
-              <IconButton size="large" onClick={OpenDialog}   aria-label="upload picture">
-                <AddCircleOutlineIcon fontSize="inherit"/>
-              </IconButton>
-             </Tooltip>
             </Box>
+            <Box pl={1} mb={1} sx={{width:'100%',display:'flex',justifyContent:'flex-start'}}>
+               <Button variant='outlined' onClick={OpenDialog}>{t("AddQuestion")}</Button>
             </Box>
             {
       questions.length > 0?
@@ -206,6 +233,9 @@ const hanleSubmit = async (e) =>{
             return <Box key={index} sx={{widht:'100%',display:'flex',flexDirection:'column',gap:'1rem'}}>
               <Box  sx={{widht:'100%',height: 'fit-content',display:'flex',alignItems:'center'}}>
                 <Typography>{index + 1}.  {item.question}</Typography>
+                <IconButton  size="large" sx={{alignSelf:'flex-start',marginLeft:'auto',marginRight:'1rem'}}  onClick={()=>OpenDeleteDialog(item._id)} aria-label="upload picture">
+                <RemoveCircleOutlineOutlinedIcon />
+                </IconButton>
               </Box>
               <Grid   spacing={2} container>
                 <Grid item sm={6} xs={12}>
@@ -232,7 +262,8 @@ const hanleSubmit = async (e) =>{
               </IconButton>
              </Tooltip>
             </Box>
-            <Dialog open={dialog} onClose={closeDialog} fullWidth>
+        </Box>:null}
+        <Dialog open={dialog} onClose={closeDialog} fullWidth>
                 <Box sx={{display:'flex',height:'fit-content',alignItems:'center',width:'100%'}}>
                 <DialogTitle>{t("AddNewQuestion")}</DialogTitle>
                 <IconButton sx={{marginLeft:'auto'}} onClick={closeDialog}  size="large"   aria-label="upload picture">
@@ -278,9 +309,18 @@ const hanleSubmit = async (e) =>{
                 </Box>
                     </DialogContent>
                 </Box>
-          </Dialog>
-          </Box>:null}
-          <Backdrop
+        </Dialog>
+        <Dialog fullWidth open={deleteDialog} onClose={closeDeleteDialog}>
+          <DialogTitle id="alert-dialog-title">{t("DeleteQuestion")}</DialogTitle>
+          <DialogContent >
+            <DialogContentText textAlign='center'>{t("ConfirmDeleteQuastion")}</DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={closeDeleteDialog}>{t('Cancle')}</Button>
+            <Button onClick={handleDelete} autoFocus>{t('Delete')}</Button>
+          </DialogActions>
+        </Dialog>
+        <Backdrop
             sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
             open={open}
             onClick={handleClose}
@@ -297,9 +337,8 @@ const hanleSubmit = async (e) =>{
                 {t(`${successMsg}`)}
               </Alert>
         </Snackbar>
-        </Box>
+      </Box>
         }
-    
     </Box>
   )
 }
