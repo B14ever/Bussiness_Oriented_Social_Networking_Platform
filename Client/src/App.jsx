@@ -64,7 +64,7 @@ function App() {
                      <Route path="PersonalProfileDetail/EditSkill" element={<EditSkill/>}/>
                      <Route path="PersonalProfileDetail/takeAssessment" element={<TakeSkillAssessment/>}/>
                      <Route path="PersonalProfileDetail/takeAssessment/qs" element={<QuestionStartPage/>}/>
-                     <Route path="PersonalProfileDetail/takeAssessment/qs/exam" element={<Exam/>}/>
+                     <Route path="PersonalProfileDetail/takeAssessment/exam" element={<Exam/>}/>
                      <Route path="jobs" element={<Jobs/>}/>
                 </Route>
               </Route>

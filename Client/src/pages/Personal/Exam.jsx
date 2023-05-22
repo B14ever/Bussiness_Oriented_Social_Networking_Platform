@@ -2,7 +2,7 @@ import React,{useState,useEffect} from 'react'
 import PropTypes from 'prop-types';
 import { Box,Typography,Divider,Button,FormControl,FormControlLabel,RadioGroup,Radio,Dialog,DialogContent,DialogActions,Backdrop,CircularProgress} from '@mui/material/node'
 import { useNavigate } from 'react-router-dom';
-import { useLanguage } from '../../Localazation/LanguageContext';
+import { useLanguage } from '../../Localazation/LanguageContext'
 import { useAthuContext } from '../../Context/Shared/AthuContext'
 import { styled } from '@mui/material/styles';
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
@@ -194,17 +194,17 @@ const Exam = () => {
             <DialogContent sx={{display:'flex',flexDirection:'column',alignItems:'center'}}>
                 <img src="../../../../Profile_Image/OIP.png" style={{ width: '50%', height: 'auto',borderTopLeftRadius:'6px',borderTopRightRadius:'6px' }} />
                 <Typography variant='subtitle2'>{t("Congratulations")}</Typography>
-                <Typography>{t("You earned BOSBN")} {TOPIC} {t("badge")}</Typography>
+                <Typography>{t("youEarnBadge")} {TOPIC} {t("badge")}</Typography>
             </DialogContent>:
             <DialogContent sx={{display:'flex',flexDirection:'column',alignItems:'center'}}>
                  <img src="../../../../Profile_Image/failed.png" style={{ width: '50%', height: 'auto',borderTopLeftRadius:'6px',borderTopRightRadius:'6px' }} />
                 <Typography variant='subtitle2'>{t("Sorry")}</Typography>
-                <Typography>{t("unfortunately you did not earn a badge try again")}</Typography>
+                <Typography>{t("didntEarnBadge")}</Typography>
             </DialogContent>
            }
            <DialogActions>
-             <Button variant="contained" onClick={()=>{navigate(-2)}}>{t("take Assessment")}</Button>
-             <Button variant="outlined" onClick={()=>{navigate(-3)}}>{t("go To Profile")}</Button>
+             <Button variant="contained" sx={{textTransform:'none'}} onClick={()=>{navigate(-2)}}>{t("tryAgain")}</Button>
+             <Button variant="outlined" sx={{textTransform:'none'}}  onClick={()=>{navigate(-3)}}>{t("BackToProfile")}</Button>
            </DialogActions>
         </Dialog>
         <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={Backdropopen} >

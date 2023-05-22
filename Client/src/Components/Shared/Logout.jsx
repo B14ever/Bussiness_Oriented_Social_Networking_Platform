@@ -8,8 +8,7 @@ const Logout = () => {
     const {dispatch} = useAthuContext()
     const navigate = useNavigate()
     const HandleLogout=()=>{
-        localStorage.removeItem('TOKEN')
-        localStorage.removeItem('USER_DATA')
+        localStorage.clear()
         dispatch({type:'LOGOUT'})
         navigate('/')
     }

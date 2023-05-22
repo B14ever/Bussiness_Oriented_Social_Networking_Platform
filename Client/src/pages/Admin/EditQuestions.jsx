@@ -162,7 +162,7 @@ const hanleSubmit = async (e) =>{
      
     }
     catch (err) {
-        setWaringMsg('unableToAddNewQuestion')
+        setWaringMsg('newQestionsNotAdd')
         setWaring(true)
         setTimeout(()=>{setOpen(false)},500)
     }
@@ -182,13 +182,11 @@ const handleDelete = async () => {
            setTimeout(()=>{ setSuccessMsg('QuestionDelted')},1000)
            setTimeout(()=>{ setSuccess(true)},1000)  
         }
-    } catch (error) {
-        if (!err?.response) {
-            setErrorMsg('Failde');
-          } else if (err.response?.status === 403) {
-            setErrorMsg('Delete failde');
-          } 
-    }
+    }  catch (err) {
+      setWaringMsg('unableToDeleteQuestion')
+      setWaring(true)
+      setTimeout(()=>{setOpen(false)},500)
+  }
     }
   const descriptionButton = description.length === 0
   const Select = data.optionOne && data.optionTwo && data.optionThree && data.optionFour
@@ -333,7 +331,7 @@ const handleDelete = async () => {
               </Alert>
         </Snackbar>
         <Snackbar anchorOrigin={{ vertical:'top', horizontal:'center'}} open={success} autoHideDuration={2000} onClose={()=>setSuccess(false)}>
-              <Alert onClose={()=>setWaring(false)} severity="info" sx={{ width: '100%' }}>
+              <Alert onClose={()=>setSuccess(false)} severity="info" sx={{ width: '100%' }}>
                 {t(`${successMsg}`)}
               </Alert>
         </Snackbar>

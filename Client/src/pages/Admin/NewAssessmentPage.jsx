@@ -194,12 +194,12 @@ const hanleSubmit = async () =>{
         </Backdrop>
         <Snackbar anchorOrigin={{ vertical:'top', horizontal:'center'}} open={warnnig} autoHideDuration={500} onClose={()=>setWaring(false)}>
               <Alert onClose={()=>setWaring(false)} severity="info" sx={{ width: '100%' }}>
-                {t("unableToaddQuestions")}
+                {t("newQuestionNotAdd")}
               </Alert>
         </Snackbar>
         <Snackbar anchorOrigin={{ vertical:'top', horizontal:'center'}} open={success} autoHideDuration={500} onClose={()=>setSuccess(false)}>
               <Alert onClose={()=>setWaring(false)} severity="info" sx={{ width: '100%' }}>
-                {t("quesdtionAdded")}
+                {t("newQuestionAdd")}
               </Alert>
         </Snackbar>
         </Box>
