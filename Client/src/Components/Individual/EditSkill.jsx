@@ -65,7 +65,7 @@ const EditSkill = () => {
                         </IconButton>
                       </Tooltip>
                     </Box>
-                    {!Skill.badge?<Box sx={{display:'flex',gap:'.5rem'}}><VerifiedOutlinedIcon color='primary'/><Typography>{t("PassedSkillAssissment")}</Typography></Box>:''}
+                    {Skill.badge?<Box sx={{display:'flex',gap:'.5rem'}}><VerifiedOutlinedIcon color='primary'/><Typography>{t("PassedSkillAssissment")}</Typography></Box>:''}
                 </Box>
                </Box>})}
          <Dialog open={open} onClose={handleClose}>

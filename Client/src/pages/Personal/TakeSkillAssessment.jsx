@@ -65,7 +65,11 @@ useEffect(() => {
         GetData()
         .catch(console.error);
      }, []);
-
+const handleChoice = (topic,description) =>{
+   localStorage.setItem('TOPIC',topic)
+   localStorage.setItem('TOPIC_DESCRIPTION',description)
+   navigate('qs')
+}
     return (
       <Box  sx={{height: 'fit-content',marginTop:'97px',width:'100%',display:'flex',justifyContent:'center',backgroundColor:"#E7EBF0"}}>
         <Box p={2} sx={{backgroundColor:'#fff',margin:'10px 0 10px',
@@ -94,9 +98,9 @@ useEffect(() => {
                {
                 assesments.filter(item=>{
                    return item.typeOfStudy.toLowerCase().includes(search.toLowerCase())
-                }).map((item)=>{
-                  return <Box key={item._id} sx={{display:'flex',flexDirection:'column',gap:'.5rem'}} mt={3}>
-                    <Box  sx={{display:'flex',cursor:'pointer'}} >
+                }).map((item,index)=>{
+                  return <Box key={index} sx={{display:'flex',flexDirection:'column',gap:'.5rem'}} mt={3}>
+                    <Box onClick={()=>handleChoice(item.typeOfStudy,item.description)}  sx={{display:'flex',cursor:'pointer'}} >
                   <img src={`../../../Profile_Image/skill${Math.floor(Math.random() *4)}.png`} style={{ width: '50px', height: '50px',borderTopLeftRadius:'6px',borderTopRightRadius:'6px' }} />
                   <Box  pl={1} sx={{onMouseEnter: () => {textDecoration:" underline red"},}} >
                       <Typography sx={{fontSize:{xs:'.96rem',sm:'1.2rem'}}}>{item.typeOfStudy}</Typography>

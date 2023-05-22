@@ -8,6 +8,7 @@ const { AddSkill } = require('../../Controlles/Personal/AddSkill')
 const { EditExprience } = require('../../Controlles/Personal/EditExprience')
 const { EditEducation } = require('../../Controlles/Personal/EditEducation')
 const { DeleteSkill } = require('../../Controlles/Personal/DeleteSkill')
+const { AddBadge } = require('../../Controlles/Personal/AddBage')
     //routes\
 router.post('/addExprience', AddExprience)
 router.post('/addEducation', AddEducation)
@@ -16,5 +17,6 @@ router.post('/addSkill', AddSkill)
 router.post('/EditExprience', EditExprience)
 router.post('/EditEducation', EditEducation)
 router.post('/DeleteSkill', DeleteSkill)
+router.post('/addBadge', AddBadge)
 
 module.exports = router

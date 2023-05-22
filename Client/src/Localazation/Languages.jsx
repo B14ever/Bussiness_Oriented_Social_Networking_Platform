@@ -340,6 +340,15 @@ export const TranslationEn ={
     Skillassessments:'Skill assessments',
     checkSkills:"Check your skill level. Answer 15 multiple choice questions, score 50%, and earn a skill badge.",
     topics:'Topics',
-    SearchTopic:'Search topics...'
+    SearchTopic:'Search topics...',
+    ChangeTopics:'Change Topics',
+    instruction1:'5 multiple choice questions',
+    instruction2:'1 minutes per question',
+    instruction3:'Score 50% and above to earn a badge',
+    instruction4:'You must complete this assessment in one session to earn badge ',
+    instruction5:'You can retake this assessment once if you do not earn a badge',
+    instruction6:'We wont show your result to anyone',
+    beforeStart:'Before you start',
+    Assessment:'Assessment '
 
 }

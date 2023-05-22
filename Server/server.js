@@ -25,8 +25,9 @@ const PersonalAccountUpdateProfile = require('./Routes/Personal/UpdateProfile')
 app.use('/PersonlaProfileUpdateAccount', PersonalAccountUpdateProfile)
 const PersonalAccountProfiel = require('./Routes/Personal/Profile')
 app.use('/PersonalAccountProfile', PersonalAccountProfiel)
-
-//routes for CompanyAccounts
+const GetQuestion = require('./Routes/Personal/GetQuestions')
+app.use('/questions', GetQuestion)
+    //routes for CompanyAccounts
 const CompanyAccounts = require('./Routes/Company/SignUp')
 app.use('/ComapnyAccountSignUp', CompanyAccounts)
 
