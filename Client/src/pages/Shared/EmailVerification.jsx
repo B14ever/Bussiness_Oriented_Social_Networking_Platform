@@ -1,5 +1,5 @@
 import React,{useEffect, useState} from 'react'
-import { Box,Container,TextField, Typography,Button  } from '@mui/material'
+import { Box,Container,TextField, Typography,Button,Backdrop,CircularProgress} from '@mui/material'
 import {useNavigate,useLocation} from 'react-router-dom'
 import MarkEmailReadOutlinedIcon from '@mui/icons-material/MarkEmailReadOutlined'
 import axios from '../../api/axios'
@@ -17,11 +17,13 @@ const EmailVerification = () => {
     const prevLocation = location.state && location.state.from
    const [Code,setCode] = useState()
    const [error,setError] = useState('')
+   const [open, setOpen] = useState(false);
    const HandleSubmit = async (e)=>{
     e.preventDefault();
     setError('')
     if(Code){
         try{
+        setOpen(true)
          const responce = await axios.post(EMAIL_VERIFICATION_URL,{Code},
             {
               headers: {
@@ -29,6 +31,7 @@ const EmailVerification = () => {
               },
               withCredentials: true,
             })
+        setTimeout(()=>{setOpen(false),500})
         setCode()
         if(prevLocation.pathname === '/signup'){
           const decodedToken = jwtDecode(user.token);
@@ -45,6 +48,7 @@ const EmailVerification = () => {
               localStorage.setItem('USER_DATA',JSON.stringify(user))
               dispatch({ type: 'AUTHENTICATE', payload: {user,token}})
               navigate('/ComapnyAccountProfile')
+             
             }
           if(decodedToken.role === 'personal')
             {
@@ -54,12 +58,13 @@ const EmailVerification = () => {
               navigate('/PersonalAccountProfile')
             }
         }
-        if(prevLocation.pathname === '/forgetPassword'){
-          navigate("/RecoverPassword")
+        if(prevLocation.pathname === '/forgetPassword'){ 
+           navigate("/RecoverPassword")  
         }
         
         }catch(err){
-            if (!err?.response) {
+            setTimeout(()=>{setOpen(false)},500) 
+             if (!err?.response) {
                 setError('Verification Failde');
               } else if (err.response?.status === 400) {
                 setError(err.response.data.err);
@@ -72,13 +77,14 @@ const EmailVerification = () => {
    }
    const ResendCode = async () =>{
        try{
+        setOpen(true)
         await axios.post(RESEND_CODE_URL, null, {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },
           withCredentials: true,
         })
-      window.location.reload(true)
+      setTimeout(()=>{setOpen(false),500})
        }catch(err){
         if (!err?.response) {
           setError('Verification Failde');
@@ -87,6 +93,9 @@ const EmailVerification = () => {
         } 
        }
       }
+      const handleClose = () => {
+        setOpen(false);
+      };
   return (
    <Container component="main" maxWidth="xs" >
         <Box sx={{marginTop:20,display: 'flex',flexDirection: 'column',alignItems: 'center',boxShadow:2, p:2,
@@ -101,6 +110,13 @@ const EmailVerification = () => {
             <Typography variant='body2'>{t("DidntReceiveCode")}?<Button onClick={ResendCode}>{t("ResendCode")}</Button></Typography>
         </Box>
        </Box>
+       <Backdrop
+            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open={open}
+            onClick={handleClose}
+          >
+            <CircularProgress color="inherit" />
+        </Backdrop>
    </Container>
   )
 }

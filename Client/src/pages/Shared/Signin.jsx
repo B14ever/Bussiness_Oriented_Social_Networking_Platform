@@ -7,12 +7,14 @@ import { useLanguage } from '../../Localazation/LanguageContext';
 const Signin = () => {
   const {t} = useLanguage()
   const [value, setValue] = React.useState(0);
+  const [image,setImage] = React.useState(true)
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    setImage(!image)
   };
   return (
     <Grid sx={{marginTop:{lg:'64px',sm:'64px',md:'64px',xs:'56px'}} } container component="main">
-      <Grid item xs={12} lg={7} md={7}>
+      <Grid item xs={12} lg={6} >
       <Box sx={{my: 8, mx: 4 }}>
       <Typography component="h1" variant="h5" textAlign={'center'}>{t("Signup")}</Typography>
       <Tabs value={value} onChange={handleChange} centered>
@@ -27,9 +29,9 @@ const Signin = () => {
       </Typography>
       </Box>
       </Grid>
-      <Grid item xs={12} lg={5} md={5}>
-       
-      </Grid>
+      <Grid item xs={12} lg={6}  sx={{display:{xs:'none',lg:'block'}}}>
+         <img  style={{height:'auto'}} src={`../../../Profile_Image/register${image?2:0}.jpg`}/>
+       </Grid>
     </Grid>
   )
 }

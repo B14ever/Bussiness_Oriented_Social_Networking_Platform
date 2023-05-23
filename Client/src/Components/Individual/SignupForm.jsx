@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react'
 import axios from '../../api/axios';
 import {useNavigate,useLocation} from 'react-router-dom'
-import {Grid,Box,TextField,Button,  FormControl,FormHelperText, Typography} from '@mui/material'
+import {Grid,Box,TextField,Button,Link,FormControl,FormHelperText, Typography} from '@mui/material'
 import { useAthuContext } from '../../Context/Shared/AthuContext';
 import {useLanguage} from '../../Localazation/LanguageContext'
 const PERSONALSIGNUP_URL = '/PersonalAccountSignup';
@@ -149,6 +149,7 @@ const PersonalSignupForm = () => {
         </Grid>
       </Grid>
      {errorMsg && <Typography sx={{color:"#DA0037"}}>{errorMsg}</Typography>}
+     <Link sx={{marginLeft:'auto'}} href="/login" variant="body2">{t("Already have an account login")}</Link>
      <Box sx={{display:'flex',justifyContent:'center'}}>
       <Button type="submit" variant="contained" size='large' sx={{ mt: 3, mb: 2,width:'50%' }}>{t("Signup")}</Button>
     </Box>

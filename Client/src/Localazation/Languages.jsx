@@ -202,6 +202,7 @@ export const TranslationAm ={
     ConfirmDeleteQuastion:'ጥያቄ መሰረዝ ያረጋግጡ',
     DescriptionChanged:'ማብራሪያ ተቀይሮል',
     unableToUpdateDescription:'ማብራሪያ አልተቀየረም',
+    taglineDescription:'ይህን መዝገብ ድርጅቶ ምን እንደሚሰራ ያብራሩበት መለያውን ከከፈቱ ቦሃላ መለያ ውስጥ በመጋብት መቀየር ይችላሉ'
 }
 export const TranslationEn ={
     Login:"Login",
@@ -407,5 +408,8 @@ export const TranslationEn ={
     ConfirmDeleteQuastion:'Confirm delete question',
     DescriptionChanged:'Description changed',
     unableToUpdateDescription:'Unable to update description',
+    taglineDescription:'Use your tagline to briefly describe what your organization does. This can be changed later.',
+    Invitations:"Intvitations",
+    PeopleYouMayKnow:'People you may know'
 
 }

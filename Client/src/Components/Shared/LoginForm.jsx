@@ -91,15 +91,12 @@ const validateForm = () => {
       </FormControl>
       {errorMsg && <Typography sx={{color:"#DA0037"}}>{errorMsg}</Typography>}
       <Box sx={{display:'flex',flexDirection:'column',gap:'1rem'}}>
-        <Link href="/forgetPassword" variant="body2">{t("ForgetPassword")}?</Link>
+        <Box sx={{width:'100%',display:'flex'}}> 
+          <Link href="/forgetPassword" variant="body2">{t("ForgetPassword")}?</Link>
+          <Link sx={{marginLeft:'auto'}} href="/signup" variant="body2">{t("CreateAccount")}</Link>
+        </Box>
         <Button type="submit" variant="contained" size='large' sx={{ mt: 1, mb: 2,width:'50%',alignSelf:'center' }}>{t("Login")}</Button>
       </Box>
-      <Grid container>
-        
-        <Grid item>
-          <Link href="/signup" variant="body2">{t("CreateAccount")}</Link>
-        </Grid>
-      </Grid>
     </Box>
   </Box>
   )

@@ -1,5 +1,5 @@
 import React,{useEffect, useState} from 'react'
-import {Grid,Box,TextField,Typography,Button,FormControl,FormHelperText,MenuItem} from '@mui/material'
+import {Grid,Box,TextField,Typography,Button,FormControl,FormHelperText,MenuItem,Link} from '@mui/material'
 import axios from '../../api/axios';
 import { useNavigate,useLocation} from 'react-router-dom'
 import { useAthuContext } from '../../Context/Shared/AthuContext';
@@ -97,7 +97,7 @@ const CompanySignupform = () => {
     return formErrors;
   }
   return (
-    <Box  component="form" onSubmit={handleSubmit}  noValidate  sx={{ mt: 1 }}>
+    <Box  component="form" onSubmit={handleSubmit}  noValidate  sx={{ mt: .5}}>
       <Grid container spacing={1}>
         <Grid xs={12} sm={6} item>
         <FormControl fullWidth error={!!Errors.companyName}>
@@ -158,10 +158,10 @@ const CompanySignupform = () => {
         <Grid xs={12}  item>
         <TextField onChange={handleChange}  label={t("Tagline")} fullWidth
           variant="filled"
-          rows={2}
+          rows={1}
           multiline
         />
-        <Typography variant='subtitle1' sx={{color:'#A4A4A4'}}>Use your tagline to briefly describe what your organization does. This can be changed later.</Typography>
+        <Typography variant='subtitle1' sx={{color:'#A4A4A4'}}>{t("taglineDescription")}</Typography>
         </Grid>
       </Grid>
       <Grid container spacing={1.5}>
@@ -178,6 +178,7 @@ const CompanySignupform = () => {
         </FormControl>
         </Grid>
       </Grid>
+      <Link sx={{marginLeft:'auto'}} href="/login" variant="body2">{t("Already have an account login")}</Link>
       {errorMsg && <Typography sx={{color:"#DA0037"}}>{errorMsg}</Typography>}
      <Box sx={{display:'flex',justifyContent:'center'}}>
       <Button type="submit" variant="contained" size='large' sx={{ mt: 1, mb: 2,width:'50%' }}>{t("Signup")}</Button>
