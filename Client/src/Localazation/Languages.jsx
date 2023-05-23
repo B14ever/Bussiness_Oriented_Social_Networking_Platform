@@ -410,6 +410,9 @@ export const TranslationEn ={
     unableToUpdateDescription:'Unable to update description',
     taglineDescription:'Use your tagline to briefly describe what your organization does. This can be changed later.',
     Invitations:"Intvitations",
-    PeopleYouMayKnow:'People you may know'
-
+    PeopleYouMayKnow:'People you may know',
+    Connect:'Connect',
+    seeMore:'See more',
+    GraduateOf:'Graduate of',
+    WorksAt:'Works at'
 }

@@ -4,6 +4,7 @@ import { styled } from '@mui/material/styles';
 import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
 import { useLanguage } from '../../Localazation/LanguageContext'
 import { useAthuContext } from '../../Context/Shared/AthuContext'
+import { useNavigate } from 'react-router-dom';
 import axios from '../../api/axios'
 const Peoples = styled(Box)(({ theme }) => ({
   borderRadius:'6px',
@@ -26,6 +27,7 @@ const People = () => {
     const {user} = useAthuContext()
     const Email = user.user.Email
     const {t} = useLanguage()
+    const navigate = useNavigate()
     const [loading,setLoading] = useState(false)
     const [people,setPeople] = useState([{_id:'',FirstName:'',LastName:'',Country:'',City:''}])
   useEffect(() => {
@@ -44,6 +46,9 @@ const People = () => {
       GetData()
       .catch(console.error);
   }, [])
+  const handleClick =(id)=>{
+      navigate(`${id}`)
+  }
   return (
     <Box p={2} sx={{borderRadius:'6px',backgroundColor:'#fff'}}>
       {loading?
@@ -57,16 +62,16 @@ const People = () => {
         <Grid mt={2} container spacing={2}>
           {people.map((item,index)=>
           <Grid key={index} item lg={3} xs={6} sm={4}>
-           <Peoples >
-             <Box sx={{ borderRadius:'6px',position: 'relative'}}>
+           <Peoples>
+             <Box onClick={()=>handleClick(item._id)} sx={{ borderRadius:'6px',position: 'relative'}}>
                 <img src="../../../Profile_Image/coverPhoto.png" style={{ width: '100%',borderTopLeftRadius:'6px',borderTopRightRadius:'6px' }} />
-              <Avatar src={`../../../Profile_Image/Avater.png`}
+              <Avatar src={`../../../Profile_Image/${item.profilePhoto?item.profilePhoto:'Avater.png'}`}
                 sx={{ position: 'absolute',width:'100px',height:"100px",top: '20%',left:'25%'}}/>
               </Box>
-              <Box  sx={{display:'flex',flexDirection:'column',alignItems:'center',mt:{xs:8,lg:6}}}>
-                <Herf>{item.FirstName} {item.LastName}</Herf>
+              <Box  sx={{display:'flex',flexDirection:'column',alignItems:'center',mt:{xs:8,lg:8}}}>
+                <Herf onClick={()=>handleClick(item._id)}>{item.FirstName} {item.LastName}</Herf>
                 <Typography sx={{color:'#666',fontSize:{xs:'.84rem',sm:'.9rem'}}}>{item.Country},{item.City}</Typography>
-                <Button startIcon={<PersonAddAltOutlinedIcon/>} sx={{marginTop:'1rem',mb:'.5rem',textTransform:'none'}} variant='outlined'>Connect</Button>
+                <Button startIcon={<PersonAddAltOutlinedIcon/>} sx={{marginTop:'1rem',mb:'.5rem',textTransform:'none'}} variant='outlined'>{t("Connect")}</Button>
               </Box>
            </Peoples>                      
           </Grid>

@@ -38,6 +38,7 @@ import EditQuestions from "./pages/Admin/EditQuestions"
 import TakeSkillAssessment from "./pages/Personal/TakeSkillAssessment"
 import QuestionStartPage from "./pages/Personal/QuestionStartPage"
 import Exam from "./pages/Personal/Exam"
+import PeoplesDeatail from "./pages/Personal/PeoplesDeatail"
 function App() {
   return (
       <Routes>
@@ -56,6 +57,7 @@ function App() {
                      <Route path="/PersonalAccountProfile" element={<PersonalAccountProfile/>}/>
                      <Route path="PersonalMessage" element={<PersonalAccountMessage/>}/>
                      <Route path="PersonalNetwork" element={<PersonalAccountNetwork/>}/>
+                     <Route path="PersonalNetwork/:userId" element={<PeoplesDeatail/>}/>
                      <Route path="PersonalNotification" element={<PersonalAccountNotification/>}/>
                      <Route path="PersonalProfileDetail" element={<PersonalAccountProfileDetail/>}/>
                      <Route path="PersonalProfileSetting" element={<PersonalAccountSetting/>}/>
