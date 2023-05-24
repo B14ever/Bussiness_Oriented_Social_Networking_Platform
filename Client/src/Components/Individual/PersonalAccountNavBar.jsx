@@ -42,7 +42,7 @@ const PersonalAccountNavBar = () => {
            </Tooltip>
             <Tooltip title={t("Network")}>
               <IconButton onClick={()=>navigate('PersonalNetwork')} >
-                <Badge badgeContent={17} color="error">
+                <Badge badgeContent={user.user.recivedFriendRequest.length} color="error">
                   <GroupOutlinedIcon/>
                 </Badge>
               </IconButton>

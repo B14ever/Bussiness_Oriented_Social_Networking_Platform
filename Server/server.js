@@ -29,6 +29,8 @@ const GetQuestion = require('./Routes/Personal/GetQuestions')
 app.use('/questions', GetQuestion)
 const GetPersnoalAccountsForNetWork = require('./Routes/Personal/Friends')
 app.use('/Peoples', GetPersnoalAccountsForNetWork)
+const FriendRequest = require('./Routes/Personal/FreindRequest')
+app.use('/friendRequest', FriendRequest)
     //routes for CompanyAccounts
 const CompanyAccounts = require('./Routes/Company/SignUp')
 app.use('/ComapnyAccountSignUp', CompanyAccounts)

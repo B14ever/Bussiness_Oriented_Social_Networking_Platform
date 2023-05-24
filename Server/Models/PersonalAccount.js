@@ -71,6 +71,8 @@ const PersonalAccount = new mongoose.Schema({
             default: false
         }
     }],
+    sentFriendRequest: [],
+    recivedFriendRequest: [],
     friends: {
         type: Number
     }

@@ -1,7 +1,8 @@
 import React,{useEffect,useState} from 'react'
-import { Box,Typography,Divider,LinearProgress,Grid,Avatar, Button} from '@mui/material/node'
+import { Box,Typography,Divider,LinearProgress,Grid,Avatar,Button,Alert,Snackbar} from '@mui/material/node'
 import { styled } from '@mui/material/styles';
 import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
+import WatchLaterOutlinedIcon from '@mui/icons-material/WatchLaterOutlined';
 import { useLanguage } from '../../Localazation/LanguageContext'
 import { useAthuContext } from '../../Context/Shared/AthuContext'
 import { useNavigate } from 'react-router-dom';
@@ -23,18 +24,25 @@ const Herf = styled(Typography)(({ theme }) => ({
     textDecoration:'underline'
   },
 }));
+const Buttons = styled(Button)(({ theme }) => ({
+  marginTop:'1rem',marginBottom:'.5rem',textTransform:'none',borderRadius:'1rem'}));
 const People = () => {
     const {user} = useAthuContext()
-    const Email = user.user.Email
+    const id = user.user._id
     const {t} = useLanguage()
     const navigate = useNavigate()
     const [loading,setLoading] = useState(false)
+    const [warnnig,setWaring] = useState(false)
+    const [success,setSuccess] = useState(false)
+    const [warnnigMsg,setWaringMsg] = useState('')
+    const [successMsg,setSuccessMsg] = useState('')
     const [people,setPeople] = useState([{_id:'',FirstName:'',LastName:'',Country:'',City:''}])
+    const [pending,setPendig] = useState()
   useEffect(() => {
       const GetData = async ()=>{
       try{
       setLoading(true)
-      const responce = await axios.post(`/Peoples`,{Email})
+      const responce = await axios.post(`/Peoples`,{id})
       const data = responce.data.PersonalAccounts
       setPeople(data)
       setTimeout(()=>{setLoading(false)},1200)
@@ -49,6 +57,32 @@ const People = () => {
   const handleClick =(id)=>{
       navigate(`${id}`)
   }
+  const SnedRequest = async  (reciverId) =>{
+    try{
+      const responce = await axios.post('/friendRequest',{senderId:id,reciverId:reciverId})
+       if(responce.status === 200){
+        setPendig(reciverId)
+        setSuccessMsg('InvitationSent')
+        setSuccess(true)
+      } 
+    }catch(err){
+      setWaringMsg('InvitationNotSent')
+      setWaring(true)
+    }
+  }
+  const CancleRequest = async (reciverId) =>{
+    try{
+      const responce = await axios.post('/friendRequest//cancleRequest',{senderId:id,reciverId:reciverId})
+       if(responce.status === 200){
+        setPendig()
+        setSuccessMsg('InvitationCancled')
+        setSuccess(true)  
+      } 
+      }catch(err){
+      setWaringMsg('InvitationNotCancled')
+      setWaring(true)
+       }
+     }
   return (
     <Box p={2} sx={{borderRadius:'6px',backgroundColor:'#fff'}}>
       {loading?
@@ -71,12 +105,26 @@ const People = () => {
               <Box  sx={{display:'flex',flexDirection:'column',alignItems:'center',mt:{xs:8,lg:8}}}>
                 <Herf onClick={()=>handleClick(item._id)}>{item.FirstName} {item.LastName}</Herf>
                 <Typography sx={{color:'#666',fontSize:{xs:'.84rem',sm:'.9rem'}}}>{item.Country},{item.City}</Typography>
-                <Button startIcon={<PersonAddAltOutlinedIcon/>} sx={{marginTop:'1rem',mb:'.5rem',textTransform:'none'}} variant='outlined'>{t("Connect")}</Button>
+                { pending === item._id?
+                <Buttons onClick={()=>CancleRequest(item._id)} startIcon={<WatchLaterOutlinedIcon/>} variant='outlined'>{t("pending")}</Buttons>:
+                <Buttons onClick={()=>SnedRequest(item._id)} startIcon={<PersonAddAltOutlinedIcon/>} variant='outlined'>{t("Connect")}</Buttons>}
               </Box>
            </Peoples>                      
           </Grid>
            )}
         </Grid>
+        <Snackbar anchorOrigin={{ vertical:'top', horizontal:'center'}}
+                  open={warnnig} autoHideDuration={500} onClose={()=>setWaring(false)}>
+          <Alert onClose={()=>setWaring(false)} severity="info" sx={{ width: '100%' }}>
+             {t(`${warnnigMsg}`)}
+          </Alert>
+        </Snackbar>
+        <Snackbar anchorOrigin={{ vertical:'top', horizontal:'center'}}
+                open={success} autoHideDuration={500} onClose={()=>setSuccess(false)}>
+          <Alert onClose={()=>setWaring(false)} severity="info" sx={{ width: '100%' }}>
+              {t(`${successMsg}`)}
+          </Alert>
+        </Snackbar>
       </Box>}
     </Box> 
   )

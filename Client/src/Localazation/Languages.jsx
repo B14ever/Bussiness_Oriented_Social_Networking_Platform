@@ -412,7 +412,12 @@ export const TranslationEn ={
     Invitations:"Intvitations",
     PeopleYouMayKnow:'People you may know',
     Connect:'Connect',
+    pending:'Pending',
     seeMore:'See more',
     GraduateOf:'Graduate of',
-    WorksAt:'Works at'
+    WorksAt:'Works at',
+    InvitationSent:'Invitation sent',
+    InvitationNotSent:'Invitation not sent',
+    InvitationCancled:'Invitation cancled',
+    InvitationNotCancled:'Invitation not cancled'
 }
