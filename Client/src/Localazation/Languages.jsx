@@ -419,5 +419,6 @@ export const TranslationEn ={
     InvitationSent:'Invitation sent',
     InvitationNotSent:'Invitation not sent',
     InvitationCancled:'Invitation cancled',
-    InvitationNotCancled:'Invitation not cancled'
+    InvitationNotCancled:'Invitation not cancled',
+    Noinvitations:'No pending invitations'
 }
