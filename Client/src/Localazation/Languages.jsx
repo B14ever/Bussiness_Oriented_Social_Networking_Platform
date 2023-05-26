@@ -420,5 +420,12 @@ export const TranslationEn ={
     InvitationNotSent:'Invitation not sent',
     InvitationCancled:'Invitation cancled',
     InvitationNotCancled:'Invitation not cancled',
-    Noinvitations:'No pending invitations'
+    Noinvitations:'No pending invitations',
+    Accept:'Accept',
+    InvitationNotAccepted:'Invitation not accepted',
+    InvitationAccepted:"Invitation Accepted",
+    Ignore:'Decline',
+    RejectedInvitation:'Invitation decline',
+    InvitationNotRejected:'Invitation not decline'
+   
 }

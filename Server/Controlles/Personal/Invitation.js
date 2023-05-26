@@ -5,7 +5,7 @@ const Invitation = async(req, res, next) => {
     const PersonalAccounts = await PersonalAccount.find({ _id: id })
     const request = PersonalAccounts[0].recivedFriendRequest // arrays of users id
     try {
-        const invitation = await PersonalAccount.find({ _id: { $in: request } }, { createdAt: 0, updatedAt: 0, PhoneNumber: 0, Email: 0, recivedFriendReques: 0, sentFriendRequest: 0 })
+        const invitation = await PersonalAccount.find({ _id: { $in: request }, }, { createdAt: 0, updatedAt: 0, PhoneNumber: 0, Email: 0, recivedFriendReques: 0, sentFriendRequest: 0 })
         if (!invitation) {
             const error = new Error();
             error.status = 403;

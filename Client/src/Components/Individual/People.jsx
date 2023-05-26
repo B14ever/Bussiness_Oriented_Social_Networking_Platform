@@ -20,9 +20,17 @@ const Peoples = styled(Box)(({ theme }) => ({
   },
 }));
 const Herf = styled(Typography)(({ theme }) => ({
+  fontSize:'0.85rem',
   "&:hover": {
     textDecoration:'underline'
   },
+}));
+const Photos = styled(Avatar)(({ theme }) => ({
+  position: 'absolute',width:'100px',height:"100px",top: '20%',left:'25%',
+  [theme.breakpoints.down('sm')]: {
+    width:'80px',height:"80px",top: '20%',left:'30%',},
+    [theme.breakpoints.down('460')]: {
+      width:'70px',height:"70px",top: '20%',left:'25%',},
 }));
 const Buttons = styled(Button)(({ theme }) => ({
   marginTop:'1rem',marginBottom:'.5rem',textTransform:'none',borderRadius:'1rem'}));
@@ -72,7 +80,7 @@ const People = () => {
   }
   const CancleRequest = async (reciverId) =>{
     try{
-      const responce = await axios.post('/friendRequest//cancleRequest',{senderId:id,reciverId:reciverId})
+      const responce = await axios.post('/friendRequest/cancleRequest',{senderId:id,reciverId:reciverId})
        if(responce.status === 200){
         setPendig()
         setSuccessMsg('InvitationCancled')
@@ -99,10 +107,9 @@ const People = () => {
            <Peoples>
              <Box onClick={()=>handleClick(item._id)} sx={{ borderRadius:'6px',position: 'relative'}}>
                 <img src="../../../Profile_Image/coverPhoto.png" style={{ width: '100%',borderTopLeftRadius:'6px',borderTopRightRadius:'6px' }} />
-              <Avatar src={`../../../Profile_Image/${item.profilePhoto?item.profilePhoto:'Avater.png'}`}
-                sx={{ position: 'absolute',width:'100px',height:"100px",top: '20%',left:'25%'}}/>
+              <Photos src={`../../../Profile_Image/${item.profilePhoto?item.profilePhoto:'Avater.png'}`}/>
               </Box>
-              <Box  sx={{display:'flex',flexDirection:'column',alignItems:'center',mt:{xs:8,lg:8}}}>
+              <Box  sx={{display:'flex',flexDirection:'column',alignItems:'center',mt:{xs:5,sm:7,lg:8}}}>
                 <Herf onClick={()=>handleClick(item._id)}>{item.FirstName} {item.LastName}</Herf>
                 <Typography sx={{color:'#666',fontSize:{xs:'.84rem',sm:'.9rem'}}}>{item.Country},{item.City}</Typography>
                 { pending === item._id?
@@ -114,13 +121,13 @@ const People = () => {
            )}
         </Grid>
         <Snackbar anchorOrigin={{ vertical:'top', horizontal:'center'}}
-                  open={warnnig} autoHideDuration={500} onClose={()=>setWaring(false)}>
+                  open={warnnig} autoHideDuration={800} onClose={()=>setWaring(false)}>
           <Alert onClose={()=>setWaring(false)} severity="info" sx={{ width: '100%' }}>
              {t(`${warnnigMsg}`)}
           </Alert>
         </Snackbar>
         <Snackbar anchorOrigin={{ vertical:'top', horizontal:'center'}}
-                open={success} autoHideDuration={500} onClose={()=>setSuccess(false)}>
+                open={success} autoHideDuration={800} onClose={()=>setSuccess(false)}>
           <Alert onClose={()=>setWaring(false)} severity="info" sx={{ width: '100%' }}>
               {t(`${successMsg}`)}
           </Alert>
