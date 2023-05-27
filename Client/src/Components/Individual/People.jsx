@@ -1,8 +1,11 @@
 import React,{useEffect,useState} from 'react'
-import { Box,Typography,Divider,LinearProgress,Grid,Avatar,Button,Alert,Snackbar} from '@mui/material/node'
-import { styled } from '@mui/material/styles';
+import { Box,Typography,Divider,LinearProgress,Grid,Avatar,Button,Alert,Snackbar,InputBase} from '@mui/material/node'
+import { styled,alpha } from '@mui/material/styles';
 import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
 import WatchLaterOutlinedIcon from '@mui/icons-material/WatchLaterOutlined';
+import SearchIcon from '@mui/icons-material/Search';
+import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
+import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutlined';
 import { useLanguage } from '../../Localazation/LanguageContext'
 import { useAthuContext } from '../../Context/Shared/AthuContext'
 import { useNavigate } from 'react-router-dom';
@@ -12,7 +15,7 @@ const Peoples = styled(Box)(({ theme }) => ({
   display:'flex',
   flexDirection:'column',
   height:'fit-content',
-  boxShadow:"rgba(149, 157, 165, 0.1) 0px 8px 24px",
+  boxShadow:"rgba(149, 157, 165, 0.2) 0px 8px 24px",
   cursor:'pointer',
   "&:hover": {
     boxShadow:"none",
@@ -32,6 +35,47 @@ const Photos = styled(Avatar)(({ theme }) => ({
     [theme.breakpoints.down('460')]: {
       width:'70px',height:"70px",top: '20%',left:'25%',},
 }));
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor:'#E7EBF0',
+  '&:hover': {
+    backgroundColor:'#E7EBF0',
+  },
+  marginLeft: 0,
+  width: '100%',
+  [theme.breakpoints.up('sm')]: {
+    marginLeft: theme.spacing(1),
+    width: 'auto',
+  },
+}));
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: 'inherit',
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      width: '12ch',
+      '&:focus': {
+        width: '20ch',
+      },
+    },
+  },
+}));
 const Buttons = styled(Button)(({ theme }) => ({
   marginTop:'1rem',marginBottom:'.5rem',textTransform:'none',borderRadius:'1rem'}));
 const People = () => {
@@ -46,6 +90,8 @@ const People = () => {
     const [successMsg,setSuccessMsg] = useState('')
     const [people,setPeople] = useState([{_id:'',FirstName:'',LastName:'',Country:'',City:''}])
     const [pending,setPendig] = useState()
+    const [search,setSearch] = useState('')
+    const [limit,setLimit] = useState(8)
   useEffect(() => {
       const GetData = async ()=>{
       try{
@@ -99,10 +145,22 @@ const People = () => {
         <Typography  variant='subtitle2'>{t("PeopleYouMayKnow")}</Typography>
       </Box>:
       <Box sx={{ width: '100%',backgroundColor:'#fff',borderRadius:'6px',display:'flex',flexDirection:'column'}}>
-        <Typography  variant='subtitle2'>{t("PeopleYouMayKnow")}</Typography>
+         <Grid container spacing={1}>
+           <Grid item xs={12} sm={6}>
+            <Typography  sx={{ flexGrow: 1}}  variant='subtitle2'>{t("PeopleYouMayKnow")}</Typography>
+           </Grid>
+           <Grid item xs={12} sm={6} mb={1}>
+            <Search onChange={(e)=>setSearch(e.target.value)}>
+              <SearchIconWrapper><SearchIcon /></SearchIconWrapper>
+              <StyledInputBase placeholder={t("Search…")} inputProps={{ 'aria-label': 'search' }}/>
+            </Search>
+           </Grid>
+         </Grid>
         <Divider/>
         <Grid mt={2} container spacing={2}>
-          {people.map((item,index)=>
+          {people.filter(item=>{
+                   return item.FirstName.toLowerCase().includes(search.toLowerCase())
+                }).slice(0,limit).map((item,index)=>
           <Grid key={index} item lg={3} xs={6} sm={4}>
            <Peoples>
              <Box onClick={()=>handleClick(item._id)} sx={{ borderRadius:'6px',position: 'relative'}}>
@@ -120,6 +178,14 @@ const People = () => {
           </Grid>
            )}
         </Grid>
+        <Divider textAlign='center' sx={{marginTop:'1rem'}}>
+            {limit>8?<KeyboardArrowUpOutlinedIcon onClick={()=>setLimit(prev=>prev-4)}/>:null}
+          </Divider>
+          <Box  sx={{display:'flex',justifyContent:'center'}}>
+            <Button startIcon={<ExpandMoreOutlinedIcon/>} sx={{textTransform:'none'}} onClick={()=>setLimit(prev=>prev + 4)}>
+              {t('seeMore')}
+            </Button>
+          </Box> 
         <Snackbar anchorOrigin={{ vertical:'top', horizontal:'center'}}
                   open={warnnig} autoHideDuration={800} onClose={()=>setWaring(false)}>
           <Alert onClose={()=>setWaring(false)} severity="info" sx={{ width: '100%' }}>

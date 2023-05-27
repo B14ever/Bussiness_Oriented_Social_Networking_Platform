@@ -93,7 +93,7 @@ const handleChoice = (topic,description) =>{
                 <SearchIconWrapper><SearchIcon /></SearchIconWrapper>
                 <StyledInputBase placeholder={t("SearchTopic")} inputProps={{ 'aria-label': 'search' }}/>
               </Search>
-              
+
               <Box>
                {
                 assesments.filter(item=>{

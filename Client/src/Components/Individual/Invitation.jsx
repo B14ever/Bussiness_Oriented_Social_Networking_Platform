@@ -19,7 +19,7 @@ const Invitation = () => {
     const [warnnigMsg,setWaringMsg] = useState('')
     const [successMsg,setSuccessMsg] = useState('')
     const [accepted,setAccepted] = useState(false)
-    const [ignor,setIgnor] = useState(false)
+    const [action,setAction] = useState()
     useEffect(() => {
       const GetData = async ()=>{
       try{
@@ -38,23 +38,29 @@ const Invitation = () => {
       .catch(console.error);
   }, [])
   const handleAcceptRequest = async (senderId) =>{
+    setAccepted(false)
     try{
       const responce = await axios.post('/friendRequest/AcceptRequest',{senderId:senderId,reciverId:id})
        if(responce.status === 200){
         setSuccessMsg('InvitationAccepted')
         setSuccess(true)
+        setAction(senderId)
+        setAccepted(true)
       } 
     }catch(err){
       setWaringMsg('InvitationNotAccepted')
       setWaring(true)
+      
     }
   }
   const handleIgnoreRequest = async (senderId) =>{
+    setAccepted(false)
     try{
       const responce = await axios.post('/friendRequest/cancleRequest',{senderId:senderId,reciverId:id})
        if(responce.status === 200){
         setSuccessMsg('RejectedInvitation')
         setSuccess(true)
+        setAction(senderId)
       } 
     }catch(err){
       setWaringMsg('InvitationNotRejected')
@@ -86,8 +92,20 @@ const Invitation = () => {
                                </Box>
                               </Grid>
                               <Grid item xs={12} sm={6} sx={{display:'flex',justifyContent:{sm:'flex-end',xs:'flex-start',gap:'.5rem',alignItems:'center'}}}>
-                                 <Buttons onClick={()=>handleIgnoreRequest(item._id)} sx={{color:'#777',fontWeight:'600'}}  size="medium">{t("Ignore")}</Buttons>
-                                 <Buttons onClick={()=>handleAcceptRequest(item._id)} startIcon={<CheckIcon/>} size="medium" variant='outlined'>{t("Accept")}</Buttons>
+                                 {
+                                  item._id === action ?
+                                  <Box>
+                                     {
+                                      accepted?
+                                      <Typography>{t("YouAreKnowFriends")} {item.FirstName} </Typography>:
+                                      <Typography>{t("YouHaveDclined")} {item.FirstName} {("Invitation")}</Typography>
+                                     }
+                                  </Box>:
+                                   <Box>
+                                    <Buttons onClick={()=>handleIgnoreRequest(item._id)} sx={{color:'#777',fontWeight:'600',marginRight:'.5rem'}}  size="medium">{t("Ignore")}</Buttons>
+                                    <Buttons onClick={()=>handleAcceptRequest(item._id)} startIcon={<CheckIcon/>} size="medium" variant='outlined'>{t("Accept")}</Buttons>
+                                   </Box>
+                                 }
                               </Grid>      
                           </Grid>
                           <Divider/>

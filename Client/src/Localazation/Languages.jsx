@@ -426,6 +426,9 @@ export const TranslationEn ={
     InvitationAccepted:"Invitation Accepted",
     Ignore:'Decline',
     RejectedInvitation:'Invitation decline',
-    InvitationNotRejected:'Invitation not decline'
+    InvitationNotRejected:'Invitation not decline',
+    YouAreKnowFriends:'You are know connected with',
+    YouHaveDclined:'You have dclined',
+    PendingRequest:"Pending request"
    
 }

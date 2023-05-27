@@ -39,6 +39,7 @@ import TakeSkillAssessment from "./pages/Personal/TakeSkillAssessment"
 import QuestionStartPage from "./pages/Personal/QuestionStartPage"
 import Exam from "./pages/Personal/Exam"
 import PeoplesDeatail from "./pages/Personal/PeoplesDeatail"
+import Connection from "./pages/Personal/Connection"
 function App() {
   return (
       <Routes>
@@ -67,6 +68,7 @@ function App() {
                      <Route path="PersonalProfileDetail/takeAssessment" element={<TakeSkillAssessment/>}/>
                      <Route path="PersonalProfileDetail/takeAssessment/qs" element={<QuestionStartPage/>}/>
                      <Route path="PersonalProfileDetail/takeAssessment/exam" element={<Exam/>}/>
+                     <Route path="connection" element={<Connection/>}/>
                      <Route path="jobs" element={<Jobs/>}/>
                 </Route>
               </Route>
