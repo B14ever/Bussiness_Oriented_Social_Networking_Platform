@@ -51,6 +51,8 @@ const ChangePassword = require('./Routes/Shared/ChangePassword')
 app.use('/ChangePassword', ChangePassword)
 const DeleteAccount = require('./Routes/Shared/DeleteAccount')
 app.use('/deleteAccount', DeleteAccount)
+const Posts = require('./Routes/Shared/Post')
+app.use('/posts', Posts)
     // Connect to MongoDB
 mongoose.connect(process.env.MoGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => { Server })

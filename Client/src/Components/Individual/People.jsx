@@ -79,7 +79,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const Buttons = styled(Button)(({ theme }) => ({
   marginTop:'1rem',marginBottom:'.5rem',textTransform:'none',borderRadius:'1rem'}));
 const People = () => {
-    const {user} = useAthuContext()
+    const {user,dispatch} = useAthuContext()
     const id = user.user._id
     const {t} = useLanguage()
     const navigate = useNavigate()
@@ -115,6 +115,8 @@ const People = () => {
     try{
       const responce = await axios.post('/friendRequest',{senderId:id,reciverId:reciverId})
        if(responce.status === 200){
+        localStorage.setItem('USER_DATA',JSON.stringify(responce.data.user))
+        dispatch({type:"AUTHENTICATE",payload:{user:responce.data.user,token:localStorage.getItem('TOKEN')}})
         setPendig(reciverId)
         setSuccessMsg('InvitationSent')
         setSuccess(true)
@@ -128,6 +130,8 @@ const People = () => {
     try{
       const responce = await axios.post('/friendRequest/cancleRequest',{senderId:id,reciverId:reciverId})
        if(responce.status === 200){
+        localStorage.setItem('USER_DATA',JSON.stringify(responce.data.user))
+        dispatch({type:"AUTHENTICATE",payload:{user:responce.data.user,token:localStorage.getItem('TOKEN')}})
         setPendig()
         setSuccessMsg('InvitationCancled')
         setSuccess(true)  
@@ -163,7 +167,7 @@ const People = () => {
                 }).slice(0,limit).map((item,index)=>
           <Grid key={index} item lg={3} xs={6} sm={4}>
            <Peoples>
-             <Box onClick={()=>handleClick(item._id)} sx={{ borderRadius:'6px',position: 'relative'}}>
+             <Box onClick={()=>handleClick(item._id)} sx={{ borderRadius:'6px',position: 'relative',}}>
                 <img src="../../../Profile_Image/coverPhoto.png" style={{ width: '100%',borderTopLeftRadius:'6px',borderTopRightRadius:'6px' }} />
               <Photos src={`../../../Profile_Image/${item.profilePhoto?item.profilePhoto:'Avater.png'}`}/>
               </Box>

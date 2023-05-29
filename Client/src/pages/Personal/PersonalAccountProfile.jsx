@@ -1,16 +1,21 @@
 import React from 'react'
-import {Avatar, Grid,Paper,Typography,Divider} from '@mui/material'
+import {Avatar,Box, Grid,Paper,Typography,Divider} from '@mui/material'
 import ProfileBox from '../../Components/Individual/ProfileBox'
+import CreatePost from '../../Components/Shared/CreatePost'
+import Posts from '../../Components/Shared/Posts'
 const PersonalAccountProfile = () => {
   return (
-      <Grid container spacing={2} sx={{marginTop:'100px'}}>
-        <Grid item sx={{display:{xs:'none',md:'flex'},justifyContent:'center',marginLeft:'1rem'}} md={4}>
-           <ProfileBox/>  
-        </Grid>
-          <Grid item md={8}>
-
+        <Box sx={{marginTop:'97px',backgroundColor:"#E7EBF0"}}>
+          <Grid p={2}  container direction="row">
+            <Grid item md={4} sx={{display:{xs:'none',md:'block'}}}>
+              <ProfileBox/>  
+            </Grid>
+            <Grid item xs={12} md={8}>
+             <CreatePost/>
+             <Posts/>
+            </Grid>
           </Grid>
-      </Grid>
+        </Box>
   )
 }
 

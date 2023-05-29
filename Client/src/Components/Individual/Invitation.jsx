@@ -6,10 +6,12 @@ import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 import { useLanguage } from '../../Localazation/LanguageContext'
 import axios from '../../api/axios'
 import { useAthuContext } from '../../Context/Shared/AthuContext'
+import { useNavigate } from 'react-router-dom';
 const Buttons = styled(Button)(({ theme }) => ({
  textTransform:'none',borderRadius:'1rem'}));
 const Invitation = () => {
     const {user} = useAthuContext()
+    const navigate = useNavigate()
      const id = user.user._id
     const {t} = useLanguage()
     const [loading,setLoading] = useState(false)
@@ -67,6 +69,9 @@ const Invitation = () => {
       setWaring(true)
     }
   }
+  const handleClick =(id)=>{
+    navigate(`${id}`)
+}
   return (
     <Box p={2} sx={{borderRadius:'6px',backgroundColor:'#fff'}}>
       {loading?
@@ -84,7 +89,7 @@ const Invitation = () => {
                   invitation.map((item,index) => {
                    return <Box sx={{display:'flex',flexDirection:'column',gap:'1rem'}}>
                         <Grid key={index} container spacing={1} mt={1}>
-                             <Grid item xs={12} sm={6} sx={{display:'flex',alignItems:'flex-start'}}>
+                             <Grid onClick={()=>handleClick(item._id)} item xs={12} sm={6} sx={{display:'flex',alignItems:'flex-start',cursor:'pointer',}}>
                                <Avatar  sx={{ width: 70, height: 70,boxShadow:"rgba(149, 157, 165, 0.2) 0px 6px 22px",}}   alt="Remy Sharp" src={`../../../Profile_Image/${item.profilePhoto?item.profilePhoto:'Avater.png'}`} />
                                <Box>
                                <Typography pl={1}  sx={{marginTop:'.2rem',color:'#000',fontWeight:'600'}} >{item.FirstName} {item.LastName}</Typography>

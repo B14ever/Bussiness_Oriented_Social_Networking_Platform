@@ -11,7 +11,8 @@ const FriendRequest = async(req, res, next) => {
             error.status = 403;
             throw error;
         } else {
-            return res.status(200).json({ msg: 'request sent' })
+            const user = await PersonalAccount.findOne({ _id: `${senderId}` })
+            return res.status(200).json({ user })
         }
 
     } catch (err) {

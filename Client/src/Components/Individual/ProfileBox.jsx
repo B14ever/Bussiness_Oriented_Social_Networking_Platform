@@ -8,7 +8,7 @@ const ProfileBox = () => {
     const {t} = useLanguage()
     const navigate = useNavigate()
   return (
-    <Box sx={{borderRadius:'6px',backgroundColor: '#fff',width: {sm:'90%',md: '70%', lg: '57%' },display:'flex',flexDirection:'column'}}>
+    <Box sx={{borderRadius:'6px',backgroundColor: '#fff',width: {sm:'90%',md: '70%', lg: '57%' },display:'flex',flexDirection:'column',alignItem:'center'}}>
       <Box sx={{ borderRadius:'6px',position: 'relative'}}>
       <img src="../../../Profile_Image/coverPhoto.png" style={{ width: '100%',borderTopLeftRadius:'6px',borderTopRightRadius:'6px' }} />
        <Avatar src={`../../../Profile_Image/${user.user.profilePhoto?user.user.profilePhoto:'Avater.png'}`}

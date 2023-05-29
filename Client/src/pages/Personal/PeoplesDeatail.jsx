@@ -12,6 +12,7 @@ import SchoolIcon from '@mui/icons-material/School';
 import {useParams,useNavigate} from 'react-router-dom'
 import axios from '../../api/axios'
 import { useLanguage } from '../../Localazation/LanguageContext';
+import { useAthuContext } from '../../Context/Shared/AthuContext';
 const ProfilePhoto = styled(Avatar)(({ theme }) => ({
   position: 'absolute',
   width: 150,height: 150,top:'calc(100% - 100px)',left:'calc(13% - 100px)',
@@ -38,6 +39,8 @@ const Section =styled(Box)(({ theme }) => ({
 const Container = styled(Box)(({ theme }) => ({
   marginTop: '100px',display: 'flex',flexDirection:'column',backgroundColor:"#E7EBF0" ,alignItems: 'center' 
 }));
+const Buttons = styled(Button)(({ theme }) => ({
+  textTransform:'none',borderRadius:'1rem'}));
 const intialState = {
   educationLimt:1,
   exprienceLimt:1,
@@ -80,6 +83,7 @@ const reducer = (currentState,action)=>{
     }
 }
 const PeoplesDeatail = () => {
+ const {user,dispatch} = useAthuContext()
  const {userId} = useParams()
  const navigate = useNavigate()
  const {t} = useLanguage()
@@ -88,14 +92,13 @@ const PeoplesDeatail = () => {
                                       education:[{institution:'',fildeOfStudy:'',startedDate:'',endDate:'',Grade:'',}],
                                       exprience:[{companyName:'',employmentType:'',startedDate:'',endDate:'',title:'',}],
                                       skill:[{skillName:'',badge:''}],})
- const [limit,dispatch] = useReducer(reducer,intialState)
+ const [limit,Limitdispatch] = useReducer(reducer,intialState)
  useEffect(() => {
   const GetData = async ()=>{
   try{
    setLoading(true)
    const responce = await axios.get(`/Peoples/${userId}`)
    const data = responce.data.PersonalAccounts[0]
-   console.log(data)
    setPerson(data)
    setTimeout(()=>{setLoading(false)},1200)}
    catch(err){
@@ -103,7 +106,7 @@ const PeoplesDeatail = () => {
    GetData()
   .catch(console.error);}, [])
 const handlExpand = (limitType)=>{
-  dispatch({type:limitType})
+ Limitdispatch({type:limitType})
 }
   return (
     <React.Fragment>
@@ -150,8 +153,18 @@ const handlExpand = (limitType)=>{
               </Grid>
               :null}   
             </Grid>
-           
-            <Button startIcon={<PersonAddAltOutlinedIcon/>} sx={{marginTop:'1rem',mb:'.5rem',textTransform:'none'}} variant='outlined'>{t("Connect")}</Button>
+             {
+                user.user.sentFriendRequest.includes(userId)?
+                <Buttons startIcon={<PersonAddAltOutlinedIcon/>} sx={{marginTop:'1rem',mb:'.5rem',textTransform:'none'}} variant='outlined'>{t("Pending")}</Buttons>:
+                user.user.recivedFriendRequest.includes(userId)?
+                <Box sx={{display:'flex',alignItems:'center'}}>
+                <Buttons  sx={{marginTop:'1rem',mb:'.5rem',color:'#777',fontWeight:'600',marginRight:'.5rem'}}>{t("Ignore")}</Buttons>
+                <Buttons startIcon={<PersonAddAltOutlinedIcon/>} sx={{marginTop:'1rem',mb:'.5rem',textTransform:'none'}} variant='outlined'>{t("Accept")}</Buttons>
+                </Box>:
+                user.user.friends.includes(userId)?
+                <Buttons startIcon={<PersonAddAltOutlinedIcon/>} sx={{marginTop:'1rem',mb:'.5rem',textTransform:'none'}} variant='outlined'>{t("Message")}</Buttons>:
+                <Buttons startIcon={<PersonAddAltOutlinedIcon/>} sx={{marginTop:'1rem',mb:'.5rem',textTransform:'none'}} variant='outlined'>{t("Connect")}</Buttons>
+             }
         </Box>
        </Section>
        {person.education.length > 0 ?
