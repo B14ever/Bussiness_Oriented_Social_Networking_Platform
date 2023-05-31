@@ -431,6 +431,7 @@ export const TranslationEn ={
     YouHaveDclined:'You have dclined',
     PendingRequest:"Pending request",
     StartPost:'Start post',
-    WhatToPost:'What do you want to talk about'
-   
+    WhatToPost:'What do you want to talk about',
+    SelectChat:'Select chat to start a message',
+    Messaging:'Messaging'
 }
