@@ -1,5 +1,5 @@
 import React,{useState,useEffect, useReducer} from 'react'
-import { Box,Avatar,LinearProgress,IconButton,Tooltip,Grid,Typography,Divider, Button} from '@mui/material/node'
+import { Box,Avatar,LinearProgress,IconButton,Tooltip,Grid,Typography,Divider, Button,Alert,Snackbar} from '@mui/material/node'
 import { styled } from '@mui/material/styles';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import LocationOnIcon from '@mui/icons-material/LocationOn'
@@ -9,6 +9,7 @@ import VerifiedOutlinedIcon from '@mui/icons-material/VerifiedOutlined';
 import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
 import WorkIcon from '@mui/icons-material/Work';
 import SchoolIcon from '@mui/icons-material/School';
+import CheckIcon from '@mui/icons-material/Check';
 import {useParams,useNavigate} from 'react-router-dom'
 import axios from '../../api/axios'
 import { useLanguage } from '../../Localazation/LanguageContext';
@@ -40,7 +41,7 @@ const Container = styled(Box)(({ theme }) => ({
   marginTop: '100px',display: 'flex',flexDirection:'column',backgroundColor:"#E7EBF0" ,alignItems: 'center' 
 }));
 const Buttons = styled(Button)(({ theme }) => ({
-  textTransform:'none',borderRadius:'1rem'}));
+  textTransform:'none',borderRadius:'1rem',marginTop:'1rem',marginBottom:'.5rem'}));
 const intialState = {
   educationLimt:1,
   exprienceLimt:1,
@@ -84,14 +85,18 @@ const reducer = (currentState,action)=>{
 }
 const PeoplesDeatail = () => {
  const {user,dispatch} = useAthuContext()
+ const id = user.user._id
  const {userId} = useParams()
  const navigate = useNavigate()
  const {t} = useLanguage()
+ const [userInfo,setUserInfo] = useState({})
+ const [warnnig,setWaring] = useState(false)
+ const [success,setSuccess] = useState(false)
+ const [warnnigMsg,setWaringMsg] = useState('')
+ const [successMsg,setSuccessMsg] = useState('')
  const [loading,setLoading] = useState(true)
- const [person,setPerson] = useState({FirstName:'',LastName:'',Country:'',City:'',
-                                      education:[{institution:'',fildeOfStudy:'',startedDate:'',endDate:'',Grade:'',}],
-                                      exprience:[{companyName:'',employmentType:'',startedDate:'',endDate:'',title:'',}],
-                                      skill:[{skillName:'',badge:''}],})
+ const [person,setPerson] = useState({})
+ const [action,setAction] = useState(false)
  const [limit,Limitdispatch] = useReducer(reducer,intialState)
  useEffect(() => {
   const GetData = async ()=>{
@@ -105,9 +110,81 @@ const PeoplesDeatail = () => {
       console.error(err)}}
    GetData()
   .catch(console.error);}, [])
+  useEffect(() => {
+    const GetData = async ()=>{
+    try{
+     const responce = await axios.post(`/friendRequest/CheckRequest`,{id})
+     console.log(responce.data)
+     const data = responce.data.PersonalAccounts[0]
+     setUserInfo(data)}
+     catch(err){
+        console.error(err)}}
+     GetData()
+    .catch(console.error);}, [action])
 const handlExpand = (limitType)=>{
  Limitdispatch({type:limitType})
 }
+const handleAcceptRequest = async (senderId) =>{
+  try{
+    const responce = await axios.post('/friendRequest/AcceptRequest',{senderId:senderId,reciverId:user.user._id})
+     if(responce.status === 200){
+      localStorage.setItem('USER_DATA',JSON.stringify(responce.data.user))
+      dispatch({type:"AUTHENTICATE",payload:{user:responce.data.user,token:localStorage.getItem('TOKEN')}})
+      setSuccessMsg('InvitationAccepted')
+      setSuccess(true)
+      setAction(!action)
+    } 
+  }catch(err){
+    setWaringMsg('InvitationNotAccepted')
+    setWaring(true)
+    
+  }
+}
+const handleIgnoreRequest = async (senderId) =>{
+  try{
+    const responce = await axios.post('/friendRequest/declineInvitation',{senderId:senderId,reciverId:user.user._id})
+     if(responce.status === 200){
+      localStorage.setItem('USER_DATA',JSON.stringify(responce.data.user))
+      dispatch({type:"AUTHENTICATE",payload:{user:responce.data.user,token:localStorage.getItem('TOKEN')}})
+      setSuccessMsg('RejectedInvitation')
+      setSuccess(true)
+      setAction(!action)
+    } 
+  }catch(err){
+    setWaringMsg('InvitationNotRejected')
+    setWaring(true)
+  }
+}
+const SnedRequest = async  (reciverId) =>{
+  try{
+    const responce = await axios.post('/friendRequest',{senderId:id,reciverId:reciverId})
+     if(responce.status === 200){
+      localStorage.setItem('USER_DATA',JSON.stringify(responce.data.user))
+      dispatch({type:"AUTHENTICATE",payload:{user:responce.data.user,token:localStorage.getItem('TOKEN')}})
+      setSuccessMsg('InvitationSent')
+      setSuccess(true)
+      setAction(!action)
+    } 
+  }catch(err){
+    setWaringMsg('InvitationNotSent')
+    setWaring(true)
+  }
+}
+const CancleRequest = async (reciverId) =>{
+  try{
+    const responce = await axios.post('/friendRequest/cancleRequest',{senderId:id,reciverId:reciverId})
+     if(responce.status === 200){
+      localStorage.setItem('USER_DATA',JSON.stringify(responce.data.user))
+      dispatch({type:"AUTHENTICATE",payload:{user:responce.data.user,token:localStorage.getItem('TOKEN')}})
+      setSuccessMsg('InvitationCancled')
+      setSuccess(true)
+      setAction(!action)  
+    } 
+    }catch(err){
+    setWaringMsg('InvitationNotCancled')
+    setWaring(true)
+     }
+   }
   return (
     <React.Fragment>
      {loading?
@@ -154,16 +231,16 @@ const handlExpand = (limitType)=>{
               :null}   
             </Grid>
              {
-                user.user.sentFriendRequest.includes(userId)?
-                <Buttons startIcon={<PersonAddAltOutlinedIcon/>} sx={{marginTop:'1rem',mb:'.5rem',textTransform:'none'}} variant='outlined'>{t("Pending")}</Buttons>:
-                user.user.recivedFriendRequest.includes(userId)?
+                userInfo.sentFriendRequest.includes(userId)?
+                <Buttons onClick={()=>CancleRequest(person._id)} startIcon={<PersonAddAltOutlinedIcon/>} variant='outlined'>{t("Pending")}</Buttons>:
+                userInfo.recivedFriendRequest.includes(userId)?
                 <Box sx={{display:'flex',alignItems:'center'}}>
-                <Buttons  sx={{marginTop:'1rem',mb:'.5rem',color:'#777',fontWeight:'600',marginRight:'.5rem'}}>{t("Ignore")}</Buttons>
-                <Buttons startIcon={<PersonAddAltOutlinedIcon/>} sx={{marginTop:'1rem',mb:'.5rem',textTransform:'none'}} variant='outlined'>{t("Accept")}</Buttons>
+                <Buttons onClick={()=>handleIgnoreRequest(person._id)}>{t("Ignore")}</Buttons>
+                <Buttons onClick={()=>handleAcceptRequest(person._id)} startIcon={<CheckIcon/>} variant='outlined'>{t("Accept")}</Buttons>
                 </Box>:
-                user.user.friends.includes(userId)?
-                <Buttons startIcon={<PersonAddAltOutlinedIcon/>} sx={{marginTop:'1rem',mb:'.5rem',textTransform:'none'}} variant='outlined'>{t("Message")}</Buttons>:
-                <Buttons startIcon={<PersonAddAltOutlinedIcon/>} sx={{marginTop:'1rem',mb:'.5rem',textTransform:'none'}} variant='outlined'>{t("Connect")}</Buttons>
+                userInfo.friends.includes(userId)?
+                <Buttons startIcon={<PersonAddAltOutlinedIcon/>} variant='outlined'>{t("Message")}</Buttons>:
+                <Buttons onClick={()=>SnedRequest(person._id)} startIcon={<PersonAddAltOutlinedIcon/>}variant='outlined'>{t("Connect")}</Buttons>
              }
         </Box>
        </Section>
@@ -248,6 +325,18 @@ const handlExpand = (limitType)=>{
             </Button>
           </Box>  
         </Section>:null}
+           <Snackbar anchorOrigin={{ vertical:'top', horizontal:'center'}}
+                open={warnnig} autoHideDuration={800} onClose={()=>setWaring(false)}>
+                  <Alert onClose={()=>setWaring(false)} severity="info" sx={{ width: '100%' }}>
+                  {t(`${warnnigMsg}`)}
+                  </Alert>
+            </Snackbar>
+             <Snackbar anchorOrigin={{ vertical:'top', horizontal:'center'}}
+                open={success} autoHideDuration={800} onClose={()=>setSuccess(false)}>
+                  <Alert onClose={()=>setWaring(false)} severity="info" sx={{ width: '100%' }}>
+                  {t(`${successMsg}`)}
+                  </Alert>
+            </Snackbar>
        </Container>}
     </React.Fragment>
    

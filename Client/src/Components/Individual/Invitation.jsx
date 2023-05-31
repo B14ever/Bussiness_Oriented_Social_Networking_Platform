@@ -2,7 +2,6 @@ import React,{useEffect,useState} from 'react'
 import { Box,Typography,Divider,Button,Grid,LinearProgress,Avatar,Alert,Snackbar} from '@mui/material/node'
 import { styled } from '@mui/material/styles';
 import CheckIcon from '@mui/icons-material/Check';
-import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 import { useLanguage } from '../../Localazation/LanguageContext'
 import axios from '../../api/axios'
 import { useAthuContext } from '../../Context/Shared/AthuContext'
@@ -10,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 const Buttons = styled(Button)(({ theme }) => ({
  textTransform:'none',borderRadius:'1rem'}));
 const Invitation = () => {
-    const {user} = useAthuContext()
+    const {user,dispatch} = useAthuContext()
     const navigate = useNavigate()
      const id = user.user._id
     const {t} = useLanguage()
@@ -44,6 +43,8 @@ const Invitation = () => {
     try{
       const responce = await axios.post('/friendRequest/AcceptRequest',{senderId:senderId,reciverId:id})
        if(responce.status === 200){
+        localStorage.setItem('USER_DATA',JSON.stringify(responce.data.user))
+        dispatch({type:"AUTHENTICATE",payload:{user:responce.data.user,token:localStorage.getItem('TOKEN')}})
         setSuccessMsg('InvitationAccepted')
         setSuccess(true)
         setAction(senderId)
@@ -58,8 +59,10 @@ const Invitation = () => {
   const handleIgnoreRequest = async (senderId) =>{
     setAccepted(false)
     try{
-      const responce = await axios.post('/friendRequest/cancleRequest',{senderId:senderId,reciverId:id})
+      const responce = await axios.post('/friendRequest/declineInvitation',{senderId:senderId,reciverId:id})
        if(responce.status === 200){
+        localStorage.setItem('USER_DATA',JSON.stringify(responce.data.user))
+        dispatch({type:"AUTHENTICATE",payload:{user:responce.data.user,token:localStorage.getItem('TOKEN')}})
         setSuccessMsg('RejectedInvitation')
         setSuccess(true)
         setAction(senderId)

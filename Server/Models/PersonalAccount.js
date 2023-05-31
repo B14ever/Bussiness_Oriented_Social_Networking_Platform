@@ -73,7 +73,7 @@ const PersonalAccount = new mongoose.Schema({
     }],
     sentFriendRequest: [],
     recivedFriendRequest: [],
-    friends: []
+    friends: [{ type: String, ref: "PersonalAccount" }]
 }, { timestamps: true });
 
 module.exports = mongoose.model('PersonalAccount', PersonalAccount);
