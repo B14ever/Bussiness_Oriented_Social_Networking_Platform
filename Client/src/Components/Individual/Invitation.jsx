@@ -27,7 +27,6 @@ const Invitation = () => {
       setLoading(true)
       const responce = await axios.post(`/Peoples/invitation`,{id})
       const data = responce.data.invitation
-      console.log(data)
       setInvitation(data)
       setTimeout(()=>{setLoading(false)},1200)
       }

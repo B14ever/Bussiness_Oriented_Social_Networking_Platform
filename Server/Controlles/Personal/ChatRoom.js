@@ -12,26 +12,20 @@ const accessChat = async(req, res) => {
         .populate("latestMessage");
     isChat = await PersonalAccount.populate(isChat, {
         path: "latestMessage.sender",
-        select: "FirsName profilePhoto _id",
+        select: "FirsName LastName profilePhoto _id",
     });
-
     if (isChat.length > 0) {
         res.send(isChat[0]);
     } else {
+
         var chatData = {
             chatName: "sender",
-            isGroupChat: false,
             users: [ownerId, userId],
         };
 
         try {
             const createdChat = await Chat.create(chatData);
-            const FullChat = await Chat.findOne({ _id: createdChat._id }).populate(
-                "users", [
-                    "-exprience",
-                    "-skill",
-                ]
-            );
+            const FullChat = await Chat.findOne({ _id: createdChat._id }).populate("users", "FirstName LastName profilePhoto _id");
             res.status(200).json(FullChat);
         } catch (error) {
             res.status(400);
@@ -49,7 +43,7 @@ const fetchChats = async(req, res) => {
             .then(async(results) => {
                 results = await PersonalAccount.populate(results, {
                     path: "latestMessage.sender",
-                    select: "FirstName profilePhoto _id",
+                    select: "FirstName LastName profilePhoto _id",
                 });
                 res.status(200).send(results);
             });
