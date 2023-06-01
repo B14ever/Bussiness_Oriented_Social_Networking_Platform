@@ -8,6 +8,9 @@ import { useLanguage } from '../../Localazation/LanguageContext';
 import { useAthuContext } from '../../Context/Shared/AthuContext';
 import Messages from '../../Components/Individual/Messages';
 import axios from '../../api/axios'
+import io from 'socket.io-client'
+
+var socket , selectedChatCompare;
 const Section = styled(Box)(({ theme }) => ({
   width:'100%',
 }));
@@ -95,10 +98,25 @@ const PersonalAccountMessage = () => {
   const [friends,setFriends] = useState([])
   const [chat,setChat] = useState([])
   const [loading,setLoading] = useState(false)
-  const [selectedChat,setSelectedChat] = useState()
+  const [selectedChat,setSelectedChat] = useState([])
   const [selectedUser,setSelectedUser]  = useState({Fname:'',LName:'',Photo:''})
   const [selectedChatId,setSelectedChatId] = useState()
   const [newMessage,setNewMessage] = useState('')
+  const [messageSent,setMessageSent] = useState(true)
+  const [displayMessage,setdesplayMessage] = useState('')
+  const [socketConnected,setSocketConnected] = useState(false)
+
+  useEffect(()=>{
+   socket = io('http://localhost:8000')
+   socket.emit("setup",id)
+   socket.on('connection',()=>setSocketConnected(true))
+  },[])
+  useEffect( () => {
+    socket.on('message recieved',(newMessageRecieved)=>{
+    setSelectedChat([...selectedChat,newMessageRecieved])
+    setMessageSent(!messageSent)
+  })})
+
   useEffect(() => {
     const GetData = async ()=>{
     try{
@@ -109,8 +127,7 @@ const PersonalAccountMessage = () => {
      catch(err){
         console.error(err)}}
      GetData()
-    .catch(console.error);}, [])
-    
+    .catch(console.error);}, []) 
   useEffect(() => {
       const GetData = async ()=>{
       try{
@@ -121,7 +138,7 @@ const PersonalAccountMessage = () => {
        catch(err){
           console.error(err)}}
        GetData()
-  .catch(console.error);}, [])
+  .catch(console.error);}, [messageSent])
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -131,12 +148,15 @@ const PersonalAccountMessage = () => {
  const selectChat = async ({chatId,userPic,userFname,userLname}) =>{
   setSelectedUser({Fname:userFname,LName:userLname,Photo:userPic})
   setSelectedChatId(chatId)
+  setdesplayMessage('randomWord')
+  selectedChatCompare = chatId
   try{
     setLoading(true)
     const responce = await axios.get(`/message/${chatId}`)
     const data = responce.data
     setSelectedChat(data)
     setTimeout(()=>{setLoading(false)},1200)
+    socket.emit('join chat',chatId)
     }
     catch(err){
        console.error(err)}
@@ -159,7 +179,13 @@ const PersonalAccountMessage = () => {
  const sendMessage = async (e) =>{
      e.preventDefault();
      try {
-      await axios.post(`/message`,{content:newMessage,chatId:selectedChatId,id:id})
+       const res=  await axios.post(`/message`,{content:newMessage,chatId:selectedChatId,id:id})
+       const responce = await axios.get(`/message/${selectedChatId}`)
+       const data = responce.data
+       socket.emit('new message',res.data)
+       setSelectedChat(data)
+       setMessageSent(!messageSent)
+       setNewMessage('')
      }catch(err)
      {
       console.log(err)
@@ -238,7 +264,7 @@ const PersonalAccountMessage = () => {
               </Slider>
            </Grid>
            <Grid item md={8} sx={{display:{xs:'none',md:'block'}}} >
-              { selectedChat ?
+              { selectedChat && displayMessage.length > 0 ?
                 loading?
                  <MessageBox>
                   <LinearProgress/>
@@ -268,7 +294,7 @@ const PersonalAccountMessage = () => {
                     }
                 </ChatBox>
                 <SendMessage>
-                   <PostInput fullWidth placeholder={t("Type......")} 
+                   <PostInput fullWidth value={newMessage} placeholder={t("Type......")} 
                         onChange={handleChange}/>
                    <IconButton size='large' disabled={!disable} onClick={sendMessage}>
                       <SendIcon  color={disable?'primary':'disabled'}/>

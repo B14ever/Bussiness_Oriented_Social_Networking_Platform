@@ -4,7 +4,8 @@ const app = express()
 const mongoose = require('mongoose')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
-    // use cors midlware to allow server request from other origin
+
+// use cors midlware to allow server request from other origin
 app.use(
         cors({
             origin: ["http://localhost:5173"],
@@ -57,6 +58,31 @@ const DeleteAccount = require('./Routes/Shared/DeleteAccount')
 app.use('/deleteAccount', DeleteAccount)
 const Posts = require('./Routes/Shared/Post')
 app.use('/posts', Posts)
+
+//  soket.io server 
+const io = require('socket.io')(Server, {
+    pingTimeOut: 60000,
+    cors: {
+        origin: "http://localhost:5173"
+    }
+})
+io.on("connection", (socket) => {
+        socket.on('setup', (userId) => {
+            socket.join(userId)
+            socket.emit('connected')
+        })
+        socket.on('join chat', (room) => {
+            socket.join(room)
+        })
+        socket.on('new message', (newMessageRecieved) => {
+            var chat = newMessageRecieved
+            if (!chat.chat.users) return console.log("chat.users not defineds")
+            chat.chat.users.forEach((user) => {
+                if (user === newMessageRecieved.sender._id) return;
+                socket.in(user).emit("message recieved", newMessageRecieved);
+            });
+        })
+    })
     // Connect to MongoDB
 mongoose.connect(process.env.MoGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => { Server })
