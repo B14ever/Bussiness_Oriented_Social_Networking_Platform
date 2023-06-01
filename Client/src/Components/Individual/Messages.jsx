@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react'
+import React, {useState} from 'react'
 import ScrollableFeed from 'react-scrollable-feed'
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import { Tooltip,Avatar,Typography,Box} from '@mui/material/node'
 import { useAthuContext } from '../../Context/Shared/AthuContext'
 import { isSameSender,isLastMessage,isSameSenderMargin,isOwnerSenderMargin} from './MessageConfig'
@@ -7,6 +8,9 @@ import { isSameSender,isLastMessage,isSameSenderMargin,isOwnerSenderMargin} from
 const Messages = ({Msg}) => {
     const {user} = useAthuContext()
     const id = user.user._id
+    const openPdf = (file) =>{
+      window.open(`../../../Files/${file}`, "_blank");
+    }
   return (
     <ScrollableFeed>
     {Msg &&
@@ -18,12 +22,22 @@ const Messages = ({Msg}) => {
                 Msg[i].content.includes('.jpg')?
                 <Box component='img'
                 sx={{height:'300px',
-                boxShadow:"rgba(149, 157, 165, 0.3) 0px 6px 15px",
-                  marginTop: 1,borderRadius:"10px",
+                boxShadow:"rgba(149, 157, 165, 0.2) 0px 4px 15px",
+                  marginBottom:2,
+                  marginTop: 1,
+                  borderRadius:"10px",
                   marginLeft:'auto',
                   marginRight:isOwnerSenderMargin(Msg, m, i, id),
                    maxWidth: "75%"}}  
-                  src={`../../../Profile_Image/Message5.jpg`}/>:
+                  src={`../../../Profile_Image/${Msg[i].content}`}/>:
+                  Msg[i].content.includes('.pdf')?
+                 <Box onClick={()=>openPdf(Msg[i].content)}
+                 sx={{backgroundColor:"#1e88e5",padding: "5px 15px",marginLeft: 'auto',marginTop: 1,
+                 marginRight:isOwnerSenderMargin(Msg, m, i, id),borderRadius: "10px",maxWidth: "75%",
+                 color:'#fff',display:'flex',alignItems:'center',gap:'1rem'}}>
+                  <InsertDriveFileIcon/>
+                   <Typography>{Msg[i].content}</Typography>
+                 </Box>:
                 <Typography component='span'
                   sx={{backgroundColor:"#1e88e5",padding: "5px 15px",marginLeft: 'auto',marginTop: 1,
                    marginRight:isOwnerSenderMargin(Msg, m, i, id),borderRadius: "10px",maxWidth: "75%",
@@ -51,14 +65,22 @@ const Messages = ({Msg}) => {
                   marginTop: 1,borderRadius:"10px",
                   marginLeft: isSameSenderMargin(Msg, m, i, id),
                    maxWidth: "75%"}}  
-                  src={`../../../Profile_Image/Message5.jpg`}/>:
+                   src={`../../../Profile_Image/${Msg[i].content}`}/>:
+              Msg[i].content.includes('.pdf')?
+                <Box onClick={()=>openPdf(Msg[i].content)}
+                  sx={{backgroundColor:"#E7EBF0",padding: "5px 15px",
+                  marginLeft:isSameSenderMargin(Msg, m, i, id),marginTop: 1,
+                  borderRadius: "10px",maxWidth: "75%",color: "#000",
+                  display:'flex',alignItems:'center',gap:'1rem'}}>
+                  <InsertDriveFileIcon color='primary'/>
+                    <Typography>{Msg[i].content}</Typography>
+                </Box>:
               <Typography component='span'
                 sx={{backgroundColor: "#E7EBF0",marginTop: 1,borderRadius:"10px",padding:"5px 15px",
                      marginLeft: isSameSenderMargin(Msg, m, i, id), maxWidth: "75%",color: "#000"}}>
                 {Msg[i].content}
               </Typography>}
            </div>
-
           }
         </React.Fragment>
       }

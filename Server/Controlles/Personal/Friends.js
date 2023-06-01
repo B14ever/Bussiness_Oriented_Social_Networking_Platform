@@ -33,4 +33,20 @@ const GetFirends = async(req, res, next) => {
         res.status(err.status || 500).json({ error: err.message })
     }
 }
-module.exports = { GetPersonalAccounts, GetFirends }
+const GetPendingRequest = async(req, res, next) => {
+    const { id } = req.body
+    try {
+        const PenddigRequest = await PersonalAccount.find({ _id: id }, { sentFriendRequest: 1 }).populate("sentFriendRequest", "FirstName LastName profilePhoto")
+        if (!PenddigRequest) {
+            const error = new Error();
+            error.status = 403;
+            throw error;
+        } else {
+            return res.status(200).json({ PenddigRequest })
+        }
+
+    } catch (err) {
+        res.status(err.status || 500).json({ error: err.message })
+    }
+}
+module.exports = { GetPersonalAccounts, GetFirends, GetPendingRequest }

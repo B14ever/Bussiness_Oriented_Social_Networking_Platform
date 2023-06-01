@@ -7,33 +7,36 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
 import { useAthuContext } from '../../Context/Shared/AthuContext'
 import {useLanguage} from '../../Localazation/LanguageContext'
 import {useNavigate} from 'react-router-dom'
 const NetworkBox = () => {
     const {user} = useAthuContext()
+    const friends = user.user.friends
+    const pending = user.user.sentFriendRequest
     const {t} = useLanguage()
     const navigate = useNavigate()
   return (
     <Box sx={{borderRadius:'6px',backgroundColor: '#fff',width:{md: '70%', lg: '57%' },margin:'10px 0 10px'}}>
-     <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+     <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper',borderRadius:'10px'}}>
      <nav aria-label="main mailbox folders">
-        <List>
+        <List disablePadding>
           <ListItem disablePadding>
             <ListItemButton onClick={()=>navigate('/PersonalAccountProfile/connection')}>
               <ListItemIcon>
                 <PeopleOutlinedIcon />
               </ListItemIcon>
-              <ListItemText primary={t("Connection")}/>
+              <Typography p={1}>{t("Connection")}</Typography>
+              <Typography sx={{marginLeft:'auto'}} p={1}>{friends.length}</Typography>
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
-            <ListItemButton>
+            <ListItemButton onClick={()=>navigate('/PersonalAccountProfile/pendingRequest')}>
               <ListItemIcon>
                 <AccessTimeOutlinedIcon />
               </ListItemIcon>
-              <ListItemText primary={t("PendingRequest")}/>
+              <Typography p={1}>{t("PendingRequest")}</Typography>
+              <Typography sx={{marginLeft:'auto'}} p={1}>{pending.length}</Typography>
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
@@ -41,7 +44,8 @@ const NetworkBox = () => {
               <ListItemIcon>
                 <ArticleOutlinedIcon />
               </ListItemIcon>
-              <ListItemText primary={t("Pages")} />
+              <Typography p={1}>{t("Pages")}</Typography>
+              <Typography sx={{marginLeft:'auto'}} p={1}>{friends.length}</Typography>
             </ListItemButton>
           </ListItem>
         </List>

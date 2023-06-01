@@ -1,7 +1,9 @@
 import React,{useState,useEffect} from 'react'
-import { Box, Typography,Grid,IconButton,Divider,Drawer,List,ListItem,ListItemButton,ListItemAvatar,ListItemText,Avatar,LinearProgress,TextField} from '@mui/material/node'
+import { Box, Typography,Grid,IconButton,Divider,Drawer,List,ListItem,ListItemButton,ListItemAvatar,ListItemText,Avatar,LinearProgress,TextField,Button} from '@mui/material/node'
 import MenuIcon from '@mui/icons-material/Menu';
 import MenuOpenOutlinedIcon from '@mui/icons-material/MenuOpenOutlined';
+import PhotoOutlinedIcon from '@mui/icons-material/PhotoOutlined';
+import AttachFileOutlinedIcon from '@mui/icons-material/AttachFileOutlined';
 import SendIcon from '@mui/icons-material/Send';
 import { styled, useTheme } from '@mui/material/styles';
 import { useLanguage } from '../../Localazation/LanguageContext';
@@ -9,7 +11,6 @@ import { useAthuContext } from '../../Context/Shared/AthuContext';
 import Messages from '../../Components/Individual/Messages';
 import axios from '../../api/axios'
 import io from 'socket.io-client'
-
 var socket , selectedChatCompare;
 const Section = styled(Box)(({ theme }) => ({
   width:'100%',
@@ -89,6 +90,15 @@ const PostInput = styled(TextField)(({ theme }) => ({
     },
   },
 }))
+const DialogButton = styled(Button)(({ theme }) => ({
+  flexGrow:1,
+  backgroundColor:'#E7EBF0',
+  textTransform:'none',
+  justifyContent: "flex-start",
+  padding:12,
+  borderRadius:'2rem',
+  color:'#555'
+}))
 const drawerWidth = 300;
 const PersonalAccountMessage = () => {
   const {t} = useLanguage()
@@ -105,7 +115,6 @@ const PersonalAccountMessage = () => {
   const [messageSent,setMessageSent] = useState(true)
   const [displayMessage,setdesplayMessage] = useState('')
   const [socketConnected,setSocketConnected] = useState(false)
-
   useEffect(()=>{
    socket = io('http://localhost:8000')
    socket.emit("setup",id)
@@ -171,6 +180,7 @@ const PersonalAccountMessage = () => {
     const res = await axios.get(`/message/${data._id}`)
     const newdata = res.data
     setSelectedChat(newdata)
+    setdesplayMessage('randomWord')
     setTimeout(()=>{setLoading(false)},1200)
     }
     catch(err){
@@ -199,7 +209,7 @@ const PersonalAccountMessage = () => {
     <Main>
       <Section >
         <Grid container  mt={1} spacing={1} >
-           <Grid item xs={12}  md={4}>
+           <Grid item xs={12}  sm={4}>
               <SideBar>
                  <Head>
                   {
@@ -234,7 +244,11 @@ const PersonalAccountMessage = () => {
                               `${info.users[1].FirstName} ${info.users[1].LastName}`: 
                               `${info.users[0].FirstName} ${info.users[0].LastName}`}
                             secondary={<Typography sx={{ display: 'inline' }} component="span" variant="body2"      
-                                        color="text primary"> {info.latestMessage?.content}</Typography>}/>
+                            color="text primary">
+                              {info.latestMessage?.content.includes('.jpg')?'Image':
+                              info.latestMessage?.content.includes('.pdf')?'File'
+                              :info.latestMessage?.content}
+                            </Typography>}/>
                         </ListItemButton>
                       </ListItem>
                       <Divider/>
@@ -263,7 +277,7 @@ const PersonalAccountMessage = () => {
                 </List>
               </Slider>
            </Grid>
-           <Grid item md={8} sx={{display:{xs:'none',md:'block'}}} >
+           <Grid item sm={8} sx={{display:{xs:'none',sm:'block'}}} >
               { selectedChat && displayMessage.length > 0 ?
                 loading?
                  <MessageBox>
@@ -296,6 +310,16 @@ const PersonalAccountMessage = () => {
                 <SendMessage>
                    <PostInput fullWidth value={newMessage} placeholder={t("Type......")} 
                         onChange={handleChange}/>
+                    <IconButton  component="label"  size='large' sx={{backgroundColor:'#E7EBF0'}}>
+                       <PhotoOutlinedIcon />
+                      <input hidden accept="image/*" multiple type="file" 
+                      onChange={(e)=>setNewMessage(e.target.files[0].name)}/>
+                  </IconButton>
+                  <IconButton  component="label"  size='large' sx={{backgroundColor:'#E7EBF0'}}>
+                       <AttachFileOutlinedIcon/>
+                      <input hidden  multiple type="file" 
+                      onChange={(e)=>setNewMessage(e.target.files[0].name)}/>
+                  </IconButton>
                    <IconButton size='large' disabled={!disable} onClick={sendMessage}>
                       <SendIcon  color={disable?'primary':'disabled'}/>
                    </IconButton>

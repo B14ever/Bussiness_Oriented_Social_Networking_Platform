@@ -40,6 +40,7 @@ import QuestionStartPage from "./pages/Personal/QuestionStartPage"
 import Exam from "./pages/Personal/Exam"
 import PeoplesDeatail from "./pages/Personal/PeoplesDeatail"
 import Connection from "./pages/Personal/Connection"
+import PendingRequest from "./pages/Personal/PendingRequest"
 function App() {
   return (
       <Routes>
@@ -69,6 +70,7 @@ function App() {
                      <Route path="PersonalProfileDetail/takeAssessment/qs" element={<QuestionStartPage/>}/>
                      <Route path="PersonalProfileDetail/takeAssessment/exam" element={<Exam/>}/>
                      <Route path="connection" element={<Connection/>}/>
+                     <Route path="pendingRequest" element={<PendingRequest/>}/>
                      <Route path="jobs" element={<Jobs/>}/>
                 </Route>
               </Route>

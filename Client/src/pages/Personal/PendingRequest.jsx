@@ -1,5 +1,5 @@
 import React, { useEffect,useState} from 'react'
-import {Box, Typography,Divider,IconButton,Tooltip, Avatar,LinearProgress} from '@mui/material'
+import {Box, Typography,Divider,IconButton,Tooltip, Avatar,LinearProgress,Snackbar,Alert} from '@mui/material'
 import { styled, useTheme } from '@mui/material/styles';
 import { useLanguage } from '../../Localazation/LanguageContext';
 import { useAthuContext } from '../../Context/Shared/AthuContext';
@@ -31,29 +31,50 @@ const HoverBox = styled(Box)(({ theme }) => ({
 const ProfilePhoto= styled(Avatar)(({ theme }) => ({
   width: 45, height: 45,boxShadow:"rgba(149, 157, 165, 0.2) 0px 6px 22px",
 }));
-const Connection = () => {
+const PendingRequest = () => {
   const {t} = useLanguage()
-  const {user} = useAthuContext()
+  const {user,dispatch} = useAthuContext()
   const id = user.user._id
   const navigate = useNavigate()
-  const [friends,setFriends] = useState([])
+  const [pendings,setPendings] = useState([])
   const [loading,setLoading] = useState(false)
+  const [action,setAction] = useState(false)
+  const [warnnig,setWaring] = useState(false)
+ const [success,setSuccess] = useState(false)
+ const [warnnigMsg,setWaringMsg] = useState('')
+ const [successMsg,setSuccessMsg] = useState('')
   useEffect(() => {
     const GetData = async ()=>{
     try{
      setLoading(true)
-     const responce = await axios.post(`/Peoples/friends`,{id})
-     const data = responce.data.Friends[0].friends
-     setFriends(data)
+     const responce = await axios.post(`/Peoples/pendingRequest`,{id})
+     console.log(responce.data)
+     const data = responce.data.PenddigRequest[0].sentFriendRequest
+     setPendings(data)
      setTimeout(()=>{setLoading(false)},1200)
      }
      catch(err){
         console.error(err)}}
      GetData()
-    .catch(console.error);}, []) 
+    .catch(console.error);}, [action]) 
   const handleClick = (id) =>{
     navigate(`/PersonalAccountProfile/PersonalNetwork/${id}`)
   }
+  const CancleRequest = async (reciverId) =>{
+    try{
+      const responce = await axios.post('/friendRequest/cancleRequest',{senderId:id,reciverId:reciverId})
+       if(responce.status === 200){
+        localStorage.setItem('USER_DATA',JSON.stringify(responce.data.user))
+        dispatch({type:"AUTHENTICATE",payload:{user:responce.data.user,token:localStorage.getItem('TOKEN')}})
+        setSuccessMsg('RequestCancled')
+        setSuccess(true)
+        setAction(!action)  
+      } 
+      }catch(err){
+      setWaringMsg('RequestCancled')
+      setWaring(true)
+       }
+     }
   return (
     <Main>
      { 
@@ -66,34 +87,34 @@ const Connection = () => {
       </Section>
        :
       <Section>
-        {
-          friends.length > 0 ?
+         {
+          pendings.length > 0 ?
         <Box>
-        <Box p={1} sx={{display:'flex',alignItems:'center',gap:'.5rem'}}>
+         <Box p={1} sx={{display:'flex',alignItems:'center',gap:'.5rem'}}>
           <Tooltip title={t("Back")}>
             <IconButton onClick={()=>navigate(-1)}>
               <KeyboardBackspaceIcon/>
             </IconButton>
           </Tooltip>
           <Typography variant='subtitle2'>{t("Your Connection")}</Typography>
-        </Box>
+         </Box>
         <Divider/>
-        {
-          friends.map((friend,i)=>{
-            return <HoverBox key={i}>
+         {
+           pendings.map((pending,i)=>{
+             return <HoverBox key={i}>
                      <Box p={1.5} sx={{display:'flex',alignItems:'center',gap:'.5rem'}}>
-                       <ProfilePhoto  onClick={()=>handleClick(friend._id)}
-                       src={`../../../Profile_Image/${friend.profilePhoto?friend.profilePhoto:'Avater.png'}`}/>
-                       <Typography onClick={()=>handleClick(friend._id)}>{friend.FirstName} {friend.LastName} </Typography>
+                       <ProfilePhoto  onClick={()=>handleClick(pending._id)}
+                       src={`../../../Profile_Image/${pending.profilePhoto?pending.profilePhoto:'Avater.png'}`}/>
+                       <Typography onClick={()=>handleClick(pending._id)}>{pending.FirstName} {pending.LastName} </Typography>
                        <Tooltip title={t('Remove')}>
-                         <IconButton sx={{marginLeft:'auto'}}>
+                         <IconButton sx={{marginLeft:'auto'}} onClick={()=>CancleRequest(pending._id)}>
                            <RemoveCircleOutlineIcon/>
                          </IconButton>
                        </Tooltip>
                       </Box>
                       <Divider/>
                    </HoverBox>})}
-        </Box>:
+         </Box>:
          <Box>
           <Box p={1} sx={{display:'flex',alignItems:'center'}}>
             <Tooltip title={t("Back")}>
@@ -104,14 +125,26 @@ const Connection = () => {
           </Box>
           <Divider/>
           <Box sx={{height:'70vh',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'}}>
-          <img  style={{height:'460px'}} src={`../../../Profile_Image/NoConnection.jpg`}/>
-          <Typography onClick={()=>navigate(-1)} >{t("MakeFriends")}</Typography>
+          <img  style={{height:'460px'}} src={`../../../Profile_Image/NoPendingRequest.jpg`}/>
+          <Typography onClick={()=>navigate(-1)} >{t("NoPendingRequest")}</Typography>
           </Box>
          </Box>
         }
       </Section>}
+      <Snackbar anchorOrigin={{ vertical:'top', horizontal:'center'}}
+                open={warnnig} autoHideDuration={800} onClose={()=>setWaring(false)}>
+        <Alert onClose={()=>setWaring(false)} severity="info" sx={{ width: '100%' }}>
+        {t(`${warnnigMsg}`)}
+        </Alert>
+      </Snackbar>
+        <Snackbar anchorOrigin={{ vertical:'top', horizontal:'center'}}
+                open={success} autoHideDuration={800} onClose={()=>setSuccess(false)}>
+        <Alert onClose={()=>setWaring(false)} severity="info" sx={{ width: '100%' }}>
+        {t(`${successMsg}`)}
+        </Alert>
+        </Snackbar>
     </Main>
   )
 }
 
-export default Connection
+export default PendingRequest
