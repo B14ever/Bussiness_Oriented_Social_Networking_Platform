@@ -1,12 +1,15 @@
 import React,{useEffect, useState} from 'react'
-import {Grid,Box,TextField,Typography,Button,FormControl,FormHelperText,MenuItem,Link} from '@mui/material'
+import {Grid,Box,TextField,Typography,Button,FormControl,FormHelperText,MenuItem,Link,Select,InputLabel} from '@mui/material'
 import axios from '../../api/axios';
 import { useNavigate,useLocation} from 'react-router-dom'
 import { useAthuContext } from '../../Context/Shared/AthuContext';
 import {useLanguage} from '../../Localazation/LanguageContext'
 const COMPANY_SIGNUP_URL = '/ComapnyAccountSignUp'
+const organizationTypes = ['Public','Private']
+const industryTypes = ['Education','Bank','Healthcare','Retail','Manufacturing','Construction','InformationTechnology',"Travel"]
+const organizationSizes = ['OneUpTOFiftyEmploye','FityUpToHundredEmploye','HundredUp','Above200']
 const CompanySignupform = () => {
-  const {t,i18next} = useLanguage()
+  const {t} = useLanguage()
   const {dispatch} = useAthuContext()
   const [data,setData] = useState({companyName:'', organizationSize:'', organizationType:'', industry:'',tagline:'', Email:'', PhoneNumber:'', Country:'',City:'',Password:'',confirmPassword:''})
   const [Errors, setErrors] = useState({companyName:'', organizationSize:'',organizationType:'', industry:'',tagline:'', Email:'', PhoneNumber:'', Country:'',City:'',Password:'',confirmPassword:''});
@@ -75,17 +78,17 @@ const CompanySignupform = () => {
     }
 
     if (!data.PhoneNumber) {
-      formErrors.PhoneNumber = 'Phone Number is required';
+      formErrors.PhoneNumber = 'PhoneNumberRequired';
     }
 
     if (!data.Password) {
       formErrors.Password = 'PasswordRequired';
     }
     if (!data.Country) {
-      formErrors.Country = 'Country is required';
+      formErrors.Country = 'Countryisrequired';
     }
     if (!data.City) {
-      formErrors.City = 'City is required';
+      formErrors.City = 'Cityisrequired';
     }
     if (!data.confirmPassword) {
       formErrors.confirmPassword = 'PleaseConfrimNewPassword';
@@ -104,23 +107,41 @@ const CompanySignupform = () => {
           <FormHelperText sx={{color:'red',width:{xs:'100%',md:'50%'}}}>{Errors.companyName?t(`${Errors.companyName}`):''}</FormHelperText>
         </FormControl>
         </Grid>
-        <Grid xs={12} sm={6} item>
-        <FormControl fullWidth error={!!Errors.industry}>
-          <TextField  onChange={handleChange} margin="normal" required fullWidth id="industry" label={t("industry")} name="industry" autoFocus/>
+        <Grid xs={12} sm={6} mt={2} item>
+        <FormControl  fullWidth error={!!Errors.industry}>
+               <InputLabel id="demo-select-small-label">{t('industry')}</InputLabel>
+                <Select labelId="demo-select-small-label"  onChange={handleChange}
+                        name='industry'
+                      label={t('industry')}>
+                      {industryTypes.map((name) => (
+                      <MenuItem key={name} value={name}>{t(`${name}`)}</MenuItem>))}
+                </Select>
           <FormHelperText sx={{color:'red',width:{xs:'100%',md:'50%'}}}>{Errors.industry?t(`${Errors.industry}`):''}</FormHelperText>
         </FormControl>
         </Grid>
       </Grid>
       <Grid container spacing={1.5}>
-        <Grid xs={12} sm={6} item>
-        <FormControl fullWidth error={!!Errors.organizationSize}>
-         <TextField onChange={handleChange}  margin="normal" required fullWidth id="organizationSize" label={t("OrganizationSize")} name="organizationSize" autoFocus/>
+        <Grid xs={12} sm={6} item mt={2}>
+        <FormControl  fullWidth error={!!Errors.organizationSize}>
+        <InputLabel id="demo-select-small-label">{t('OrganizationSize')}</InputLabel>
+                <Select  labelId="demo-select-small-label" onChange={handleChange}
+                      name='organizationSize'
+                      label={t('OrganizationSize')}>
+                      {organizationSizes.map((name) => (
+                      <MenuItem key={name} value={name}>{t(`${name}`)}</MenuItem>))}
+              </Select>
          <FormHelperText sx={{color:'red',width:{xs:'100%',md:'50%'}}}>{Errors.organizationSize?t(`${Errors.organizationSize}`):''}</FormHelperText>
         </FormControl>
         </Grid>
-        <Grid xs={12} sm={6} item>
-        <FormControl fullWidth error={!!Errors.organizationType}>
-         <TextField onChange={handleChange} margin="normal" required fullWidth id="Organizationtype" label={t("OrganizationType" )}name="organizationType" autoFocus/>
+        <Grid xs={12} sm={6} mt={2} item>
+        <FormControl  fullWidth error={!!Errors.organizationType}>
+        <InputLabel id="demo-select-small-label">{t("OrganizationType")}</InputLabel>
+                <Select labelId="demo-select-small-label" onChange={handleChange}
+                       name='organizationType'
+                      label={t('OrganizationType')}>
+                      {organizationTypes.map((name) => (
+                      <MenuItem key={name} value={name}>{t(`${name}`)}</MenuItem>))}
+          </Select>
          <FormHelperText sx={{color:'red',width:{xs:'100%',md:'50%'}}}>{Errors.organizationType?t(`${Errors.organizationType}`):''}</FormHelperText>
           </FormControl>
         </Grid>

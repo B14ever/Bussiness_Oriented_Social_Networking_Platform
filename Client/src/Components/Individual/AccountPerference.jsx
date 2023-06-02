@@ -6,7 +6,7 @@ import axios from '../../api/axios'
 const AccountPerference = () => {
   const {t} = useLanguage()
   const {user,dispatch} = useAthuContext()
-  const [data,setData] = useState({FirstName:`${user.user.FirstName}`,LastName:`${user.user.LastName}`,Email:`${user.user.Email}`,PhoneNumber:`${user.user.PhoneNumber}`})
+  const [data,setData] = useState({FirstName:`${user.user.FirstName}`,LastName:`${user.user.LastName}`,Email:`${user.user.Email}`,PhoneNumber:`${user.user.PhoneNumber}`,Country:`${user.user.Country}`,City:`${user.user.City}`})
   const [Errors, setErrors] = useState({FirstName:false,LastName:false,Country:false,PhoneNumber:false,City:false});
   const [open, setOpen] = useState(false);
   const [warnnig,setWaring] = useState(false)
@@ -38,7 +38,7 @@ const AccountPerference = () => {
             setWaring(true)
           }
   }
-  const isDisabled = Errors.FirstName || Errors.LastName || Errors.City || Errors.Country
+  const isDisabled = Errors.FirstName || Errors.LastName || Errors.City || Errors.Country || Errors.PhoneNumber
   return (
     <Box component="form" onSubmit={handleSubmit} sx={{display:'flex',flexDirection:'column',gap:'.5rem'}}mt={2}ml={2}mr={2}>
        <Divider textAlign="left">{t("Name")}</Divider>
@@ -55,7 +55,7 @@ const AccountPerference = () => {
        <Divider textAlign="left">{t("Contact")}</Divider>
        <Grid spacing={1} container>
          <Grid sm={12} xs={12} item>
-         <TextField  onChange={handleChange} onBlur={handleError} name='PhoneNumber'  label={t('Phone Number')} defaultValue={user.user.PhoneNumber} fullWidth />
+         <TextField  onChange={handleChange} onBlur={handleError} name='PhoneNumber'  label={t('Phone')} defaultValue={user.user.PhoneNumber} fullWidth />
          <FormHelperText sx={{color:'red'}}>{Errors.PhoneNumber?`${t("PhoneNumberRequired")}`:''}</FormHelperText> 
          </Grid>
        </Grid>

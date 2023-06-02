@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Container,Box,Typography,Tabs,Tab} from '@mui/material';
+import {Box,Typography,Tabs,Tab} from '@mui/material';
 import Security from '../../Components/Shared/Security';
 import AccountPerference from '../../Components/Individual/AccountPerference';
 import { useLanguage } from '../../Localazation/LanguageContext';

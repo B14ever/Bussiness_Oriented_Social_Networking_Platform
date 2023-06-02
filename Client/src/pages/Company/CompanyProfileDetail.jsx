@@ -33,7 +33,7 @@ const CompanyProfileDetail = () => {
               </Grid>
               <Grid item xs={12} sm={6} mt={1} sx={{display:'flex',alignItems:'center',gap:'.5rem'}}>
                 <Groups2OutlinedIcon sx={{color:'#999'}}/>
-                <Typography>{user.user.organizationSize}</Typography> 
+                <Typography>{t(`${user.user.organizationSize}`)}</Typography> 
               </Grid>   
             </Grid>
         </Box>

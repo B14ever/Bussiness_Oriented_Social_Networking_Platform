@@ -35,15 +35,18 @@ const CompanyAccount = new mongoose.Schema({
     tagline: {
         type: String,
     },
-    mession: {
+    mission: {
         type: String
     },
-    workes: {
-        type: String
-    },
-    Partners: {
-        type: String
-    },
+    workes: [{
+        title: {
+            type: String
+        },
+        describtion: {
+            type: String
+        }
+    }],
+    partners: [{ type: String, ref: "CompanyAccount" }],
     logo: {
         type: String,
         default: 'defaultLogo.jpg'
