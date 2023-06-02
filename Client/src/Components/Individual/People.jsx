@@ -156,7 +156,7 @@ const People = () => {
            <Grid item xs={12} sm={6} mb={1}>
             <Search onChange={(e)=>setSearch(e.target.value)}>
               <SearchIconWrapper><SearchIcon /></SearchIconWrapper>
-              <StyledInputBase placeholder={t("Search…")} inputProps={{ 'aria-label': 'search' }}/>
+              <StyledInputBase placeholder={t("Search")} inputProps={{ 'aria-label': 'search' }}/>
             </Search>
            </Grid>
          </Grid>

@@ -82,7 +82,7 @@ const PendingRequest = () => {
       <Section>
         <LinearProgress/>
         <Box p={1} sx={{display:'flex',alignItems:'center',gap:'.5rem'}}>
-          <Typography variant='subtitle2'>{t("Your Connection")}</Typography>
+          <Typography variant='subtitle2'>{t("PendingRequest")}</Typography>
         </Box>
       </Section>
        :
@@ -96,7 +96,7 @@ const PendingRequest = () => {
               <KeyboardBackspaceIcon/>
             </IconButton>
           </Tooltip>
-          <Typography variant='subtitle2'>{t("Your Connection")}</Typography>
+          <Typography variant='subtitle2'>{t("PendingRequest")}</Typography>
          </Box>
         <Divider/>
          {
@@ -125,7 +125,7 @@ const PendingRequest = () => {
           </Box>
           <Divider/>
           <Box sx={{height:'70vh',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'}}>
-          <img  style={{height:'460px'}} src={`../../../Profile_Image/NoPendingRequest.jpg`}/>
+          <Box component='img'  sx={{height:{md:'460px',xs:'300px'},width:{xs:'50%',md:'100'}}} src={`../../../Profile_Image/NoPendingRequest.jpg`}/>
           <Typography onClick={()=>navigate(-1)} >{t("NoPendingRequest")}</Typography>
           </Box>
          </Box>

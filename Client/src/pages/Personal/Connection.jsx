@@ -61,7 +61,7 @@ const Connection = () => {
       <Section>
         <LinearProgress/>
         <Box p={1} sx={{display:'flex',alignItems:'center',gap:'.5rem'}}>
-          <Typography variant='subtitle2'>{t("Your Connection")}</Typography>
+          <Typography variant='subtitle2'>{t("YourConnection")}</Typography>
         </Box>
       </Section>
        :
@@ -75,7 +75,7 @@ const Connection = () => {
               <KeyboardBackspaceIcon/>
             </IconButton>
           </Tooltip>
-          <Typography variant='subtitle2'>{t("Your Connection")}</Typography>
+          <Typography variant='subtitle2'>{t("YourConnection")}</Typography>
         </Box>
         <Divider/>
         {
@@ -104,8 +104,8 @@ const Connection = () => {
           </Box>
           <Divider/>
           <Box sx={{height:'70vh',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'}}>
-          <img  style={{height:'460px'}} src={`../../../Profile_Image/NoConnection.jpg`}/>
-          <Typography onClick={()=>navigate(-1)} >{t("MakeFriends")}</Typography>
+          <Box component='img'  sx={{height:{md:'460px',xs:'300px'},width:{xs:'50%',md:'100'}}} src={`../../../Profile_Image/NoConnection.jpg`}/>
+          <Typography  onClick={()=>navigate(-1)} >{t("MakeFriends")}</Typography>
           </Box>
          </Box>
         }

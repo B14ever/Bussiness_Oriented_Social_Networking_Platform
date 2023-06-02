@@ -429,9 +429,16 @@ export const TranslationEn ={
     InvitationNotRejected:'Invitation not decline',
     YouAreKnowFriends:'You are know connected with',
     YouHaveDclined:'You have dclined',
-    PendingRequest:"Pending request",
+    PendingRequest:"Pending requests",
+    Connection:'Connections',
+    Pages:'Pages',
     StartPost:'Start post',
     WhatToPost:'What do you want to talk about',
     SelectChat:'Select chat to start a message',
-    Messaging:'Messaging'
+    Messaging:'Messaging',
+    YourConnection:'Your connections',
+    NoPendingRequest:'No pending request',
+    Search:'Search......',
+    MakeFriends:'Send invitation to meet new friends',
+    MakeFriendsToChat:'Connect with peopels to send messages'
 }

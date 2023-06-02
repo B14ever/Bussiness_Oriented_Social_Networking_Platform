@@ -1,13 +1,15 @@
 import React,{useState,useEffect} from 'react'
-import { Box, Typography,Grid,IconButton,Divider,Drawer,List,ListItem,ListItemButton,ListItemAvatar,ListItemText,Avatar,LinearProgress,TextField,Button} from '@mui/material/node'
+import { Box, Typography,Grid,IconButton,Divider,Drawer,List,ListItem,ListItemButton,ListItemAvatar,ListItemText,Avatar,LinearProgress,TextField,Button,InputBase} from '@mui/material/node'
 import MenuIcon from '@mui/icons-material/Menu';
 import MenuOpenOutlinedIcon from '@mui/icons-material/MenuOpenOutlined';
 import PhotoOutlinedIcon from '@mui/icons-material/PhotoOutlined';
 import AttachFileOutlinedIcon from '@mui/icons-material/AttachFileOutlined';
+import SearchIcon from '@mui/icons-material/Search';
 import SendIcon from '@mui/icons-material/Send';
 import { styled, useTheme } from '@mui/material/styles';
 import { useLanguage } from '../../Localazation/LanguageContext';
 import { useAthuContext } from '../../Context/Shared/AthuContext';
+import { useNavigate } from 'react-router-dom';
 import Messages from '../../Components/Individual/Messages';
 import axios from '../../api/axios'
 import io from 'socket.io-client'
@@ -99,6 +101,48 @@ const DialogButton = styled(Button)(({ theme }) => ({
   borderRadius:'2rem',
   color:'#555'
 }))
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor:'#E7EBF0',
+  '&:hover': {
+    backgroundColor:'#E7EBF0',
+  },
+  marginLeft: 0,
+  width: '100%',
+}));
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+ 
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: 'inherit',
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+  },
+}));
+const NoFriendsBox = styled(Box)(({ theme }) => ({
+  height:'70vh',
+  display:'flex',
+  flexDirection:'column',
+  alignItems:'center',
+  justifyContent:'center',
+  backgroundColor:'#fff',
+  boxShadow:"rgba(149, 157, 165, 0.3) 0px 6px 22px",borderRadius:'10px',
+  width:'70%',
+  [theme.breakpoints.down('sm')]: {width: '100%%'},
+  }))
 const drawerWidth = 300;
 const PersonalAccountMessage = () => {
   const {t} = useLanguage()
@@ -115,6 +159,8 @@ const PersonalAccountMessage = () => {
   const [messageSent,setMessageSent] = useState(true)
   const [displayMessage,setdesplayMessage] = useState('')
   const [socketConnected,setSocketConnected] = useState(false)
+  const [search,setSearch] = useState('')
+  const navigate = useNavigate()
   useEffect(()=>{
    socket = io('http://localhost:8000')
    socket.emit("setup",id)
@@ -150,6 +196,7 @@ const PersonalAccountMessage = () => {
   .catch(console.error);}, [messageSent])
   const handleDrawerOpen = () => {
     setOpen(true);
+    setSearch('')
   };
   const handleDrawerClose = () => {
     setOpen(false);
@@ -207,7 +254,8 @@ const PersonalAccountMessage = () => {
  const disable = newMessage.length > 0
   return (
     <Main>
-      <Section >
+   {user.user.friends.length > 0 ?
+    <Section >
         <Grid container  mt={1} spacing={1} >
            <Grid item xs={12}  sm={4}>
               <SideBar>
@@ -259,7 +307,15 @@ const PersonalAccountMessage = () => {
               </SideBar>
               <Slider variant="persistent" anchor="left" open={open} >
                 <List disablePadding >
-                  {friends.map((info, index) => (
+                 <ListItem disablePadding >
+                  <Search onChange={(e)=>setSearch(e.target.value)} >
+                   <SearchIconWrapper><SearchIcon /></SearchIconWrapper>
+                   <StyledInputBase
+                    value={search} placeholder={t("Search")} inputProps={{ 'aria-label': 'search' }}/>
+                  </Search>
+                 </ListItem>
+                  {friends.filter(info=>{
+                   return info.FirstName.toLowerCase().includes(search.toLowerCase())}).map((info, index) => (
                     <Box  key={index} >
                       <ListItem disablePadding>
                        <ListItemButton 
@@ -308,7 +364,7 @@ const PersonalAccountMessage = () => {
                     }
                 </ChatBox>
                 <SendMessage>
-                   <PostInput fullWidth value={newMessage} placeholder={t("Type......")} 
+                   <PostInput  fullWidth value={newMessage} placeholder={t("Type......")} 
                         onChange={handleChange}/>
                     <IconButton  component="label"  size='large' sx={{backgroundColor:'#E7EBF0'}}>
                        <PhotoOutlinedIcon />
@@ -333,6 +389,20 @@ const PersonalAccountMessage = () => {
            </Grid>
         </Grid>
       </Section>
+      :
+      <Section sx={{display:'flex',justifyContent:'center'}}>
+         <NoFriendsBox>
+          <Box 
+             component='img'  
+             sx={{height:{md:'500px',xs:'300px'},width:{xs:'50%',md:'60%'},borderRadius:'10px'}} 
+             src={`../../../Profile_Image/Message6.jpg`} />
+            <Typography  
+              onClick={()=>navigate('/PersonalAccountProfile/PersonalNetwork')}>
+              {t("MakeFriendsToChat")}
+            </Typography>
+          </NoFriendsBox>
+      </Section>
+      }
     </Main>
   )
 }
