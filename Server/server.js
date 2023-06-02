@@ -39,6 +39,8 @@ app.use('/message', Message)
     //routes for CompanyAccounts
 const CompanyAccounts = require('./Routes/Company/SignUp')
 app.use('/ComapnyAccountSignUp', CompanyAccounts)
+const CompanyAccountProfile = require('./Routes/Company/Profile')
+app.use('/Profile', CompanyAccountProfile)
 
 
 //routes for Admin

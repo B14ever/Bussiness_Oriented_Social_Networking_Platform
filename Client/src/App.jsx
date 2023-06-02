@@ -41,6 +41,11 @@ import Exam from "./pages/Personal/Exam"
 import PeoplesDeatail from "./pages/Personal/PeoplesDeatail"
 import Connection from "./pages/Personal/Connection"
 import PendingRequest from "./pages/Personal/PendingRequest"
+import CompanyAccountLayout from "./Components/Company/CompanyAccountLayout"
+import CompanyAccountNotification from "./pages/Company/CompanyAccountNotification"
+import CompanyAccontJobsPages from "./pages/Company/CompanyAccountJobsPages"
+import CompanyProfileDetail from "./pages/Company/CompanyProfileDetail"
+import CompanyAccountSetting from "./pages/Company/CompanyAccountSetting"
 function App() {
   return (
       <Routes>
@@ -75,7 +80,13 @@ function App() {
                 </Route>
               </Route>
               <Route element={<ProtectedRoutes Autherazetion={["company"]}/>}>
-                <Route path="/ComapnyAccountProfile" element={<CompanyProfileAccount/>}/>
+                <Route path="/ComapnyAccountProfile" element={<CompanyAccountLayout/>}>
+                  <Route path="/ComapnyAccountProfile" element={<CompanyProfileAccount/>}/>
+                  <Route path="notification" element={<CompanyAccountNotification/>}/>
+                  <Route path="job" element={<CompanyAccontJobsPages/>}/>
+                  <Route path="profile" element={<CompanyProfileDetail/>}/>
+                  <Route path="setting" element={<CompanyAccountSetting/>}/>
+                </Route>
               </Route>
               <Route element={<ProtectedRoutes Autherazetion={["admin"]}/>}>
                 <Route path="/AdminDashborde" element={<AdminLayout/>}>

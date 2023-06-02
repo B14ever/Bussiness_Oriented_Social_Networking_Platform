@@ -32,8 +32,22 @@ const CompanyAccount = new mongoose.Schema({
         type: String,
         require: true
     },
-    tagLine: {
+    tagline: {
         type: String,
     },
+    mession: {
+        type: String
+    },
+    workes: {
+        type: String
+    },
+    Partners: {
+        type: String
+    },
+    logo: {
+        type: String,
+        default: 'defaultLogo.jpg'
+    },
+    followers: [{ type: String, ref: "PersonalAccount" }],
 }, { timestamps: true })
 module.exports = mongoose.model('CompanyAccount', CompanyAccount)

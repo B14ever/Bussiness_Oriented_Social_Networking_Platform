@@ -226,6 +226,7 @@ const PersonalAccountMessage = () => {
     if (!chat.find((c) => c._id === data._id)) setChat([data, ...chat])
     const res = await axios.get(`/message/${data._id}`)
     const newdata = res.data
+    setSelectedChatId(data._id)
     setSelectedChat(newdata)
     setdesplayMessage('randomWord')
     setTimeout(()=>{setLoading(false)},1200)

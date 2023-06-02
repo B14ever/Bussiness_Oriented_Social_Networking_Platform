@@ -1,12 +1,9 @@
 import React,{useState} from 'react'
-import { Avatar,Box,Button,Typography,Dialog,DialogActions,DialogTitle,DialogContent,DialogContentText,Divider,Badge} from '@mui/material'
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { Avatar,Box,Button,Typography,Dialog,DialogActions,DialogTitle,DialogContent,DialogContentText,Divider} from '@mui/material'
 import {useLanguage} from '../../Localazation/LanguageContext'
 import { useAthuContext } from '../../Context/Shared/AthuContext'
-import AvaterGroup from './AvaterGroup'
-import axios from '../../api/axios'
-const ProfilePhotoBox = () => {
+import axios from '../../api/axios' 
+const LogoBox = () => {
     const {t} = useLanguage()
     const {user,dispatch} = useAthuContext()
     const Email = user.user.Email
@@ -22,7 +19,7 @@ const ProfilePhotoBox = () => {
      const changePhoto = async (e)=>{
       e.preventDefault();
        try{
-        const responce = await axios.post('/PersonalAccountProfile/ChangePhoto',{data,Email})
+        const responce = await axios.post('/Profile/ChangePhoto',{data,Email})
         localStorage.setItem('USER_DATA',JSON.stringify(responce.data.user))
         dispatch({type:"AUTHENTICATE",payload:{user:responce.data.user,token:localStorage.getItem('TOKEN')}})
         setTimeout(handleClose,500)
@@ -35,14 +32,13 @@ const ProfilePhotoBox = () => {
      <React.Fragment>
     <Box sx={{ position: 'relative'}}>
       <img src="../../../Profile_Image/coverPhoto.png" style={{ width: '100%', height: 'auto',borderTopLeftRadius:'6px',borderTopRightRadius:'6px' }} />
-        <Avatar src={`../../../Profile_Image/${user.user.profilePhoto?user.user.profilePhoto:'Avater.png'}`}
-         sx={{ width: { xs: 110, sm: 130, md: 150, lg: 190 }, 
-               height: { xs: 110, sm: 130, md: 150, lg: 190 },
-               position: 'absolute',
-               top: {lg:'calc(100% - 130px)',sm:'calc(100% - 85px)',xs:'calc(100% - 70px)'},
-               left: {xs:'calc(19% - 60px)',sm:'calc(19% - 80px)',md:'calc(19% - 100px)',lg:'calc(13% - 100px)'}
-                  }}
-               onClick={handleClickOpen}/>
+        <Avatar
+        sx={{width: { xs: 80, sm: 130, md: 150, lg: 190 }, 
+        height: { xs: 80, sm: 130, md: 150, lg: 190 },
+        position: 'absolute',
+        top: {lg:'calc(100% - 130px)',sm:'calc(100% - 85px)',xs:'calc(100% - 50px)'},
+        left: {xs:'calc(19% - 40px)',sm:'calc(19% - 80px)',md:'calc(19% - 100px)',lg:'calc(13% - 100px)'}}}
+        src={`../../../Profile_Image/${user.user.logo}`} onClick={handleClickOpen}/>
     </Box>
     <Dialog open={open} onClose={handleClose} fullWidth >
       <DialogTitle>{t("Addphoto")}</DialogTitle>
@@ -56,12 +52,12 @@ const ProfilePhotoBox = () => {
             <DialogTitle textAlign='center'>{t("ProfilePhotoDialogTitle")}</DialogTitle>
             <Box  
             sx={{width:'100%',display:"flex",justifyContent:'center',alignItems:'center',gap:'1rem'}}>
-                {
-                    user.user.profilePhoto?<Avatar 
-                        src={`../../../Profile_Image/${user.user.profilePhoto?user.user.profilePhoto:'Avater.png'}`}
+                
+                  <Avatar 
+                        src={`../../../Profile_Image/${user.user.logo}`}
                         sx={{ width: { xs: 110, sm: 130, md: 150, lg: 190 }, 
                         height: { xs: 110, sm: 130, md: 150, lg: 190 },}}/>
-                        :<AvaterGroup/>}  
+                        
             </Box>
             <DialogContentText textAlign='center' >{t("ProfilePhotoDialogText")}</DialogContentText>
         </DialogContent>}
@@ -79,4 +75,4 @@ const ProfilePhotoBox = () => {
   )
 }
 
-export default ProfilePhotoBox
+export default LogoBox

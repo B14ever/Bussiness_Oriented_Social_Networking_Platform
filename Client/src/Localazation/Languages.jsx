@@ -440,5 +440,9 @@ export const TranslationEn ={
     NoPendingRequest:'No pending request',
     Search:'Search......',
     MakeFriends:'Send invitation to meet new friends',
-    MakeFriendsToChat:'Connect with peopels to send messages'
+    MakeFriendsToChat:'Connect with peopels to send messages',
+    About:"About",
+    Mession:'Mession',
+    Workes:"Workes",
+    Partners:"Partners"
 }

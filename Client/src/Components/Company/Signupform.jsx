@@ -23,7 +23,6 @@ const CompanySignupform = () => {
     setErrorMsg('')
     const errors = validateForm();
     if (Object.keys(errors).length === 0) {
-      console.log('i the try block')
       try {
          const responce =  await axios.post(COMPANY_SIGNUP_URL,data,
             {
@@ -160,6 +159,7 @@ const CompanySignupform = () => {
           variant="filled"
           rows={1}
           multiline
+          name="tagline"
         />
         <Typography variant='subtitle1' sx={{color:'#A4A4A4'}}>{t("taglineDescription")}</Typography>
         </Grid>
