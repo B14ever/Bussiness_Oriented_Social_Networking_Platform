@@ -6,7 +6,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { useLanguage } from '../../Localazation/LanguageContext'
 import { useAthuContext } from '../../Context/Shared/AthuContext';
 import axios from '../../api/axios'
-const Mission = () => {
+const Vision = () => {
   const {user,dispatch} = useAthuContext()
   const Email = user.user.Email
   const {t} = useLanguage()
@@ -15,19 +15,19 @@ const Mission = () => {
   const [success,setSuccess] = useState(false)
   const [warnnigMsg,setWaringMsg] = useState('')
   const [successMsg,setSuccessMsg] = useState('')
-  const [mission,setMission] = useState(user.user.mission)
+  const [vision,setVision] = useState(user.user.vision)
   const handleVision = async ()=>{
     try{
-      const responce = await axios.post('/Profile/mission',{Email,mission})
+      const responce = await axios.post('/Profile/vision',{Email,vision})
        if(responce.status === 200){
         localStorage.setItem('USER_DATA',JSON.stringify(responce.data.user))
         dispatch({type:"AUTHENTICATE",payload:{user:responce.data.user,token:localStorage.getItem('TOKEN')}})
-        setSuccessMsg('MissionUpdated')
+        setSuccessMsg('VisionUpdated')
         setSuccess(true)
         setOpen(false)
       } 
     }catch(err){
-      setWaringMsg('MissionNotUpdated')
+      setWaringMsg('VisionNotUpdated')
       setWaring(true)
     }
     }
@@ -41,9 +41,9 @@ const Mission = () => {
   return (
      <InfoBox>
        <Box p={1} sx={{display:'flex',alignItems:'center'}}>
-       <Typography  variant='subtitle2' sx={{color:'#666',fontSize:'1.5rem'}} >{t("Mession")}</Typography>
+       <Typography  variant='subtitle2' sx={{color:'#666',fontSize:'1.5rem'}} >{t("Vision")}</Typography>
         {
-          user.user.mission.length > 0 ?
+          user.user.vision.length > 0 ?
           <IconButton sx={{marginLeft:'auto'}} onClick={handleClickOpen}>
              <EditIcon/>
           </IconButton>:
@@ -53,11 +53,11 @@ const Mission = () => {
         }
        </Box>
        { 
-        user.user.mission.length > 0 ?
+        user.user.vision.length > 0 ?
          <Box p={1}>
           <Typography sx={{color:'#555'}}>
           {
-            user.user.mission
+            user.user.vision
           }
         </Typography>
          </Box>:
@@ -65,8 +65,8 @@ const Mission = () => {
        }
        <Dialog fullWidth open={open} onClose={handleClose}>
         <DialogContent>
-          <TextField label={mission.length === 0?t("MissionCompany"):null} onChange={(e)=>setMission(e.target.value)}
-            multiline maxRows={8} autoFocus margin="dense" defaultValue={mission} fullWidth variant="standard"/>
+          <TextField label={vision.length === 0 ? t("VisionCompany"): null} onChange={(e)=>setVision(e.target.value)}
+            multiline maxRows={8} autoFocus margin="dense" defaultValue={vision} fullWidth variant="standard"/>
         </DialogContent>
         <DialogActions>
           <Button sx={{textTransform:'none'}} onClick={handleClose}>{t("Cancel")}</Button>
@@ -89,5 +89,5 @@ const Mission = () => {
   )
 }
 
-export default Mission
+export default Vision
 

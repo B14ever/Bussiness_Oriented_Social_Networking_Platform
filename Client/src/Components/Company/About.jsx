@@ -43,7 +43,7 @@ const About = () => {
        <Box p={1} sx={{display:'flex',alignItems:'center'}}>
        <Typography  variant='subtitle2' sx={{color:'#666',fontSize:'1.5rem'}} >{t("About")}</Typography>
         {
-          user.user.tagline?.length > 0 ?
+          user.user.tagline.length > 0 ?
           <IconButton sx={{marginLeft:'auto'}} onClick={handleClickOpen}>
              <EditIcon/>
           </IconButton>:
@@ -67,7 +67,7 @@ const About = () => {
        <Dialog fullWidth open={open} onClose={handleClose}>
         <DialogContent>
           
-          <TextField label={about?.length === 0?t("AboutCompany"):t("AboutCompany")} onChange={(e)=>setAbout(e.target.value)}
+          <TextField label={about.length === 0?t("AboutCompany"):t("AboutCompany")} onChange={(e)=>setAbout(e.target.value)}
             multiline maxRows={8} autoFocus margin="dense" defaultValue={about} fullWidth variant="standard"/>
         </DialogContent>
         <DialogActions>

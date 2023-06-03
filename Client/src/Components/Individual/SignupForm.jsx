@@ -16,6 +16,7 @@ const PersonalSignupForm = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setData({ ...data, [name]: value });
+    setErrors({...Errors,[name]:''})
   };
   const handleSubmit = async (e) => {
     e.preventDefault();

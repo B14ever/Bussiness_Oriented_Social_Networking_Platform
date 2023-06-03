@@ -11,7 +11,7 @@ const SignUP = async(req, res, next) => {
     const OTP = OTPGenerator()
     const password = await HashPasword(Password)
     const newUsers = { Email, password, role: 'company', otp: OTP }
-    const newCompanyAccount = { companyName, Country, City, Email, PhoneNumber, organizationSize, organizationType, industry, tagline }
+    const newCompanyAccount = { companyName, Country, City, Email, PhoneNumber, organizationSize, organizationType, industry, tagline, mission: ' ', vision: ' ' }
     try {
         const user = await Users.findOne({ Email: `${Email}` })
         if (user) {

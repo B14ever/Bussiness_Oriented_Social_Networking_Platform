@@ -11,7 +11,7 @@ const organizationSizes = ['OneUpTOFiftyEmploye','FityUpToHundredEmploye','Hundr
 const CompanySignupform = () => {
   const {t} = useLanguage()
   const {dispatch} = useAthuContext()
-  const [data,setData] = useState({companyName:'', organizationSize:'', organizationType:'', industry:'',tagline:'', Email:'', PhoneNumber:'', Country:'',City:'',Password:'',confirmPassword:''})
+  const [data,setData] = useState({companyName:'', organizationSize:'', organizationType:'', industry:'',tagline:' ', Email:'', PhoneNumber:'', Country:'',City:'',Password:'',confirmPassword:''})
   const [Errors, setErrors] = useState({companyName:'', organizationSize:'',organizationType:'', industry:'',tagline:'', Email:'', PhoneNumber:'', Country:'',City:'',Password:'',confirmPassword:''});
   const [errorMsg,setErrorMsg] = useState('')
   const navigate = useNavigate()
@@ -19,6 +19,7 @@ const CompanySignupform = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setData({ ...data, [name]: value });
+    setErrors({...Errors,[name]:''})
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -112,6 +113,7 @@ const CompanySignupform = () => {
                <InputLabel id="demo-select-small-label">{t('industry')}</InputLabel>
                 <Select labelId="demo-select-small-label"  onChange={handleChange}
                         name='industry'
+                        value={data.industry || ''}
                       label={t('industry')}>
                       {industryTypes.map((name) => (
                       <MenuItem key={name} value={name}>{t(`${name}`)}</MenuItem>))}
@@ -126,6 +128,7 @@ const CompanySignupform = () => {
         <InputLabel id="demo-select-small-label">{t('OrganizationSize')}</InputLabel>
                 <Select  labelId="demo-select-small-label" onChange={handleChange}
                       name='organizationSize'
+                      value={data.organizationSize || ''}
                       label={t('OrganizationSize')}>
                       {organizationSizes.map((name) => (
                       <MenuItem key={name} value={name}>{t(`${name}`)}</MenuItem>))}
@@ -138,7 +141,9 @@ const CompanySignupform = () => {
         <InputLabel id="demo-select-small-label">{t("OrganizationType")}</InputLabel>
                 <Select labelId="demo-select-small-label" onChange={handleChange}
                        name='organizationType'
-                      label={t('OrganizationType')}>
+                      label={t('OrganizationType')}
+                      value={data.organizationType || ''}
+                      >
                       {organizationTypes.map((name) => (
                       <MenuItem key={name} value={name}>{t(`${name}`)}</MenuItem>))}
           </Select>
@@ -155,7 +160,7 @@ const CompanySignupform = () => {
         </Grid>
         <Grid xs={12} sm={6} item>
         <FormControl fullWidth error={!!Errors.City}>
-         <TextField onChange={handleChange} margin="normal" required fullWidth id="city" label={t("City")} name="City" autoFocus/>
+         <TextField onChange={handleChange} margin="normal" value={data.City} required fullWidth id="city" label={t("City")} name="City" autoFocus/>
          <FormHelperText sx={{color:'red'}}>{Errors.City?`${t("CityNameRequired")}`:''}</FormHelperText>
         </FormControl>
         </Grid>

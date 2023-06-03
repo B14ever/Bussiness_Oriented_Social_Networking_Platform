@@ -18,6 +18,23 @@ const AddAbout = async(req, res) => {
     }
 }
 const AddVision = async(req, res) => {
+    const { Email, vision } = req.body
+    try {
+        const addVison = await CompanyAccount.updateOne({ Email: Email }, { $set: { vision: vision } }).exec();
+        if (!addVison) {
+            const error = new Error('PhotoUploadFailde');
+            error.status = 403; // set the status code to 409 (Conflict)
+            throw error;
+        } else {
+            const user = await CompanyAccount.findOne({ Email: `${Email}` })
+            return res.status(200).json({ user })
+        }
+
+    } catch (err) {
+        res.status(err.status || 500).json({ error: err.message })
+    }
+}
+const AddMission = async(req, res) => {
     const { Email, mission } = req.body
     try {
         const addMission = await CompanyAccount.updateOne({ Email: Email }, { $set: { mission: mission } }).exec();
@@ -87,4 +104,4 @@ const UpdateProfile = async(req, res) => {
         res.status(err.status || 500).json({ error: err.message })
     }
 }
-module.exports = { AddAbout, AddVision, AddWorkes, RemoveWorkes, UpdateProfile }
+module.exports = { AddAbout, AddVision, AddWorkes, RemoveWorkes, UpdateProfile, AddMission }

@@ -8,6 +8,7 @@ import { useLanguage } from '../../Localazation/LanguageContext'
 import { useAthuContext } from '../../Context/Shared/AthuContext'
 import About from '../../Components/Company/About'
 import Mission from '../../Components/Company/Mission'
+import Vision from '../../Components/Company/Vision'
 import Workes from '../../Components/Company/Workes'
 import Partners from '../../Components/Company/Partners'
 import Followers from '../../Components/Company/Followers'
@@ -44,9 +45,10 @@ const CompanyProfileDetail = () => {
             aria-label="scrollable force tabs example">
           <Tab sx={{textTransform:'none'}} value={1} label={t('About')} />
           <Tab sx={{textTransform:'none'}} value={2} label={t("Mession")} />
-          <Tab sx={{textTransform:'none'}} value={3} label={("Workes")} />
-          <Tab sx={{textTransform:'none'}} value={4} label={t("Followers")} />
-          <Tab sx={{textTransform:'none'}} value={5} label={("Parnters")} />
+          <Tab sx={{textTransform:'none'}} value={3} label={t("Vision")} />
+          <Tab sx={{textTransform:'none'}} value={4} label={("Workes")} />
+          <Tab sx={{textTransform:'none'}} value={5} label={t("Followers")} />
+          <Tab sx={{textTransform:'none'}} value={6} label={("Parnters")} />
         </Tabs>
        </Box>
      </Section_One>
@@ -57,12 +59,15 @@ const CompanyProfileDetail = () => {
         <Mission/>
       </Typography>
       <Typography component="div" role="tabpanel" hidden={value !== 3}>
+        <Vision/>
+      </Typography>
+      <Typography component="div" role="tabpanel" hidden={value !== 4}>
         <Workes/>
       </Typography>
-       <Typography component="div" role="tabpanel" hidden={value !== 4}>
+       <Typography component="div" role="tabpanel" hidden={value !== 5}>
         <Followers/>
       </Typography>
-      <Typography component="div" role="tabpanel" hidden={value !== 5}>
+      <Typography component="div" role="tabpanel" hidden={value !== 6}>
         <Partners/>
       </Typography>
     </Main_One>

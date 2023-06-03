@@ -38,6 +38,9 @@ const CompanyAccount = new mongoose.Schema({
     mission: {
         type: String
     },
+    vision: {
+        type: String
+    },
     workes: [{
         title: {
             type: String
