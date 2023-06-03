@@ -5,6 +5,7 @@ import { useLanguage } from '../../Localazation/LanguageContext'
 import NetworkBox from '../../Components/Individual/NetworkBoxs';
 import Invitation from '../../Components/Individual/Invitation';
 import People from '../../Components/Individual/People';
+import Pages from '../../Components/Individual/Pages'
 const PersonalAccountNetwork = () => {
   const navigate = useNavigate()
   const {t} = useLanguage()
@@ -18,7 +19,8 @@ const PersonalAccountNetwork = () => {
             <Box  sx={{display:'flex',flexDirection:'column', gap:'.9rem',
                            width:'100%',margin:'10px 0 10px'}}>
                  <Invitation/>
-                 <People/>    
+                 <People/>
+                 <Pages/> 
               </Box>
               <Box>
           </Box>

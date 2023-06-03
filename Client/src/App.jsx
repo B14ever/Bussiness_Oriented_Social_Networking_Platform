@@ -46,6 +46,7 @@ import CompanyAccountNotification from "./pages/Company/CompanyAccountNotificati
 import CompanyAccontJobsPages from "./pages/Company/CompanyAccountJobsPages"
 import CompanyProfileDetail from "./pages/Company/CompanyProfileDetail"
 import CompanyAccountSetting from "./pages/Company/CompanyAccountSetting"
+import PageDetailes from './pages/Personal/PageDetailes'
 function App() {
   return (
       <Routes>
@@ -77,6 +78,7 @@ function App() {
                      <Route path="connection" element={<Connection/>}/>
                      <Route path="pendingRequest" element={<PendingRequest/>}/>
                      <Route path="jobs" element={<Jobs/>}/>
+                     <Route path='PersonalNetwork/pages/:pagesId' element={<PageDetailes/>} />
                 </Route>
               </Route>
               <Route element={<ProtectedRoutes Autherazetion={["company"]}/>}>

@@ -36,11 +36,15 @@ const ChatRoom = require('./Routes/Personal/ChatRoom')
 app.use('/ChatRoom', ChatRoom)
 const Message = require('./Routes/Personal/Message')
 app.use('/message', Message)
-    //routes for CompanyAccounts
+
+//routes for CompanyAccounts
 const CompanyAccounts = require('./Routes/Company/SignUp')
 app.use('/ComapnyAccountSignUp', CompanyAccounts)
 const CompanyAccountProfile = require('./Routes/Company/Profile')
 app.use('/Profile', CompanyAccountProfile)
+const JobVacanices = require('./Routes/Company/Jobs')
+app.use('/jobs', JobVacanices)
+
 
 
 //routes for Admin
@@ -60,6 +64,11 @@ const DeleteAccount = require('./Routes/Shared/DeleteAccount')
 app.use('/deleteAccount', DeleteAccount)
 const Posts = require('./Routes/Shared/Post')
 app.use('/posts', Posts)
+const Vacanices = require('./Routes/Shared/GetJobs')
+app.use('/vacanices', Vacanices)
+const Pages = require('./Routes/Personal/GetPages')
+app.use('/pages', Pages)
+
 
 //  soket.io server 
 const io = require('socket.io')(Server, {

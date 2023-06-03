@@ -10,7 +10,6 @@ import About from '../../Components/Company/About'
 import Mission from '../../Components/Company/Mission'
 import Vision from '../../Components/Company/Vision'
 import Workes from '../../Components/Company/Workes'
-import Partners from '../../Components/Company/Partners'
 import Followers from '../../Components/Company/Followers'
 const CompanyProfileDetail = () => {
   const {t} = useLanguage()
@@ -48,7 +47,6 @@ const CompanyProfileDetail = () => {
           <Tab sx={{textTransform:'none'}} value={3} label={t("Vision")} />
           <Tab sx={{textTransform:'none'}} value={4} label={("Workes")} />
           <Tab sx={{textTransform:'none'}} value={5} label={t("Followers")} />
-          <Tab sx={{textTransform:'none'}} value={6} label={("Parnters")} />
         </Tabs>
        </Box>
      </Section_One>
@@ -66,9 +64,6 @@ const CompanyProfileDetail = () => {
       </Typography>
        <Typography component="div" role="tabpanel" hidden={value !== 5}>
         <Followers/>
-      </Typography>
-      <Typography component="div" role="tabpanel" hidden={value !== 6}>
-        <Partners/>
       </Typography>
     </Main_One>
   )
