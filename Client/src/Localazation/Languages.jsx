@@ -476,4 +476,8 @@ export const TranslationEn ={
     Retail:'Retail',
     Manufacturing:'Manufacturing',
     Construction:'Construction',
+    YourPages:'Pages you follow',
+    FollowCompanies:'Follow companies pages to get latest news',
+    DeleteConnectionWarnning:'Are sure to remove your connection',
+    RemoveConnection:'Remove Connection'
 }

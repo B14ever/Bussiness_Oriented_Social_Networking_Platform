@@ -21,7 +21,7 @@ const Getpages = async(req, res, next) => {
 }
 const Getpage = async(req, res, next) => {
     const { pagesId } = req.params
-    const Pages = await CompanyAccount.find({ _id: pagesId }, { Email: 0, createdAt: 0, updatedAt: 0 })
+    const Pages = await CompanyAccount.find({ _id: pagesId }, { Email: 0, createdAt: 0, updatedAt: 0 }).populate("followers", "FirstName LastName _id profilePhoto")
     return res.status(200).json({ Pages })
 }
 const Follow = async(req, res, next) => {
@@ -62,4 +62,20 @@ const UnFollow = async(req, res, next) => {
         res.status(err.status || 500).json({ error: err.message })
     }
 }
-module.exports = { Getpages, Getpage, Follow, UnFollow }
+const Pages = async(req, res, next) => {
+    const { id } = req.body
+    try {
+        const pages = await PersonalAccount.find({ _id: id }, { pages: 1 }).populate("pages", "companyName logo  _id")
+        if (!pages) {
+            const error = new Error();
+            error.status = 403;
+            throw error;
+        } else {
+            return res.status(200).json({ pages })
+        }
+
+    } catch (err) {
+        res.status(err.status || 500).json({ error: err.message })
+    }
+}
+module.exports = { Getpages, Getpage, Follow, UnFollow, Pages }

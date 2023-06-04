@@ -15,6 +15,29 @@ import { InfoBox} from '../../Components/Company/Css'
 import axios from '../../api/axios'
 const Buttons = styled(Button)(({ theme }) => ({
     marginTop:'1rem',marginBottom:'.5rem',textTransform:'none',borderRadius:'1rem',width:'20%'}));
+const HoverBox = styled(Box)(({ theme }) => ({ 
+      '&:hover': {
+        background: "#E7EBF0",
+        },
+}));
+const ProfilePhoto= styled(Avatar)(({ theme }) => ({
+  width: 45, height: 45,boxShadow:"rgba(149, 157, 165, 0.2) 0px 6px 22px",
+}));
+const Section = styled(Box)(({ theme }) => ({
+  borderRadius:'6px',
+  backgroundColor: '#fff',
+  margin: '10px 0 5px',
+  height: 'fit-content',
+  width:'57%',
+  [theme.breakpoints.down('sm')]: {width: '100%'},
+  [theme.breakpoints.down('md')]: {width: '85%'},
+  [theme.breakpoints.down('lg')]: {width: '80%'},
+}));
+const Main = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  backgroundColor:"#E7EBF0",
+  justifyContent:'center'
+}));
 const CompanyProfileDetail = () => {
   const {t} = useLanguage()
   const {user,dispatch} = useAthuContext()
@@ -27,7 +50,7 @@ const CompanyProfileDetail = () => {
   const [limit,setLimit] = React.useState(1)
   const [warnnig,setWaring] = React.useState(false)
     const [warnnigMsg,setWaringMsg] = React.useState('')
-  const handleChange = (event, newValue) => {
+const handleChange = (event, newValue) => {
     setValue(newValue);
   };
   useEffect(() => {
@@ -67,6 +90,11 @@ try{
     setWaring(true)
     }
          }
+const handleNavigate = async (userId) =>{
+   userId === id?
+   navigate('/PersonalAccountProfile/PersonalProfileDetail'):
+   navigate(`/PersonalAccountProfile/PersonalNetwork/${userId}`)
+}
   return (
     <React.Fragment>
     {loading?
@@ -191,7 +219,20 @@ try{
         </InfoBox>
       </Typography>:null}
        <Typography component="div" role="tabpanel" hidden={value !== 5}>
-       
+        <Main>
+          <Section>
+          {
+            page.followers.map((follower,i)=>{
+              return <HoverBox sx={{cursor:'pointer'}} key={i} onClick={()=>handleNavigate(follower._id)}>
+                      <Box p={1} sx={{display:'flex',alignItems:'center',gap:'.5rem'}}>
+                        <ProfilePhoto
+                        src={`../../../Profile_Image/${follower.profilePhoto?follower.profilePhoto:'Avater.png'}`}/>
+                        <Typography  >{follower.FirstName} {follower.LastName} </Typography>
+                        </Box>
+                        <Divider/>
+                    </HoverBox>})}
+          </Section>
+        </Main>
       </Typography>
     </Main_One>
     }

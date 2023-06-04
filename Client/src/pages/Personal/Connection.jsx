@@ -1,5 +1,6 @@
 import React, { useEffect,useState} from 'react'
-import {Box, Typography,Divider,IconButton,Tooltip, Avatar,LinearProgress} from '@mui/material'
+import {Box, Typography,Divider,IconButton,Tooltip, Avatar,LinearProgress,
+  Dialog,DialogActions,DialogContent,DialogTitle,DialogContentText,Button} from '@mui/material'
 import { styled, useTheme } from '@mui/material/styles';
 import { useLanguage } from '../../Localazation/LanguageContext';
 import { useAthuContext } from '../../Context/Shared/AthuContext';
@@ -7,6 +8,7 @@ import axios from '../../api/axios'
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { useNavigate } from 'react-router-dom';
+
 const Main = styled(Box)(({ theme }) => ({
   marginTop: '100px', 
   display: 'flex',
@@ -33,11 +35,14 @@ const ProfilePhoto= styled(Avatar)(({ theme }) => ({
 }));
 const Connection = () => {
   const {t} = useLanguage()
-  const {user} = useAthuContext()
+  const {user,dispatch} = useAthuContext()
   const id = user.user._id
   const navigate = useNavigate()
   const [friends,setFriends] = useState([])
+  const [friendsId,setFriendsId] = useState('')
   const [loading,setLoading] = useState(false)
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [reload, setReload] = useState(false);
   useEffect(() => {
     const GetData = async ()=>{
     try{
@@ -50,9 +55,29 @@ const Connection = () => {
      catch(err){
         console.error(err)}}
      GetData()
-    .catch(console.error);}, []) 
-  const handleClick = (id) =>{
-    navigate(`/PersonalAccountProfile/PersonalNetwork/${id}`)
+    .catch(console.error);}, [reload]) 
+  
+  const handleClick = (id) =>{navigate(`/PersonalAccountProfile/PersonalNetwork/${id}`)}
+  const openAlert = (work_Id) => {
+    setFriendsId(work_Id)
+    setAlertOpen(true);
+  };
+
+  const closeAlert = () => {
+    setAlertOpen(false);
+  };
+  const handleDeleteFriends = async () =>{
+    try{
+      const responce = await axios.post('/Peoples/remove',{userId:id,friendsId})
+       if(responce.status === 200){
+        localStorage.setItem('USER_DATA',JSON.stringify(responce.data.user))
+        dispatch({type:"AUTHENTICATE",payload:{user:responce.data.user,token:localStorage.getItem('TOKEN')}})
+        setAlertOpen(false)
+        setReload(!reload)
+      } 
+    }catch(err){
+      console.log(err)
+    }
   }
   return (
     <Main>
@@ -84,9 +109,9 @@ const Connection = () => {
                      <Box p={1.5} sx={{display:'flex',alignItems:'center',gap:'.5rem'}}>
                        <ProfilePhoto  onClick={()=>handleClick(friend._id)}
                        src={`../../../Profile_Image/${friend.profilePhoto?friend.profilePhoto:'Avater.png'}`}/>
-                       <Typography onClick={()=>handleClick(friend._id)}>{friend.FirstName} {friend.LastName} </Typography>
+                       <Typography sx={{cursor:'pointer'}} onClick={()=>handleClick(friend._id)}>{friend.FirstName} {friend.LastName} </Typography>
                        <Tooltip title={t('Remove')}>
-                         <IconButton sx={{marginLeft:'auto'}}>
+                         <IconButton sx={{marginLeft:'auto'}} onClick={()=>openAlert(friend._id)}>
                            <RemoveCircleOutlineIcon/>
                          </IconButton>
                        </Tooltip>
@@ -109,6 +134,17 @@ const Connection = () => {
           </Box>
          </Box>
         }
+        <Dialog open={alertOpen} onClose={closeAlert}  fullWidth
+           aria-labelledby="alert-dialog-title"   aria-describedby="alert-dialog-description">
+         <DialogTitle textAlign='center' id="alert-dialog-title">{t("RemoveConnection")}</DialogTitle>
+         <DialogContent>
+           <DialogContentText id="alert-dialog-description">{t("DeleteConnectionWarnning")}</DialogContentText>
+         </DialogContent>
+         <DialogActions>
+          <Button onClick={closeAlert}>{t("Cancle")}</Button>
+          <Button onClick={handleDeleteFriends}>{t("Delete")}</Button>
+        </DialogActions>
+      </Dialog>
       </Section>}
     </Main>
   )

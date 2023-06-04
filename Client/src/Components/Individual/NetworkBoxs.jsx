@@ -14,6 +14,7 @@ const NetworkBox = () => {
     const {user} = useAthuContext()
     const friends = user.user.friends
     const pending = user.user.sentFriendRequest
+    const pages = user.user.pages
     const {t} = useLanguage()
     const navigate = useNavigate()
   return (
@@ -40,12 +41,12 @@ const NetworkBox = () => {
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
-            <ListItemButton>
+            <ListItemButton onClick={()=>navigate('/PersonalAccountProfile/pages')}>
               <ListItemIcon>
                 <ArticleOutlinedIcon />
               </ListItemIcon>
               <Typography p={1}>{t("Pages")}</Typography>
-              <Typography sx={{marginLeft:'auto'}} p={1}>{friends.length}</Typography>
+              <Typography sx={{marginLeft:'auto'}} p={1}>{pages.length}</Typography>
             </ListItemButton>
           </ListItem>
         </List>

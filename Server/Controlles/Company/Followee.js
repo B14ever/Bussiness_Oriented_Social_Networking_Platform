@@ -4,37 +4,7 @@ const PersonalAccount = require('../../Models/PersonalAccount')
 const Followers = async(req, res, next) => {
     const { pageId } = req.body
     try {
-        const followees = CompanyAccount.find({ _id: pageId }, { followers: 1 })
-            .populate('followers', 'FirstName LastName profilePhoto _id')
-        if (!followees) {
-            const error = new Error('Error try again');
-            error.status = 403;
-            throw error;
-        } else {
-            return res.status(200).json({ followees })
-        }
-
-    } catch (err) {
-        res.status(err.status || 500).json({ error: err.message })
-    }
-}
-const Follower = async(req, res, next) => {
-    const { userId, pageId } = req.params
-    try {
-        const followees = CompanyAccount.find({
-                $and: [
-                    { _id: pageId },
-                    {
-                        "followers": {
-                            $elemMatch: {
-                                $and: [
-                                    { "value": userId },
-                                ]
-                            }
-                        }
-                    }
-                ]
-            })
+        const followees = await CompanyAccount.find({ _id: pageId }, { followers: 1 })
             .populate('followers', 'FirstName LastName profilePhoto _id')
         if (!followees) {
             const error = new Error('Error try again');
@@ -67,4 +37,4 @@ const DeleteFollower = async(req, res, next) => {
         res.status(err.status || 500).json({ error: err.message })
     }
 }
-module.exports = { Follower, Followers, DeleteFollower }
+module.exports = { Followers, DeleteFollower }

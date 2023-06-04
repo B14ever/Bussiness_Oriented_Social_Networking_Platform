@@ -49,7 +49,6 @@ const CompanyAccount = new mongoose.Schema({
             type: String
         }
     }],
-    partners: [{ type: String, ref: "CompanyAccount" }],
     logo: {
         type: String,
         default: 'defaultLogo.jpg'

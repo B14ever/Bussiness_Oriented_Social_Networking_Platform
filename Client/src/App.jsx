@@ -47,6 +47,8 @@ import CompanyAccontJobsPages from "./pages/Company/CompanyAccountJobsPages"
 import CompanyProfileDetail from "./pages/Company/CompanyProfileDetail"
 import CompanyAccountSetting from "./pages/Company/CompanyAccountSetting"
 import PageDetailes from './pages/Personal/PageDetailes'
+import Pages from "./pages/Personal/Pages"
+import FollowerDeatail from './pages/Company/FollowersDetail'
 function App() {
   return (
       <Routes>
@@ -72,13 +74,14 @@ function App() {
                      <Route path="PersonalProfileDetail/EditExprience" element={<EditExprience/>}/>
                      <Route path="PersonalProfileDetail/EditEducation" element={<EditEducation/>}/>
                      <Route path="PersonalProfileDetail/EditSkill" element={<EditSkill/>}/>
-                     <Route path="PersonalProfileDetail/takeAssessment" element={<TakeSkillAssessment/>}/>
+                    <Route path="PersonalProfileDetail/takeAssessment" element={<TakeSkillAssessment/>}/>
                      <Route path="PersonalProfileDetail/takeAssessment/qs" element={<QuestionStartPage/>}/>
                      <Route path="PersonalProfileDetail/takeAssessment/exam" element={<Exam/>}/>
                      <Route path="connection" element={<Connection/>}/>
                      <Route path="pendingRequest" element={<PendingRequest/>}/>
                      <Route path="jobs" element={<Jobs/>}/>
                      <Route path='PersonalNetwork/pages/:pagesId' element={<PageDetailes/>} />
+                     <Route path='pages' element={<Pages/>} />
                 </Route>
               </Route>
               <Route element={<ProtectedRoutes Autherazetion={["company"]}/>}>
@@ -88,6 +91,7 @@ function App() {
                   <Route path="job" element={<CompanyAccontJobsPages/>}/>
                   <Route path="profile" element={<CompanyProfileDetail/>}/>
                   <Route path="setting" element={<CompanyAccountSetting/>}/>
+                  <Route path="profile/followers/:userId" element={<FollowerDeatail/>}/>
                 </Route>
               </Route>
               <Route element={<ProtectedRoutes Autherazetion={["admin"]}/>}>
@@ -106,6 +110,7 @@ function App() {
                   <Route path="editAssesment" element={<EditAssessment/>}/>
                   <Route path="newAssessment/creatQuetion" element={<NewAssessmentPage/>}/>
                   <Route path="editAssesment/editQuestion" element={<EditQuestions/>}/>
+                  
                 </Route>
               </Route>
          </Route>
