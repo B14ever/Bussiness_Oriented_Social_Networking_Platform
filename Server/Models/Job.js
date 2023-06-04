@@ -1,9 +1,11 @@
 const mongoose = require('mongoose')
 const JobSchema = new mongoose.Schema({
     recureter: { type: String, ref: "CompanyAccount", require: true },
+    haveForm: { type: Boolean, default: false },
     applicants: [{
         applicant: {
-            type: String
+            type: String,
+            ref: "PersonalAccount",
         },
         cv: {
             type: String

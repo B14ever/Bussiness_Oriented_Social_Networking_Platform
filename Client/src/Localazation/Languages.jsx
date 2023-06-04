@@ -479,5 +479,13 @@ export const TranslationEn ={
     YourPages:'Pages you follow',
     FollowCompanies:'Follow companies pages to get latest news',
     DeleteConnectionWarnning:'Are sure to remove your connection',
-    RemoveConnection:'Remove Connection'
+    RemoveConnection:'Remove Connection',
+    PostJobs:"Post a jobs",
+    jobTitle:'Job title',
+    OnSite:'On-site',
+    Remote:'Remote',
+    jobType:'Jop-type',
+    jobLocation:'Job-location',
+    workPlaceType:'Workplace type',
+    post:"Post",
 }
