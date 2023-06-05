@@ -1,7 +1,10 @@
 const mongoose = require('mongoose')
 const JobSchema = new mongoose.Schema({
     recureter: { type: String, ref: "CompanyAccount", require: true },
-    haveForm: { type: Boolean, default: false },
+    form: {
+        type: String,
+        require: true
+    },
     applicants: [{
         applicant: {
             type: String,
@@ -9,6 +12,10 @@ const JobSchema = new mongoose.Schema({
         },
         cv: {
             type: String
+        },
+        accepetd: {
+            type: Boolean,
+            default: false
         }
     }],
     jobTitle: {
@@ -27,9 +34,16 @@ const JobSchema = new mongoose.Schema({
         type: String,
         require: true
     },
-    description: {
+    jobRequirements: {
         type: String,
         require: true
+    },
+    jobResponsibilities: {
+        type: String,
+        require: true
+    },
+    webSite: {
+        type: String,
     }
 })
 module.exports = mongoose.model('Job', JobSchema)

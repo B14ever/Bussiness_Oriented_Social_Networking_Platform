@@ -1,25 +1,28 @@
 //Models
 const Job = require('../../Models/Job')
 const AddJob = async(req, res, next) => {
-    const { recureter, jobTitle, workType, jobLocation, jobType, description } = req.body
+    console.log(req.body)
+    const { recureter, jobTitle, workType, jobLocation, jobType, jobRequirements, jobResponsibilities, form, webSite } = req.body
     try {
-        const addJobs = await Job.create({ recureter, jobTitle, workType, jobLocation, jobType, description });
+        const addJobs = await Job.create({ recureter, jobTitle, workType, jobLocation, jobType, form, jobRequirements, jobResponsibilities, webSite });
         if (!addJobs) {
             const error = new Error('Posting jobs failde');
             error.status = 403; // set the status code to 409 (Conflict)
             throw error;
+
         } else {
             return res.status(200).json({ msg: 'Jobs Add Succesfuly' })
         }
 
     } catch (err) {
+        console.log(err)
         res.status(err.status || 500).json({ error: err.message })
     }
 }
 const EditJObs = async(req, res, next) => {
-    const { jobsId, recureter, jobTitle, workType, jobLocation, jobType, description } = req.body
+    const { _id, recureter, jobTitle, workType, jobLocation, jobType, jobRequirements, jobResponsibilities, form, webSite } = req.body
     try {
-        const addJobs = await Job.updateOne({ _id: jobsId }, { $set: { recureter: recureter, jobTitle: jobTitle, workType: workType, jobLocation: jobLocation, jobType: jobType, description: description } });
+        const addJobs = await Job.updateOne({ _id: _id }, { $set: { recureter: recureter, jobTitle: jobTitle, workType: workType, jobLocation: jobLocation, jobType: jobType, jobRequirements, form, jobResponsibilities, webSite } });
         if (!addJobs) {
             const error = new Error('Edit jobs failde');
             error.status = 403; // set the status code to 409 (Conflict)
@@ -64,4 +67,38 @@ const GetJobs = async(req, res) => {
         res.status(err.status || 500).json({ error: err.message })
     }
 }
-module.exports = { AddJob, DeleteJObs, EditJObs, GetJobs }
+const GetApplicants = async(req, res) => {
+    const { jobId } = req.params
+    try {
+        const applicant = await Job.findOne({ _id: jobId }, { applicants: 1 }).populate('applicants.applicant', 'FirstName , LastName , profilePhoto ');
+        if (!applicant) {
+            const error = new Error('delete jobs failde');
+            error.status = 403; // set the status code to 409 (Conflict)
+            throw error;
+        } else {
+            return res.status(200).json({ applicant })
+        }
+
+    } catch (err) {
+        res.status(err.status || 500).json({ error: err.message })
+    }
+}
+const AcceptApplicants = async(req, res) => {
+    const { jobId } = req.params
+    const { applicantId } = req.body
+
+    try {
+        const applicant = await Job.updateOne({ _id: jobId, $and: [{ "applicants.applicant": applicantId }] }, { $set: { "applicants.$.accepetd": true } })
+        if (!applicant) {
+            const error = new Error('delete jobs failde');
+            error.status = 403; // set the status code to 409 (Conflict)
+            throw error;
+        } else {
+            return res.status(200).json({ msg: 'Accepted' })
+        }
+
+    } catch (err) {
+        res.status(err.status || 500).json({ error: err.message })
+    }
+}
+module.exports = { AddJob, DeleteJObs, EditJObs, GetJobs, GetApplicants, AcceptApplicants }

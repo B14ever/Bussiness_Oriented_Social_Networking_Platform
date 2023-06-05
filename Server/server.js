@@ -36,8 +36,7 @@ const ChatRoom = require('./Routes/Personal/ChatRoom')
 app.use('/ChatRoom', ChatRoom)
 const Message = require('./Routes/Personal/Message')
 app.use('/message', Message)
-
-//routes for CompanyAccounts
+    //routes for CompanyAccounts
 const CompanyAccounts = require('./Routes/Company/SignUp')
 app.use('/ComapnyAccountSignUp', CompanyAccounts)
 const CompanyAccountProfile = require('./Routes/Company/Profile')

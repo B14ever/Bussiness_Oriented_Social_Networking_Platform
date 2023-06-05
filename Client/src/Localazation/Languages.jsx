@@ -488,4 +488,17 @@ export const TranslationEn ={
     jobLocation:'Job-location',
     workPlaceType:'Workplace type',
     post:"Post",
+    form:"How would you like to receive you appilicant",
+    OnBOSBN:'On-BOSNP',
+    ExternalWeb:"External website",
+    JobNotAdd:'Job not add',
+    JobDescription:"Job description",
+    DeleteJob:'Delete job',
+    DeleteJobWarnnigs:"If you delete this job you will lose all you appilicant",
+    JobNotDeleted:'Job not deleted',
+    jobResponsibilities:"Job responsibilities",
+    jobRequirements:'Job requirements',
+    NotEditJobForm:'You can not edit job form if you have applicant',
+    Website:'Website',
+    ApplyForJob:'Apply for job'
 }
