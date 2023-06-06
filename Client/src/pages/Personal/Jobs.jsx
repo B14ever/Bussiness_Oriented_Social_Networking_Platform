@@ -24,6 +24,7 @@ const Jobs = () => {
   const [warnnig,setWaring] = useState(false)
   const [bOpen,setBopen] = useState(false)
   const [open, setOpen] = React.useState(false);
+  const [action, setAction] = React.useState(false);
   const [data,setData]  = useState({applicant:id,cv:''})
   useEffect(() => {
     const GetData = async ()=>{
@@ -37,7 +38,7 @@ const Jobs = () => {
      catch(err){
         console.error(err)}}
      GetData()
-    .catch(console.error);}, [])
+    .catch(console.error);}, [action])
     
   const handleClickOpen = (jobId) => {
     setJobId(jobId)
@@ -61,11 +62,15 @@ const Jobs = () => {
         setBopen(true)
         await axios.post(`/vacanices/apply/${jobId}`,{data})
         setOpen(false)
+        setAction(!action)
         setTimeout(()=>{setBopen(false)},500)
       }catch(err){
         setWaring(true) 
       }
     }
+    const handleNavigate = async (pagesId) =>{
+      navigate(`/PersonalAccountProfile/PersonalNetwork/pages/${pagesId}`)
+   }
     const disable = data.cv.length === 0
   return (
     <Main_One>
@@ -91,10 +96,11 @@ const Jobs = () => {
               {
                 jobs.map((job,i)=>{
                   return <Box key={i} p={1} sx={{display:'flex',flexDirection:'column'}}>
-                     <Box sx={{display:'flex',alignItems:'center',gap:'.5rem'}}>
+                     <Box sx={{display:'flex',alignItems:'center',gap:'.5rem'}}
+                       onClick={()=>handleNavigate(job.recureter._id)}>
                       <ProfilePhoto  onClick={()=>handleClick(friend._id)}
                        src={`../../../Profile_Image/${job.recureter.logo}`}/>
-                       <Typography variant='subtitle2' sx={{cursor:'pointer'}}>{job.recureter.companyName}</Typography>
+                       <Typography variant='subtitle2' sx={{cursor:'pointer','&:hover': {textDecoration: 'underline'}}}>{job.recureter.companyName}</Typography>
                       </Box>
                       <Box pl={6}>
                           <Box sx={{display:'flex',flexDirection:'column'}}>

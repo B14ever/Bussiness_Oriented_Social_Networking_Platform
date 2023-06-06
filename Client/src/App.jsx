@@ -51,6 +51,9 @@ import Pages from "./pages/Personal/Pages"
 import FollowerDeatail from './pages/Company/FollowersDetail'
 import Applicant from "./pages/Company/Applicant"
 import PenddingJobs from "./pages/Personal/PenddingJobs"
+import Page from "./pages/Company/Page"
+import MyPosts from "./pages/Company/MyPosts"
+import Myposts from "./pages/Personal/Myposts"
 function App() {
   return (
       <Routes>
@@ -85,6 +88,7 @@ function App() {
                      <Route path="jobs/pending" element={<PenddingJobs/>}/>
                      <Route path='PersonalNetwork/pages/:pagesId' element={<PageDetailes/>} />
                      <Route path='pages' element={<Pages/>} />
+                     <Route path='myposts' element={<Myposts/>} />
                 </Route>
               </Route>
               <Route element={<ProtectedRoutes Autherazetion={["company"]}/>}>
@@ -96,6 +100,8 @@ function App() {
                   <Route path="setting" element={<CompanyAccountSetting/>}/>
                   <Route path="profile/followers/:userId" element={<FollowerDeatail/>}/>
                   <Route path="job/applicant/:jobId" element={<Applicant/>}/>
+                  <Route path='pages/:pagesId' element={<Page/>} />
+                  <Route path='myposts' element={<MyPosts/>} />
                 </Route>
               </Route>
               <Route element={<ProtectedRoutes Autherazetion={["admin"]}/>}>

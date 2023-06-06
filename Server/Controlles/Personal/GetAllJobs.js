@@ -12,7 +12,7 @@ const GetJobs = async(req, res, next) => {
 }
 const PendingJobs = async(req, res, next) => {
     const { userId } = req.params
-    const jobs = await Jobs.find({ "applicants.applicant": { $in: [userId] } }, { applicants: 0 }).populate({
+    const jobs = await Jobs.find({ "applicants.applicant": { $in: [userId] }, $and: [{ "applicants.accepetd": { $eq: false } }] }, { applicants: 0 }).populate({
         path: "recureter",
         select: "companyName logo  _id",
     });
@@ -56,7 +56,7 @@ const CancleApplication = async(req, res, next) => {
             error.status = 403;
             throw error;
         } else {
-            return res.status(200).json({ msg: 'Applied succsfully' })
+            return res.status(200).json({ msg: 'Cancled succsfully' })
         }
 
     } catch (err) {

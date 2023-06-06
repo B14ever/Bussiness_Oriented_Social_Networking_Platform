@@ -1,9 +1,10 @@
-import React from 'react'
-import {Avatar,Box, Grid,Paper,Typography,Divider} from '@mui/material'
+import React,{useState} from 'react'
+import {Box, Grid} from '@mui/material'
 import ProfileBox from '../../Components/Individual/ProfileBox'
-import CreatePost from '../../Components/Shared/CreatePost'
+import CreatePost from '../../Components/Individual/CreatePost'
 import Posts from '../../Components/Shared/Posts'
 const PersonalAccountProfile = () => {
+  const [action,setAction] = useState(false)
   return (
         <Box sx={{marginTop:'97px',backgroundColor:"#E7EBF0"}}>
           <Grid p={2}  container direction="row">
@@ -11,8 +12,8 @@ const PersonalAccountProfile = () => {
               <ProfileBox/>  
             </Grid>
             <Grid item xs={12} md={8}>
-             <CreatePost/>
-             <Posts/>
+             <CreatePost setState={setAction}/>
+             <Posts state={action}/>
             </Grid>
           </Grid>
         </Box>

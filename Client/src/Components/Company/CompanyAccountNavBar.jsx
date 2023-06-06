@@ -23,7 +23,7 @@ const CompanyAccountNavBar = () => {
     setAnchorElUser(null);
   };
   return (
-    <AppBar  position="fixed" sx={{background:'#fff',marginTop:'51px',boxShadow:'none'}}>
+    <AppBar  position="fixed" sx={{background:'#fff',marginTop:'46px',paddingTop:'5px',boxShadow:'none'}}>
       <Toolbar variant='dense' >
        <Grid container >
          <Grid  item   xs={10}>

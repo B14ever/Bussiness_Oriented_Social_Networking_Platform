@@ -46,18 +46,12 @@ export const DashBordeListItems = [
     },
     {
         id:6,
-        Name:'Events',
-        Icon:<CalendarMonthOutlinedIcon color='primary'/>,
-        Path:'events'
-    },
-    {
-        id:7,
         Name:'Reports',
         Icon:<ReportOutlinedIcon color='primary'/>,
         Path:'reports'
     },
     {
-        id:8,
+        id:7,
         Name:'SkillAssessment',
         Icon:<QuizOutlinedIcon color='primary'/>,
         upArrow:<KeyboardArrowUpIcon color='primary'/>,

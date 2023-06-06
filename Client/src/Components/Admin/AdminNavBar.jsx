@@ -157,18 +157,13 @@ function ResponsiveDrawer(props) {
              <Divider orientation="vertical" color='primary' flexItem />
               <Tooltip title="Open settings">
                 <IconButton  sx={{marginRight:'1rem'}} onClick={handleOpenUserMenu} >
-                  <Avatar  sx={{ width: 30, height: 30}}   alt="Remy Sharp" src={`../../../Profile_Image/${user.user.profilePhoto?user.user.profilePhoto:'Avater.png'}`} />
+                  <Avatar  sx={{ width: 30, height: 30}}   alt="Remy Sharp" src={`../../../Profile_Image/operator.jpg`} />
                 </IconButton>
               </Tooltip>
               <Menu sx={{ mt: '50px' }} anchorEl={anchorElUser} keepMounted open={Boolean(anchorElUser)} 
                   onClose={handleCloseUserMenu}
                   anchorOrigin={{vertical: 'top',horizontal: 'center',}}
                   transformOrigin={{vertical: 'top',horizontal: 'center',}}>
-                  <MenuItem sx={{display:'flex',gap:'.5rem'}}  onClick={()=>navigate('AdminProfileDetail')}>
-                    <Avatar sx={{ width: 30, height: 30,}}  alt="Remy Sharp" src={`../../../Profile_Image/${user.user.profilePhoto?user.user.profilePhoto:'Avater.png'}`} />
-                    <Typography textAlign="center">{t("Profile")}</Typography>
-                  </MenuItem>
-                  <Divider mt='0' light />
                   <MenuItem  onClick={()=>navigate('AdminProfileSetting')}>
                     <Avatar sx={{width: 30, height: 30,marginRight:'.5rem'}}>
                     <SettingsIcon/>

@@ -1,7 +1,16 @@
 const mongoose = require('mongoose')
 const postSchema = new mongoose.Schema({
+    authorName: {
+        type: String,
+    },
+    authorPhoto: {
+        type: String,
+    },
     authorId: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
+    },
+    authorType: {
+        type: String,
     },
     content: {
         type: String,
@@ -9,25 +18,9 @@ const postSchema = new mongoose.Schema({
     photo: {
         type: String,
     },
-    comments: [{
-        commenterID: {
-            type: String
-        },
-        comment: {
-            type: String
-        },
-        replays: [{
-            replayerId: {
-                type: String
-            },
-            replay: {
-                type: String
-            }
-        }]
-    }],
-    Likes: {
-        type: Number
-    }
+
+    like: [],
+    report: []
 
 }, { timestamps: true })
 module.exports = mongoose.model('Posts', postSchema)

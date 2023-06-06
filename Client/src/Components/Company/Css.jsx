@@ -16,6 +16,14 @@ export const Section_One = styled(Box)(({ theme }) => ({
    [theme.breakpoints.down('md')]: {width: '80%'},
    [theme.breakpoints.down('lg')]: {width: '70%'},
   }));
+  export const Post_Section = styled(Box)(({ theme }) => ({
+    borderRadius:'6px',
+    backgroundColor: '#fff',
+    margin: '10px auto 5px', 
+    height: 'fit-content', 
+    width:'50%',
+   [theme.breakpoints.down('lg')]: {width: '90%'},
+  }));
   export const InfoBox = styled(Box)(({ theme }) => ({
     borderRadius:'6px',
     backgroundColor: '#fff',

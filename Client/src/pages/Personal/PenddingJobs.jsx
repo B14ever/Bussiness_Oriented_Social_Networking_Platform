@@ -56,7 +56,9 @@ const PenddingJobs = () => {
         setWaring(true) 
       }
     }
-
+    const handleNavigate = async (pagesId) =>{
+      navigate(`/PersonalAccountProfile/PersonalNetwork/pages/${pagesId}`)
+   }
   return (
     <Main_One>
       { loading?
@@ -85,10 +87,12 @@ const PenddingJobs = () => {
               {
                 jobs.map((job,i)=>{
                   return <Box key={i} p={1} sx={{display:'flex',flexDirection:'column'}}>
-                     <Box sx={{display:'flex',alignItems:'center',gap:'.5rem'}}>
+                     <Box sx={{display:'flex',alignItems:'center',gap:'.5rem'}}
+                     onClick={()=>handleNavigate(job.recureter._id)}>
                       <ProfilePhoto  onClick={()=>handleClick(friend._id)}
                        src={`../../../Profile_Image/${job.recureter.logo}`}/>
-                       <Typography variant='subtitle2' sx={{cursor:'pointer'}}>{job.recureter.companyName}</Typography>
+                       <Typography sx={{cursor:'pointer','&:hover': {textDecoration: 'underline'}}}
+                       variant='subtitle2' >{job.recureter.companyName}</Typography>
                       </Box>
                       <Box pl={6}>
                           <Box sx={{display:'flex',flexDirection:'column'}}>
@@ -102,7 +106,7 @@ const PenddingJobs = () => {
                         </Box>
                         <Box sx={{display:'flex',justifyContent:'flex-end',marginBottom:'1rem'}}>
                       
-                         <Button startIcon={<CallMadeIcon />} onClick={()=>handleClickOpen(job._id)} sx={{width:'25%',borderRadius:'25px',textTransform:'none'}} variant="contained" >{t('Apply')}</Button>
+                         <Button onClick={()=>handleClickOpen(job._id)} sx={{width:'20%',borderRadius:'20px',textTransform:'none'}} variant="outlined" >{t('Cancle')}</Button>
                         </Box>
                       {i !== jobs.length - 1 ? <Divider/>:null}
                   </Box>
@@ -110,8 +114,8 @@ const PenddingJobs = () => {
               }
              </Box>:
              <Box sx={{height:'70vh',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'}}>
-             <Box component='img'  sx={{height:{md:'460px',xs:'300px'},width:{xs:'50%',md:'100'}}} src={`../../../Profile_Image/NoPendingRequest.jpg`}/>
-             <Typography onClick={()=>navigate(-1)} >{t("NoPendingRequest")}</Typography>
+             <Box component='img'  sx={{height:{md:'460px',xs:'300px'},width:{xs:'50%',md:'100'}}} src={`../../../Profile_Image/PendingJob.jpg`}/>
+             <Typography variant='subtitle2' onClick={()=>navigate(-1)} >{t("NoPendingApplication")}</Typography>
              </Box>
              }
             <Dialog fullWidth open={open} onClose={handleClose}>
