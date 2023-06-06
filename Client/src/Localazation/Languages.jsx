@@ -500,5 +500,8 @@ export const TranslationEn ={
     jobRequirements:'Job requirements',
     NotEditJobForm:'You can not edit job form if you have applicant',
     Website:'Website',
-    ApplyForJob:'Apply for job'
+    ApplyForJob:'Apply for job',
+    AppliedJobs:'Jobs you applied',
+    CancleJobWarnnigs:'Are sure you want to cancle you application',
+    CancleApplication:'Cancle application'
 }

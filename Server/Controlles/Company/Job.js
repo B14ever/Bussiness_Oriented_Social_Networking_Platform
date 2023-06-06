@@ -101,4 +101,22 @@ const AcceptApplicants = async(req, res) => {
         res.status(err.status || 500).json({ error: err.message })
     }
 }
-module.exports = { AddJob, DeleteJObs, EditJObs, GetJobs, GetApplicants, AcceptApplicants }
+const UnAcceptApplicants = async(req, res) => {
+    const { jobId } = req.params
+    const { applicantId } = req.body
+
+    try {
+        const applicant = await Job.updateOne({ _id: jobId, $and: [{ "applicants.applicant": applicantId }] }, { $set: { "applicants.$.accepetd": false } })
+        if (!applicant) {
+            const error = new Error('delete jobs failde');
+            error.status = 403; // set the status code to 409 (Conflict)
+            throw error;
+        } else {
+            return res.status(200).json({ msg: 'Accepted' })
+        }
+
+    } catch (err) {
+        res.status(err.status || 500).json({ error: err.message })
+    }
+}
+module.exports = { AddJob, DeleteJObs, EditJObs, GetJobs, GetApplicants, AcceptApplicants, UnAcceptApplicants }

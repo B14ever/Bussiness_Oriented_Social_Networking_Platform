@@ -54,7 +54,6 @@ const CompanyAccountJobsPages = () => {
     setLoading(true)
     const responce = await axios.get(`/jobs/${id}`)
     const data = responce.data.Jobs
-    console.log(data)
     setJobs(data)
     setTimeout(()=>{setLoading(false)},1200)
     }
@@ -101,6 +100,9 @@ const handleEdit = async (e) =>{
     setWaringMsg('JobNotAdd')
   }
 }
+const handleNavigate = (jobId) =>{
+  navigate(`applicant/${jobId}`)
+}
 const newDisable = newJobs.form && newJobs.jobLocation &&  newJobs.jobRequirements && newJobs.jobResponsibilities && newJobs.jobTitle && newJobs.workType && newJobs.jobType &&
 (newJobs.form.includes('ExternalWeb')?newJobs.webSite : true)
 const EditDisable = editJobs.form && editJobs.jobLocation &&  editJobs.jobRequirements && editJobs.jobResponsibilities && editJobs.jobTitle && editJobs.workType && editJobs.jobType
@@ -144,7 +146,7 @@ const EditDisable = editJobs.form && editJobs.jobLocation &&  editJobs.jobRequir
                           <Typography>{t('jobType')} : {job.jobType}</Typography>
                           {
                         job.form.includes("OnBOSBN")?
-                        <Typography onClick={()=>navigate('applicant')} sx={{cursor:'pointer','&:hover': {textDecoration: 'underline',},}}>
+                        <Typography onClick={()=>handleNavigate(job._id)} sx={{cursor:'pointer','&:hover': {textDecoration: 'underline',},}}>
                           {t('Applicants')} : {job.applicants.length}</Typography>:null}
                           </Box>
                          </Box>

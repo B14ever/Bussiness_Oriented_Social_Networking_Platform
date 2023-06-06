@@ -49,6 +49,8 @@ import CompanyAccountSetting from "./pages/Company/CompanyAccountSetting"
 import PageDetailes from './pages/Personal/PageDetailes'
 import Pages from "./pages/Personal/Pages"
 import FollowerDeatail from './pages/Company/FollowersDetail'
+import Applicant from "./pages/Company/Applicant"
+import PenddingJobs from "./pages/Personal/PenddingJobs"
 function App() {
   return (
       <Routes>
@@ -80,6 +82,7 @@ function App() {
                      <Route path="connection" element={<Connection/>}/>
                      <Route path="pendingRequest" element={<PendingRequest/>}/>
                      <Route path="jobs" element={<Jobs/>}/>
+                     <Route path="jobs/pending" element={<PenddingJobs/>}/>
                      <Route path='PersonalNetwork/pages/:pagesId' element={<PageDetailes/>} />
                      <Route path='pages' element={<Pages/>} />
                 </Route>
@@ -92,6 +95,7 @@ function App() {
                   <Route path="profile" element={<CompanyProfileDetail/>}/>
                   <Route path="setting" element={<CompanyAccountSetting/>}/>
                   <Route path="profile/followers/:userId" element={<FollowerDeatail/>}/>
+                  <Route path="job/applicant/:jobId" element={<Applicant/>}/>
                 </Route>
               </Route>
               <Route element={<ProtectedRoutes Autherazetion={["admin"]}/>}>
