@@ -21,7 +21,7 @@ const PenddingJobs = () => {
   const [loading,setLoading] = useState(false)
   const [jobId,setJobId] = useState('')
   const [warnnig,setWaring] = useState(false)
-  const [bOpen,setBopen] = useState(false)
+  const [action,setAction] = useState(false)
   const [open, setOpen] = React.useState(false);
   useEffect(() => {
     const GetData = async ()=>{
@@ -35,7 +35,7 @@ const PenddingJobs = () => {
      catch(err){
         console.error(err)}}
      GetData()
-    .catch(console.error);}, [])
+    .catch(console.error);}, [action])
     
   const handleClickOpen = (jobId) => {
     setJobId(jobId)
@@ -51,6 +51,7 @@ const PenddingJobs = () => {
       try{
         await axios.post(`/vacanices/cancle/${jobId}`,{id})
         setOpen(false)
+        setAction(!action)
       }catch(err){
         setWaring(true) 
       }
