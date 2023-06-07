@@ -523,5 +523,6 @@ export const TranslationEn ={
     illegalGoods:"Illegal goods",
     NotReported:'Your Report is not reported',
     PostNotUnLiked:'Post not Unliked',
-    PostNotLiked:'Post not liked'
+    PostNotLiked:'Post not liked',
+    SearchJob:'seacrh jobs by title or location'
 }

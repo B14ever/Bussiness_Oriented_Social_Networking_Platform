@@ -166,7 +166,7 @@ const handleNavigate = async (userId) =>{
          </Box>
         </InfoBox>
       </Typography>:null}
-      {page.mission?<Typography component="div" role="tabpanel" hidden={value !== 2}>
+      {page.mission.length > 1 ?<Typography component="div" role="tabpanel" hidden={value !== 2}>
       <InfoBox>
         <Box p={1}>
           <Typography sx={{color:'#555'}}>
@@ -176,7 +176,7 @@ const handleNavigate = async (userId) =>{
         </Typography>
          </Box>
         </InfoBox>
-      </Typography>:null}
+      </Typography>: null }
       {page.vision?<Typography component="div" role="tabpanel" hidden={value !== 3}>
       <InfoBox>
         <Box p={1}>

@@ -1,17 +1,60 @@
 import  { Main_One, Section_One } from '../../Components/Company/Css'
 import React, { useEffect,useState} from 'react'
 import {Box, Typography,Divider,Avatar,LinearProgress,
-   Button,Dialog,DialogActions,DialogContent,DialogTitle,Snackbar,Alert,Backdrop,CircularProgress,IconButton, TextField,Tooltip} from '@mui/material'
+   Button,Dialog,DialogActions,DialogContent,DialogTitle,Snackbar,Alert,Backdrop,CircularProgress,IconButton, TextField,Tooltip,InputBase} from '@mui/material'
 import AttachFileOutlinedIcon from '@mui/icons-material/AttachFileOutlined';
 import WorkHistoryIcon from '@mui/icons-material/WorkHistory';
 import CallMadeIcon from '@mui/icons-material/CallMade';
 import { styled, useTheme } from '@mui/material/styles';
 import { useLanguage } from '../../Localazation/LanguageContext';
 import { useAthuContext } from '../../Context/Shared/AthuContext';
+import SearchIcon from '@mui/icons-material/Search';
 import axios from '../../api/axios'
 import { useNavigate } from 'react-router-dom';
 const ProfilePhoto= styled(Avatar)(({ theme }) => ({
   width: 45, height: 45,boxShadow:"rgba(149, 157, 165, 0.2) 0px 6px 22px",
+}));
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius:'10px',
+  backgroundColor:'#E7EBF0',
+  '&:hover': {
+    backgroundColor:'#E7EBF0',
+  },
+ marginRight:'1rem',
+  width: '100%',
+  [theme.breakpoints.up('sm')]: {
+    width: 'auto',
+  },
+}));
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+ 
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: 'inherit',
+  
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      width: '25ch',
+      '&:focus': {
+        width: '30ch',
+      },
+    },
+  },
 }));
 const Jobs = () => {
   const {t} = useLanguage()
@@ -25,6 +68,7 @@ const Jobs = () => {
   const [bOpen,setBopen] = useState(false)
   const [open, setOpen] = React.useState(false);
   const [action, setAction] = React.useState(false);
+  const [search,setSearch] = useState('')
   const [data,setData]  = useState({applicant:id,cv:''})
   useEffect(() => {
     const GetData = async ()=>{
@@ -85,8 +129,14 @@ const Jobs = () => {
        <Section_One>
           <Box p={1} sx={{display:'flex',alignItems:'center'}}>
             <Typography ml={1} variant='subtitle2'>{t("job")}</Typography>
+            <Box sx={{marginLeft:'auto'}}>
+            <Search onChange={(e)=>setSearch(e.target.value)}>
+              <SearchIconWrapper><SearchIcon color='primary' /></SearchIconWrapper>
+              <StyledInputBase placeholder={t("SearchJob")} inputProps={{ 'aria-label': 'search' }}/>
+            </Search>
+            </Box>
             <Tooltip placement="left-start" title={t('AppliedJobs')}>
-                <IconButton sx={{marginLeft:'auto'}} onClick={()=>navigate('pending')}>
+                <IconButton  onClick={()=>navigate('pending')}>
                   <WorkHistoryIcon color='primary'/>
                 </IconButton>
             </Tooltip>
@@ -94,7 +144,9 @@ const Jobs = () => {
           <Divider/>
           <Box>
               {
-                jobs.map((job,i)=>{
+                jobs.filter(item=>{
+                  return item.jobTitle.toLowerCase().includes(search.toLowerCase()) ||
+                         item.jobLocation.toLowerCase().includes(search.toLowerCase())}).map((job,i)=>{
                   return <Box key={i} p={1} sx={{display:'flex',flexDirection:'column'}}>
                      <Box sx={{display:'flex',alignItems:'center',gap:'.5rem'}}
                        onClick={()=>handleNavigate(job.recureter._id)}>
