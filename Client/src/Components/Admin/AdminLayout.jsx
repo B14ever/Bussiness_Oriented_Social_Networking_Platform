@@ -4,10 +4,12 @@ import { Outlet } from 'react-router-dom'
 import ResponsiveDrawer from './AdminNavBar'
 const AdminLayout = () => {
   return (
-    <Box sx={{ display:'flex',backgroundColor:'#E7EBF0',height:{xs:'130vh',sm:'calc(100vh - 10px)',lg:'calc(100vh)'}}}>
+   <div>
+     <Box sx={{ display:'flex',backgroundColor:'#E7EBF0',height:'auto'}}>
                <ResponsiveDrawer/>
                <Outlet/>
     </Box>
+   </div>
   )
 }
 

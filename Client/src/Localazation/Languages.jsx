@@ -524,5 +524,7 @@ export const TranslationEn ={
     NotReported:'Your Report is not reported',
     PostNotUnLiked:'Post not Unliked',
     PostNotLiked:'Post not liked',
-    SearchJob:'seacrh jobs by title or location'
+    SearchJob:'seacrh jobs by title or location',
+    TotalUsers:'Total users'
+
 }

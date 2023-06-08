@@ -13,7 +13,7 @@ const Signin = () => {
     setImage(!image)
   };
   return (
-    <Grid sx={{marginTop:{lg:'64px',sm:'64px',md:'64px',xs:'56px'}} } container component="main">
+    <Grid sx={{marginTop:{lg:'40px',sm:'49px',md:'49px',xs:'49px'},backgroundColor:'#fff',height:'95vh'} } container component="main">
       <Grid item xs={12} lg={6} >
       <Box sx={{my: 8, mx: 4 }}>
       <Typography component="h1" variant="h5" textAlign={'center'}>{t("Signup")}</Typography>

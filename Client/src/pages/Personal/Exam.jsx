@@ -117,6 +117,7 @@ const Exam = () => {
           setProgress((prev)=>prev+20)
           if(questions[index].correctAnswer === answer){
           setScore( (prev) => prev + 1 )
+          setAnswers('')
             }
         }
         if (index === 4)
@@ -140,6 +141,9 @@ const Exam = () => {
             setTimeout(()=>{setOpen(true)},1000)
           }
         }  
+        else{
+          setAnswers('')
+        }
   }
   const handleClose =()=>{
     setOpen(false)
@@ -185,7 +189,7 @@ const Exam = () => {
                 } 
             </Box>
             <Box sx={{display:'flex',justifyContent:'flex-end',height: 'fit-content',alignItems:'center'}}>
-            <Button size='small' disabled={buttonDisable} onClick={handleNext} variant='contained'>{ index < 4 ? t("Next"):t('viweResult')}</Button>
+            <Button sx={{textTransform:'none'}} size='small' disabled={buttonDisable} onClick={handleNext} variant='contained'>{ index < 4 ? t("Next"):t('viweResult')}</Button>
             </Box>   
             </Box>
         <Dialog open={open} onClose={handleClose}>
@@ -203,7 +207,7 @@ const Exam = () => {
             </DialogContent>
            }
            <DialogActions>
-             <Button variant="contained" sx={{textTransform:'none'}} onClick={()=>{navigate(-2)}}>{t("tryAgain")}</Button>
+             <Button  variant="contained" sx={{textTransform:'none'}} onClick={()=>{navigate(-2)}}>{t("tryAgain")}</Button>
              <Button variant="outlined" sx={{textTransform:'none'}}  onClick={()=>{navigate(-3)}}>{t("BackToProfile")}</Button>
            </DialogActions>
         </Dialog>

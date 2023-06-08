@@ -97,9 +97,9 @@ const EmailVerification = () => {
         setOpen(false);
       };
   return (
-   <Container component="main" maxWidth="xs" >
+    <Box  sx={{backgroundColor:'#fff',height:'100vh',display:'flex',alignItems:'flex-start',justifyContent:'center'}} >
         <Box sx={{marginTop:20,display: 'flex',flexDirection: 'column',alignItems: 'center',boxShadow:2, p:2,
-          borderRadius: 3,}}>
+          borderRadius: 3,width:'30%'}}>
             <MarkEmailReadOutlinedIcon/>
             <Typography component="h1" variant="h5">{t("VerifyEmail")}</Typography>
             <Typography>{t("EnterCode")}</Typography>
@@ -117,7 +117,7 @@ const EmailVerification = () => {
           >
             <CircularProgress color="inherit" />
         </Backdrop>
-   </Container>
+   </Box>
   )
 }
 

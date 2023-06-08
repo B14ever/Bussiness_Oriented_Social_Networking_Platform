@@ -53,7 +53,7 @@ const instructionList = ['instruction4','instruction5','instruction6']
               </Box>
               <Divider/>
               <Box mt={2} sx={{width:'100%',display:'flex',justifyContent:'flex-end'}}>
-                <Button variant='contained' onClick={()=>{navigate('/PersonalAccountProfile/PersonalProfileDetail/takeAssessment/exam')}}>{t("Start")}</Button>
+                <Button sx={{textTransform:'none'}} variant='contained' onClick={()=>{navigate('/PersonalAccountProfile/PersonalProfileDetail/takeAssessment/exam')}}>{t("Start")}</Button>
               </Box>
              </Box>
             </Box>
