@@ -51,6 +51,8 @@ const AdminAccounts = require('./Routes/Admin/AddAdmin')
 app.use('/AdminAccount', AdminAccounts)
 const SkillAssessment = require('./Routes/Admin/SkillAssessment')
 app.use('/skillAssessment', SkillAssessment)
+const Users = require('./Routes/Admin/GetUsers')
+app.use('/users', Users)
 
 //SharedRoutes
 const Verification = require('./Routes/Shared/EmailVerification')

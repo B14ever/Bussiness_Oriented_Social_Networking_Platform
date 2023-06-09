@@ -525,6 +525,7 @@ export const TranslationEn ={
     PostNotUnLiked:'Post not Unliked',
     PostNotLiked:'Post not liked',
     SearchJob:'seacrh jobs by title or location',
-    TotalUsers:'Total users'
+    TotalUsers:'Total users',
+    PageUsers:'Page users'
 
 }

@@ -1,8 +1,9 @@
 import React,{useEffect,useState}from 'react'
 import { styled,alpha } from '@mui/material/styles';
-import {Typography,Box,Divider,Button,Avatar,LinearProgress,} from '@mui/material'
+import {Typography,Box,Divider,Button,Avatar,LinearProgress,Tooltip,IconButton} from '@mui/material'
 import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
 import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutlined';
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { useAthuContext } from '../../Context/Shared/AthuContext';
 import axios from '../../api/axios'
 import { useNavigate } from 'react-router-dom';
@@ -69,6 +70,11 @@ const PersonalAccountUsers = () => {
        :
     <Section>
       <Box p={1} sx={{display:'flex',alignItems:'center',gap:'.5rem'}}>
+      <Tooltip title={t("Back")}>
+            <IconButton onClick={()=>navigate(-1)}>
+              <KeyboardBackspaceIcon/>
+            </IconButton>
+          </Tooltip>
           <Typography variant='subtitle2'>{t("PersonalAccounts")}</Typography>
           <Typography sx={{marginLeft:'auto'}} variant='subtitle2'>{users.length} {t("TotalUsers")}</Typography>
       </Box>

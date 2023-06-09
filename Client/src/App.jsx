@@ -55,6 +55,7 @@ import Page from "./pages/Company/Page"
 import MyPosts from "./pages/Company/MyPosts"
 import Myposts from "./pages/Personal/Myposts"
 import PersonalAccountsDeatail from "./pages/Admin/PersonalAccountsDetail"
+import CompanyPageUsersDetail from "./pages/Admin/CompanyPageUsersDetail"
 function App() {
   return (
       <Routes>
@@ -110,6 +111,7 @@ function App() {
                   <Route path="/AdminDashborde" element={<AdminDashborde/>}/>
                   <Route path="addAdmin" element={<AddAdmin/>}/>
                   <Route path="companyPages" element={<CompanyPageUsers/>}/>
+                  <Route path="companyPages/:pagesId" element={<CompanyPageUsersDetail/>}/>
                   <Route path="PersonalAccounts" element={<PersonalAccountUsers/>}/>
                   <Route path="PersonalAccounts/:userId" element={<PersonalAccountsDeatail/>}/>
                   <Route path="jobVacancies" element={<JobVacanicesDashborde/>}/>
