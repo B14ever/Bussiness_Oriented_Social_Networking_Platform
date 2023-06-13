@@ -127,9 +127,9 @@ const Posts = ({state}) => {
     <Box mt={4} sx={{ width:{xs:'100%',lg:'70%'},backgroundColor:'#fff',borderRadius:'6px'}}>
       {
         loading?
-       <Box sx={{ width: '100%',backgroundColor:'#fff',borderRadius:'6px'}}>
+       <Box p={1} sx={{ width: '100%',backgroundColor:'#fff',borderRadius:'6px'}}>
         <LinearProgress />
-        <Typography  variant='subtitle2'>{t("PeopleYouMayKnow")}</Typography>
+        <Typography  variant='subtitle2'>{t("Posts")}</Typography>
        </Box>:
          <Box>
          {

@@ -35,7 +35,7 @@ const CompanyAccountNavBar = () => {
             </Tooltip>
             <Tooltip title={t("Notification")}>
               <IconButton onClick={()=>navigate('notification')}>
-                <Badge badgeContent={17} color="error">
+                <Badge  color="error">
                   <CircleNotificationsOutlinedIcon/>
                 </Badge>
               </IconButton>

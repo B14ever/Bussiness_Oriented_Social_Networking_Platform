@@ -53,6 +53,7 @@ const CompanyAccount = new mongoose.Schema({
         type: String,
         default: 'defaultLogo.jpg'
     },
+    nottification: [],
     followers: [{ type: String, ref: "PersonalAccount" }],
 }, { timestamps: true })
 module.exports = mongoose.model('CompanyAccount', CompanyAccount)

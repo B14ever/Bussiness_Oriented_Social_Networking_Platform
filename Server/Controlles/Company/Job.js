@@ -1,7 +1,6 @@
 //Models
 const Job = require('../../Models/Job')
 const AddJob = async(req, res, next) => {
-    console.log(req.body)
     const { recureter, jobTitle, workType, jobLocation, jobType, jobRequirements, jobResponsibilities, form, webSite } = req.body
     try {
         const addJobs = await Job.create({ recureter, jobTitle, workType, jobLocation, jobType, form, jobRequirements, jobResponsibilities, webSite });

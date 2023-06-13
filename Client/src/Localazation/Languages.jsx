@@ -526,6 +526,10 @@ export const TranslationEn ={
     PostNotLiked:'Post not liked',
     SearchJob:'seacrh jobs by title or location',
     TotalUsers:'Total users',
-    PageUsers:'Page users'
+    PageUsers:'Page users',
+    EmptyNottification:"You do not have any notification yet",
+    EmptyApplicant:"There are no applicants yet",
+    ReportedPosts:'Posts with report',
+    EmptyReport:"There are no reports"
 
 }

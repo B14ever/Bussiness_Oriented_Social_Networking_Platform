@@ -36,6 +36,8 @@ const ChatRoom = require('./Routes/Personal/ChatRoom')
 app.use('/ChatRoom', ChatRoom)
 const Message = require('./Routes/Personal/Message')
 app.use('/message', Message)
+const MyNottification = require('./Routes/Personal/Notification')
+app.use('/notification', MyNottification)
     //routes for CompanyAccounts
 const CompanyAccounts = require('./Routes/Company/SignUp')
 app.use('/ComapnyAccountSignUp', CompanyAccounts)
@@ -43,8 +45,8 @@ const CompanyAccountProfile = require('./Routes/Company/Profile')
 app.use('/Profile', CompanyAccountProfile)
 const JobVacanices = require('./Routes/Company/Jobs')
 app.use('/jobs', JobVacanices)
-
-
+const MyNotification = require('./Routes/Company/Notification')
+app.use('/nottification', MyNotification)
 
 //routes for Admin
 const AdminAccounts = require('./Routes/Admin/AddAdmin')
@@ -53,8 +55,9 @@ const SkillAssessment = require('./Routes/Admin/SkillAssessment')
 app.use('/skillAssessment', SkillAssessment)
 const Users = require('./Routes/Admin/GetUsers')
 app.use('/users', Users)
-
-//SharedRoutes
+const UsersPosts = require('./Routes/Admin/UsersPosts')
+app.use('/usersPosts', UsersPosts)
+    //SharedRoutes
 const Verification = require('./Routes/Shared/EmailVerification')
 app.use('/emailVerification', Verification)
 const Login = require('./Routes/Shared/Login')

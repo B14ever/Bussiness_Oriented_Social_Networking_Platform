@@ -87,6 +87,8 @@ const Applicant = () => {
         </Box>
         </Section>:
       <Section>
+        {applicants.length > 0 ?
+        <Box>
         <Box sx={{backgroundColor:"#E7EBF0"}}>
            <Tooltip title={t('Back')}>
              <IconButton onClick={()=>{navigate(-1)}}>
@@ -121,6 +123,22 @@ const Applicant = () => {
                     </Box>
                     <Divider/>
                 </HoverBox>})}
+                </Box>:
+                <Box>
+                  <Box sx={{backgroundColor:"#E7EBF0"}}>
+                    <Tooltip title={t('Back')}>
+                      <IconButton onClick={()=>{navigate(-1)}}>
+                        <KeyboardBackspaceIcon/>
+                      </IconButton>
+                    </Tooltip>
+                 </Box>
+                  <Box 
+                  sx={{height:'70vh',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'}}>
+                  <Box component='img'  sx={{height:{md:'460px',xs:'300px'},width:{xs:'50%',md:'100'}}} src={`../../../Profile_Image/EmptyApplicant.jpg`}/>
+                  <Typography variant='subtitle2'>{t("EmptyApplicant")}</Typography>
+                </Box>
+               </Box>
+                }
                  <Snackbar anchorOrigin={{ vertical:'top', horizontal:'center'}}
                   open={warnnig} autoHideDuration={800} onClose={()=>setWaring(false)}>
                    <Alert onClose={()=>setWaring(false)} severity="info" sx={{ width: '100%' }}>

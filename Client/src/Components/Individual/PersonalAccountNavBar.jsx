@@ -35,7 +35,7 @@ const PersonalAccountNavBar = () => {
             </Tooltip>
            <Tooltip title={t("Message")}>
              <IconButton onClick={()=>navigate('PersonalMessage')}>
-              <Badge badgeContent={17} color="error">
+              <Badge  color="error">
                 <MessageOutlinedIcon/>
               </Badge>
              </IconButton>
@@ -49,7 +49,7 @@ const PersonalAccountNavBar = () => {
             </Tooltip>
             <Tooltip title={t("Notification")}>
               <IconButton onClick={()=>navigate('PersonalNotification')}>
-                <Badge badgeContent={17} color="error">
+                <Badge  color="error">
                   <CircleNotificationsOutlinedIcon/>
                 </Badge>
               </IconButton>

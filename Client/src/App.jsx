@@ -117,7 +117,7 @@ function App() {
                   <Route path="jobVacancies" element={<JobVacanicesDashborde/>}/>
                   <Route path="posts" element={<PostsDashborde/>}/>
                   <Route path="events" element={<EventesDashborde/>}/>
-                  <Route path="reports" element={<ReportDashborde/>}/>
+                  <Route path="posts/reports" element={<ReportDashborde/>}/>
                   <Route path="AdminProfileDetail" element={<AdminProfileDetail/>}/>
                   <Route path="AdminProfileSetting" element={<AdminProfileSetting/>}/>
                   <Route path="newAssessment" element={<SkillExam/>}/>
