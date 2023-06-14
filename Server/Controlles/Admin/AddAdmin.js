@@ -6,11 +6,11 @@ const { SendEmail } = require('../../MIddleWare/Sharde/SendEmail')
 const { OTPGenerator } = require('../../MIddleWare/Sharde/OtpGenerator')
 const { HashPasword } = require('../../MIddleWare/Sharde/Bcrypt')
 const AddAdmin = async(req, res, next) => {
-    const { FirstName, LastName, Email, Password } = req.body
+    const { FirstName, LastName, Email, Password, Country, City, PhoneNumber, adminType } = req.body
     const OTP = OTPGenerator()
     const password = await HashPasword(Password)
     const newUsers = { Email, password, role: 'admin', otp: OTP }
-    const newAdminAccount = { FirstName, LastName, Email, }
+    const newAdminAccount = { FirstName, LastName, Email, Country, City, PhoneNumber, adminType }
     try {
         const user = await Users.findOne({ Email: `${Email}` })
         if (user) {

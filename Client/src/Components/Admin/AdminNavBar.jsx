@@ -16,6 +16,7 @@ import {useLanguage} from '../../Localazation/LanguageContext'
 import { useAthuContext } from '../../Context/Shared/AthuContext';
 import DropDawnMenu from './DropDawnMenu';
 import Logout from '../Shared/Logout';
+import AddModeratorOutlinedIcon from '@mui/icons-material/AddModeratorOutlined';
 const drawerWidth = 240;
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -82,6 +83,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 function ResponsiveDrawer(props) {
   const theme = useTheme();
   const {user} = useAthuContext()
+  const adminType = user.user.adminType
   const navigate = useNavigate()
   const {t} = useLanguage()
   const [anchorElUser, setAnchorElUser] = useState(null)
@@ -127,7 +129,6 @@ function ResponsiveDrawer(props) {
          </>:
             <ListItem sx={{marginTop:'.5rem'}}  disablePadding>
              <Tooltip  title={!open?t(`${items.Name}`):''} placement="right-end">
-              
                <ListItemButton onClick={()=>navigate(`${items.Path}`)} >
                   <ListItemIcon>
                   {items.Icon}
@@ -140,6 +141,16 @@ function ResponsiveDrawer(props) {
            }
           </React.Fragment>
         ))}
+      {adminType === 'superAdmin' ?   <ListItem sx={{marginTop:'.5rem'}}  disablePadding>
+             <Tooltip  title={!open?t(`AddAdmin`):''} placement="right-end">
+               <ListItemButton onClick={()=>navigate(`addAdmin`)} >
+                  <ListItemIcon>
+                     <AddModeratorOutlinedIcon color='primary'/>
+                  </ListItemIcon>
+                  <ListItemText primary={t(`AddAdmin`)} />
+              </ListItemButton>
+            </Tooltip>
+          </ListItem>:null }
       </List>
     </div>
   );
@@ -155,15 +166,19 @@ function ResponsiveDrawer(props) {
         </IconButton>
           <Box sx={{marginLeft:'auto',display:'flex'}} >
              <Divider orientation="vertical" color='primary' flexItem />
-              <Tooltip title="Open settings">
+             <Tooltip title="Open settings">
                 <IconButton  sx={{marginRight:'1rem'}} onClick={handleOpenUserMenu} >
-                  <Avatar  sx={{ width: 30, height: 30}}   alt="Remy Sharp" src={`../../../Profile_Image/operator.jpg`} />
+                  <Avatar  sx={{ width: 30, height: 30}}   alt="Remy Sharp" src={`../../../Profile_Image/${user.user.profilePhoto?user.user.profilePhoto:'Avater.png'}`} />
                 </IconButton>
               </Tooltip>
               <Menu sx={{ mt: '50px' }} anchorEl={anchorElUser} keepMounted open={Boolean(anchorElUser)} 
                   onClose={handleCloseUserMenu}
                   anchorOrigin={{vertical: 'top',horizontal: 'center',}}
                   transformOrigin={{vertical: 'top',horizontal: 'center',}}>
+                   <MenuItem sx={{display:'flex',gap:'.5rem'}}  onClick={()=>navigate('AdminProfileDetail')}>
+                    <Avatar sx={{ width: 30, height: 30,}}  alt="Remy Sharp" src={`../../../Profile_Image/${user.user.profilePhoto?user.user.profilePhoto:'Avater.png'}`} />
+                    <Typography textAlign="center">{t("Profile")}</Typography>
+                  </MenuItem>
                   <MenuItem  onClick={()=>navigate('AdminProfileSetting')}>
                     <Avatar sx={{width: 30, height: 30,marginRight:'.5rem'}}>
                     <SettingsIcon/>

@@ -530,6 +530,6 @@ export const TranslationEn ={
     EmptyNottification:"You do not have any notification yet",
     EmptyApplicant:"There are no applicants yet",
     ReportedPosts:'Posts with report',
-    EmptyReport:"There are no reports"
+    EmptyReport:"There is no reports"
 
 }

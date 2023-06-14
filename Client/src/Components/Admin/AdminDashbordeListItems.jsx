@@ -68,10 +68,5 @@ export const DashBordeListItems = [
             }
         ]
     },
-    {
-        id:9,
-        Name:'AddAdmin',
-        Icon:<AddModeratorOutlinedIcon color='primary'/>,
-        Path:'addAdmin'
-    }
+   
 ]

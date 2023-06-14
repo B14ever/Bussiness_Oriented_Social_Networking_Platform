@@ -46,7 +46,6 @@ const CompanyPageUsers = () =>  {
     try{
      setLoading(true)
      const responce = await axios.get(`/users/pageusers`)
-     console.log(responce.data)
      const data = responce.data.Pages
      setPages(data)
      setTimeout(()=>{setLoading(false)},1200)

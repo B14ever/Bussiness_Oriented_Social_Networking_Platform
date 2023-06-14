@@ -57,6 +57,8 @@ const Users = require('./Routes/Admin/GetUsers')
 app.use('/users', Users)
 const UsersPosts = require('./Routes/Admin/UsersPosts')
 app.use('/usersPosts', UsersPosts)
+const Admins = require('./Routes/Admin/Admins')
+app.use('/admins', Admins)
     //SharedRoutes
 const Verification = require('./Routes/Shared/EmailVerification')
 app.use('/emailVerification', Verification)
