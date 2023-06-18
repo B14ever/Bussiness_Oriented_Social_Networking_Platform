@@ -142,8 +142,8 @@ const Posts = ({state}) => {
                onClick={()=>handelNaivgate(post)}/>}
                title={post.authorName}
                subheader={formatDate(post.createdAt)}
-               action={<Button sx={{textTransform:'none'}} onClick={()=>handleClickOpen(post._id)}
-                startIcon={<FlagIcon/>}>{t("Report")}</Button>}/>
+               action={post.authorId !== id ? <Button sx={{textTransform:'none'}} onClick={()=>handleClickOpen(post._id)}
+                startIcon={<FlagIcon/>}>{t("Report")}</Button>:null}/>
              <CardContent>
                <Typography variant="body2" color="text.secondary">{post.content}</Typography>
              </CardContent>

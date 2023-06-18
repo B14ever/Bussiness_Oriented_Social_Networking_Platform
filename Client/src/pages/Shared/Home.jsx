@@ -1,10 +1,13 @@
 import React, { useEffect } from 'react'
-import {Button, Grid, Typography} from '@mui/material'
+import {Button, Grid, Typography,Box} from '@mui/material'
 import find from '../../assets/find.png'
-import talent from '../../assets/R.png'
-import skill from '../../assets/skills.png'
-import company from '../../assets/Recruitment_Image.png'
 import {useLanguage} from '../../Localazation/LanguageContext'
+import { styled, useTheme } from '@mui/material/styles';
+import Carousel from 'react-material-ui-carousel'
+export const Blue = styled(Box)(({ theme }) => ({
+    backgroundColor:"#1e88e5",
+    height:"200px",
+  }));
 const styles = {
  box:{
     width:'100%',
@@ -22,49 +25,28 @@ const styles = {
 
 function Home() {
   return (
-    <React.Fragment>
-       <Grid style={styles.container}  sx={{marginTop:{lg:'64px',sm:'64px',md:'64px',xs:'56px'}}}  container>
-            <Grid style={styles.box} xs={12} lg={6} md={6} sm={6} item>
-                    <Typography variant='h3'>Find a Job With</Typography>
-                    <Typography  variant='h3'>Your Interest and</Typography>
-                    <Typography   variant='h3'>Ablity</Typography>
-                    <Button size="small" variant="contained" sx={{marginTop:'1rem'}}>Start know</Button>
-            </Grid>
-            <Grid xs={12} lg={6} md={6} sm={6} sx={{display:'flex',justifyContent:'center'}} item>
-              <img src={find} style={{height:'auto',marginTop:'1rem',width:'50%',maxWidth:'540px'}}/>
-            </Grid>
-       </Grid>
-       <Grid  sx={{marginTop:'60px'}} container>
-       <Grid xs={12} lg={6} md={6} sm={6} sx={{display:'flex',justifyContent:'center'}}   item>
-           <img src={talent} style={{height:'auto',marginTop:'1rem',width:'50%'}}/>
-        </Grid>
-        <Grid style={styles.box} xs={12} lg={6} md={6} sm={6} item>
-                <Typography variant='h3'>Talk To Other Profetionals</Typography>
-                <Typography variant='h3'>Develop Comnnucatin And</Typography>
-                <Typography variant='h3'>Share Idea</Typography>
-         </Grid>
-       </Grid>
-       <Grid container>
+    <Box sx={{marginTop:{lg:'40px',sm:'64px',md:'64px',xs:'56px'},backgroundColor:'#fff',height:'95vh'}}>
+       <Blue container>
+            <Box style={styles.box}>
+                <Typography sx={{fontSize:"3.5rem",color:"#fff"}} variant='subtitle2'>Welcome to your</Typography>
+                <Typography  sx={{fontSize:"3.5rem",color:"#fff"}} variant='subtitle2'>professional community</Typography>         
+            </Box>
+            <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+           <path fill="#1e88e5" fill-opacity="1.5" d="M0,64L60,85.3C120,107,240,149,360,154.7C480,160,600,128,720,101.3C840,75,960,53,1080,64C1200,75,1320,117,1380,138.7L1440,160L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"></path>
+        </svg>
+       </Blue>
+     
+      <Grid  sx={{marginTop:'100px'}}  container>
        <Grid style={styles.box} xs={12} lg={6} md={6} sm={6} item>
-                <Typography variant='h3'>Take Skill Exam</Typography>
-                <Typography variant='h3'>In Your Profession</Typography>
-                <Typography variant='h3'>Bost Your Chance To Get Oportunity</Typography>
+                <Typography sx={{fontSize:"2.5rem"}} variant='subtitle2'>Find the right job or</Typography>
+                <Typography sx={{fontSize:"2.5rem"}} variant='subtitle2'>internship for you</Typography>
          </Grid>
        <Grid xs={12} lg={6} md={6} sm={6} sx={{display:'flex',justifyContent:'center'}}   item>
-           <img src={skill} style={{height:'auto',marginTop:'1rem',width:'50%'}}/>
+           <img src={find} style={{height:'auto',marginTop:'1rem',width:'50%'}}/>
         </Grid>
        </Grid>
-       <Grid container  >
-       <Grid xs={12} lg={6} md={6} sm={6} sx={{display:'flex',justifyContent:'center'}}   item>
-           <img src={company} style={{height:'auto',marginTop:'1rem',width:'50%'}}/>
-        </Grid>
-       <Grid style={styles.box} xs={12} lg={6} md={6} sm={6} item>
-                <Typography sx={{color:'#263238'}} variant='h3'>Are You A Bussines Company</Typography>
-                <Typography sx={{color:'#263238'}} variant='h3'>Or Recuraters</Typography>
-                <Typography sx={{color:'#263238'}} variant='body'>Find The Best Emplpoyee That Suits You</Typography>
-         </Grid>
-       </Grid>
-    </React.Fragment>
+    
+     </Box>
     
   )
 }
