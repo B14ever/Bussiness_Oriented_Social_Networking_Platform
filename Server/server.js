@@ -8,7 +8,7 @@ const cookieParser = require('cookie-parser')
 // use cors midlware to allow server request from other origin
 app.use(
         cors({
-            origin: ["http://localhost:5173"],
+            origin: ["http://localhost:5173",  process.env.FRONTEND_URL],
             methods: ["GET", "POST"],
             credentials: true,
         })
@@ -80,7 +80,7 @@ app.use('/pages', Pages)
 const io = require('socket.io')(Server, {
     pingTimeOut: 60000,
     cors: {
-        origin: "http://localhost:5173"
+        origin: "http://localhost:5173" || process.env.FRONTEND_URL
     }
 })
 io.on("connection", (socket) => {
